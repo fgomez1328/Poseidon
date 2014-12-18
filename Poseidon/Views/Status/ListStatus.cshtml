@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "ListStatus";
+}
+
+<h2>ListStatus</h2>
+
+<div id="clientsDb">
+    @(Html.Kendo().Grid<Poseidon.Models.Logger>()
+        .Name("grid")
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.logger_sites_name).Width(140);
+            columns.Bound(c => c.zone_id).Width(190);
+            columns.Bound(c => c.logger_type);
+            columns.Bound(c => c.final_csq).Width(110);
+            columns.Template(c => { }).ClientTemplate("<img src='../images/green.png'/>");
+        })
+        .HtmlAttributes(new { style = "height: 380px;" })
+        .Scrollable()
+        .Groupable()
+        .Sortable()
+        .Pageable(pageable => pageable
+            .Refresh(true)
+            .PageSizes(true)
+            .ButtonCount(5))
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("Customers_Read", "Grid"))
+        )
+    )
+</div>
