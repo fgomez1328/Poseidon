@@ -28,5 +28,19 @@ namespace Poseidon.Controllers
 
             return View();
         }
+
+        public ActionResult Formulario()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+    
+    
+    
+    
+    
+    
+    
     }
 }
