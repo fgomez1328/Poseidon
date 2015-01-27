@@ -26,7 +26,7 @@ namespace Poseidon.Controllers
             // this action is for handle post (login)
             if (ModelState.IsValid) // this is check validity
             {
-                using (DataClasses1DataContext dc = new DataClasses1DataContext())
+                using (poseidon_dbEntities dc = new poseidon_dbEntities())
                 {
                     
                     var v = dc.User.Where(a => a.user_login.Equals(u.user_login) && a.user_pass.Equals(u.user_pass)).FirstOrDefault();
@@ -34,6 +34,7 @@ namespace Poseidon.Controllers
                     {
                         Session["USERID"] = v.user_id.ToString();
                         Session["USERNAME"] = v.user_name.ToString();
+                        Session["COMPANYID"] = v.company_id.ToString();
                         FormsAuthentication.SetAuthCookie(v.user_name.ToString(), true);
                         return RedirectToAction("ListStatus", "Status");
                     }

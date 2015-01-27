@@ -42,6 +42,9 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Kendo.Mvc">
       <HintPath>..\lib\KENDOUIMVC\2014.3.1119.545\Kendo.Mvc.dll</HintPath>
       <Private>True</Private>
@@ -60,6 +63,8 @@
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -115,10 +120,32 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\DataClasses1.designer.cs">
+    <Compile Include="Models\Company.cs">
+      <DependentUpon>DbLogger.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DbLogger.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataClasses1.dbml</DependentUpon>
+      <DependentUpon>DbLogger.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DbLogger.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbLogger.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DbLogger.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbLogger.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Logger.cs">
+      <DependentUpon>DbLogger.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User.cs">
+      <DependentUpon>DbLogger.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserType.cs">
+      <DependentUpon>DbLogger.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -407,10 +434,22 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\kendo\2014.3.1119\images\kendoui.ttf" />
     <Content Include="Content\kendo\2014.3.1119\images\kendoui.woff" />
-    <Content Include="Models\DataClasses1.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>DataClasses1.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
+    <EntityDeploy Include="Models\DbLogger.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DbLogger.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\DbLogger.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DbLogger.edmx</DependentUpon>
+      <LastGenOutput>DbLogger.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\DbLogger.edmx.diagram">
+      <DependentUpon>DbLogger.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\DbLogger.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DbLogger.edmx</DependentUpon>
+      <LastGenOutput>DbLogger.cs</LastGenOutput>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -706,6 +745,8 @@
     <Content Include="Views\Shared\EditorTemplates\Time.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Url.cshtml" />
     <Content Include="Views\Status\ListStatus.cshtml" />
+    <Content Include="Views\Status\Create.cshtml" />
+    <Content Include="Views\Status\PreviewInstalation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -724,11 +765,7 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Models\DataClasses1.dbml.layout">
-      <DependentUpon>DataClasses1.dbml</DependentUpon>
-    </None>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
