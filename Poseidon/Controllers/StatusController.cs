@@ -160,5 +160,10 @@ namespace Poseidon.Controllers
         {
             return View();
         }
+
+        public ActionResult DetailInstalation()
+        {
+            return View();
+        }
     }
 }

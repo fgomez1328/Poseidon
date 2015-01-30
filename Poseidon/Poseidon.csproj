@@ -752,6 +752,7 @@
     <Content Include="Views\Status\Create.cshtml" />
     <Content Include="Views\Status\PreviewInstalation.cshtml" />
     <Content Include="Views\Status\ListUser.cshtml" />
+    <Content Include="Views\Status\DetailInstalation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
