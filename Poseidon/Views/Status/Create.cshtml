@@ -1,0 +1,215 @@
+﻿@model Poseidon.Models.Logger
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Nueva Instalación</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <p>
+        @Html.Label("Lugar")
+        @Html.TextBoxFor(model => model.sites_name, new { @class = "form-control", style = "width:170px" })
+        @Html.ValidationMessageFor(model => model.sites_name)
+    </p>
+    
+    <p>
+        @Html.Label("SMS")
+        @Html.TextBoxFor(model => model.logger_sms, new { @class = "form-control", style = "width:170px" })
+        @Html.ValidationMessageFor(model => model.logger_sms)
+    </p>
+
+    <p>
+        @Html.Label("Necesario llave")
+        @(Html.CheckBoxFor(model => model.necessary_key)
+        )
+    </p>
+
+    <p>
+        @Html.Label("Detalle Contacto llave")
+        @Html.TextBoxFor(model => model.contact_detail, new { @class = "form-control", style = "width:170px", @disabled = "disabled" })
+        @Html.ValidationMessageFor(model => model.contact_detail)
+    </p>
+    
+    <p>
+        @Html.Label("¿Se dispone con llave de bola con salida media?")
+        @(Html.CheckBoxFor(model => model.key_ball.Value))
+       
+    </p>
+    
+      <p>
+        @Html.Label("Latitud")
+        @Html.TextBoxFor(model => model.latitude, new { @class = "form-control", style = "width:170px" })
+        @Html.ValidationMessageFor(model => model.latitude)
+
+          @Html.Label("Longitud")
+          @Html.TextBoxFor(model => model.longitute, new { @class = "form-control", style = "width:170px" })
+          @Html.ValidationMessageFor(model => model.longitute)
+    </p>
+    <p>
+        <input type="submit" value="Crear" class="btn btn-default" width="170" id="btnCreate" />
+    </p>
+
+    <p>
+        @Html.Label("Inserte dirección para busqueda mas rápida")
+        @Html.TextBox("address","", new { style= "width:170px" })
+        <button id="pasar">Obtener coordenadas</button>
+
+        <div id="map" style="width: 700px; height: 500px; " />
+
+    </p>
+    
+  
+
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false" type="text/javascript"></script>
+
+}
+<script type="text/javascript">
+
+    var lat = null;
+    var lng = null;
+    
+    var map = null;
+    var geocoder = null;
+    var marker = null;
+
+    $(document).ready(function () {
+        var site = $("#contact_detail").data("TextBox");
+
+        $("#necessary_key").click(function () {
+            var $this = $(this);
+
+            if ($this.is(':checked')) {
+                $('#contact_detail').removeAttr("disabled");
+            } else {
+                $('#contact_detail').attr("disabled", "disabled")
+            }
+        });
+      
+       
+       
+        jQuery('#pasar').click(function () {
+            codeAddress();
+            return false;
+        });
+
+        initialize();
+        InicialcodeAddress();
+    });
+
+    var button = document.getElementById('imageButton');
+
+    function codeAddress() {
+
+        //obtengo la direccion del formulario
+        var address = document.getElementById("address").value;
+        //hago la llamada al geodecoder
+        geocoder.geocode({ 'address': address }, function (results, status) {
+
+            //si el estado de la llamado es OK
+            if (status == google.maps.GeocoderStatus.OK) {
+                //centro el mapa en las coordenadas obtenidas
+                map.setCenter(results[0].geometry.location);
+                //coloco el marcador en dichas coordenadas
+                marker.setPosition(results[0].geometry.location);
+                //actualizo el formulario      
+                updatePosition(results[0].geometry.location);
+
+                //Añado un listener para cuando el markador se termine de arrastrar
+                //actualize el formulario con las nuevas coordenadas
+                google.maps.event.addListener(marker, 'dragend', function () {
+                    updatePosition(marker.getPosition());
+                });
+            } else {
+                //si no es OK devuelvo error
+                alert("No podemos encontrar la direcci&oacute;n, error: " + status);
+            }
+        });
+    }
+
+    function initialize() {
+
+        geocoder = new google.maps.Geocoder();
+
+        //Si hay valores creamos un objeto Latlng
+        
+         if(lat == null) {
+            var latLng = new google.maps.LatLng(-70.65164270000002, -33.4600405);
+        }
+         else if (lat != '' && lng != '') {
+            var latLng = new google.maps.LatLng(lat, lng);
+        }
+        else {
+            var latLng = new google.maps.LatLng(-70.65164270000002, -33.4600405);
+        }
+        //Definimos algunas opciones del mapa a crear
+        var myOptions = {
+            center: latLng,//centro del mapa
+            zoom: 5,//zoom del mapa
+            mapTypeId: google.maps.MapTypeId.ROADMAP //tipo de mapa, carretera, híbrido,etc
+        };
+        //creamos el mapa con las opciones anteriores y le pasamos el elemento div
+        map = new google.maps.Map(document.getElementById("map"), myOptions);
+
+        //creamos el marcador en el mapa
+        marker = new google.maps.Marker({
+            map: map,//el mapa creado en el paso anterior
+            position: latLng,//objeto con latitud y longitud
+            draggable: true //que el marcador se pueda arrastrar
+        });
+
+        //función que actualiza los input del formulario con las nuevas latitudes
+        //Estos campos suelen ser hidden
+        updatePosition(latLng);
+
+
+    }
+
+    function updatePosition(latLng) {
+
+        jQuery('#latitude').val(latLng.lat());
+        jQuery('#longitute').val(latLng.lng());
+
+    }
+
+    function InicialcodeAddress() {
+
+        //obtengo la direccion del formulario
+        var address = "Nataniel cox";
+        //hago la llamada al geodecoder
+        geocoder.geocode({ 'address': address }, function (results, status) {
+
+            //si el estado de la llamado es OK
+            if (status == google.maps.GeocoderStatus.OK) {
+                //centro el mapa en las coordenadas obtenidas
+                map.setCenter(results[0].geometry.location);
+                //coloco el marcador en dichas coordenadas
+                marker.setPosition(results[0].geometry.location);
+                //actualizo el formulario      
+                updatePosition(results[0].geometry.location);
+
+                //Añado un listener para cuando el markador se termine de arrastrar
+                //actualize el formulario con las nuevas coordenadas
+                google.maps.event.addListener(marker, 'dragend', function () {
+                    updatePosition(marker.getPosition());
+                });
+            } else {
+                //si no es OK devuelvo error
+                alert("No podemos encontrar la direcci&oacute;n, error: " + status);
+            }
+        });
+    }
+  
+    
+
+</script>
+
+

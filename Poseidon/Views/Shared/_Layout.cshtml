@@ -44,6 +44,11 @@
                     <p>&copy; @DateTime.Now.Year - Poseidon Controller - DNK Water</p>
                 </div>
             </div>
+            @RenderSection("scripts", required: false)
         </footer>
+
+        @section Scripts {
+            <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        }
     </body>
 </html>

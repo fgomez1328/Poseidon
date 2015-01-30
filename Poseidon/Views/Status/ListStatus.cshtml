@@ -1,32 +1,65 @@
-﻿
+﻿@model IEnumerable<dynamic>
+
 @{
     ViewBag.Title = "ListStatus";
 }
 
 <h2>ListStatus</h2>
 
+@(Html.Kendo().Button()
+        .Name("linkButton")
+        .Tag("a")
+
+        .Content("Create")
+        .Events(e =>
+        {
+            e.Click("ClickCreate");
+        })
+)
+
 <div id="clientsDb">
-    @(Html.Kendo().Grid<Poseidon.Models.Logger>()
+    @(Html.Kendo().Grid(Model)
         .Name("grid")
+        .DataSource(dataSource => dataSource
+        .Ajax()
+        .Model(c =>
+        {
+            c.Id("logger_id");
+            c.Field("logger_sites_name", typeof(string));
+            c.Field("zone_id", typeof(int));
+            c.Field("zone_name", typeof(string));
+            c.Field("instalation_type", typeof(string));
+            c.Field("necessary_key", typeof(bool));
+            c.Field("contact_detail", typeof(string));
+            c.Field("status", typeof(bool));
+                      
+        })
+        .Read(read => read.Action("Read", "Status"))
+        )
         .Columns(columns =>
         {
-            columns.Bound(c => c.logger_sites_name).Width(140);
-            columns.Bound(c => c.zone_id).Width(190);
-            columns.Bound(c => c.logger_type);
-            columns.Bound(c => c.final_csq).Width(110);
-            columns.Template(c => { }).ClientTemplate("<img src='../images/green.png'/>");
+            columns.Bound("logger_sites_name").Title("Sites Name");
+            columns.Bound("zone_name").Width("190").Title("Zone");
+            columns.Bound("status").Title("Status");
+            columns.Bound("instalation_type").Width(110).Title("Instalation Type");
+            columns.Bound("necessary_key").Width(110).Title("Necessary Key");
+            columns.Bound("contact_detail").Width(110).Title("Contact detail");
+            columns.Command(c => c.Custom("Detail"));
         })
-        .HtmlAttributes(new { style = "height: 380px;" })
-        .Scrollable()
-        .Groupable()
+        //.HtmlAttributes(new { style = "height: 380px;" })
         .Sortable()
         .Pageable(pageable => pageable
-            .Refresh(true)
-            .PageSizes(true)
-            .ButtonCount(5))
-        .DataSource(dataSource => dataSource
-            .Ajax()
-            .Read(read => read.Action("Customers_Read", "Grid"))
+        .Refresh(true)
+        .PageSizes(true)
+        .ButtonCount(5))
+       
         )
-    )
+    
 </div>
+
+<script type="text/javascript">
+    function ClickCreate(e) {
+        window.location.href = "@Url.Action("Create")";
+    }
+
+</script>

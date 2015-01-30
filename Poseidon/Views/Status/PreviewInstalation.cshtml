@@ -1,0 +1,35 @@
+﻿@model Poseidon.Models.Logger
+@{
+    ViewBag.Title = "PreviewInstalation";
+}
+
+<h2>Preview Instalation</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <p>
+        @Html.Label("Logger Seleccionado")
+        @Html.TextBoxFor(model => model.zone_name, new { @class = "form-control", style = "width:170px" })
+        @Html.ValidationMessageFor(model => model.zone_name)
+    </p>
+
+    <p>
+        @Html.Label("Fecha Instalación")
+        @Html.TextBoxFor(model => model.zone_name, new { @class = "form-control", style = "width:170px" })
+        @Html.ValidationMessageFor(model => model.zone_name)
+    </p>
+
+    <p>
+        @Html.Label("Fecha termino")
+        @Html.TextBoxFor(model => model.zone_name, new { @class = "form-control", style = "width:170px" })
+        @Html.ValidationMessageFor(model => model.zone_name)
+    </p>
+
+    <p>
+        <input type="submit" value="Agendar" class="btn btn-default" width="170" id="btnCreate" />
+    </p>
+}
+
