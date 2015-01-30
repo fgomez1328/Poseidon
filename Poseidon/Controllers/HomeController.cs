@@ -35,8 +35,13 @@ namespace Poseidon.Controllers
                         Session["USERID"] = v.user_id.ToString();
                         Session["USERNAME"] = v.user_name.ToString();
                         Session["COMPANYID"] = v.company_id.ToString();
+                        
                         FormsAuthentication.SetAuthCookie(v.user_name.ToString(), true);
-                        return RedirectToAction("ListStatus", "Status");
+
+                        if(v.user_type_id == 1)
+                            return RedirectToAction("ListStatus", "Status");
+                        else if (v.user_type_id ==2)
+                            return RedirectToAction("ListUser", "Status");
                     }
                     else
                         ModelState.AddModelError("", "Usuario Invalido");

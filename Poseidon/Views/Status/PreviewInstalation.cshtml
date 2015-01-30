@@ -11,25 +11,37 @@
     @Html.ValidationSummary(true)
 
     <p>
+        @Html.HiddenFor(model => model.logger_id)
         @Html.Label("Logger Seleccionado")
-        @Html.TextBoxFor(model => model.zone_name, new { @class = "form-control", style = "width:170px" })
-        @Html.ValidationMessageFor(model => model.zone_name)
+        @Html.TextBoxFor(model => model.logger_sms, new { @class = "form-control", style = "width:170px" })
+        @Html.ValidationMessageFor(model => model.logger_sms)
     </p>
 
     <p>
         @Html.Label("Fecha Instalación")
-        @Html.TextBoxFor(model => model.zone_name, new { @class = "form-control", style = "width:170px" })
-        @Html.ValidationMessageFor(model => model.zone_name)
+         @(Html.Kendo().DateTimePickerFor(model => model.user_instalation_start_date)
+            .Value(DateTime.Now)
+            .Format("MMMM yyyy")
+           .HtmlAttributes(new { style = "width: 180px" })
+        )
+     
     </p>
 
     <p>
         @Html.Label("Fecha termino")
-        @Html.TextBoxFor(model => model.zone_name, new { @class = "form-control", style = "width:170px" })
-        @Html.ValidationMessageFor(model => model.zone_name)
+        @(Html.Kendo().DateTimePickerFor(model => model.user_instalation_end_date)
+          .Value(DateTime.Now.AddDays(1))
+             .HtmlAttributes(new { style = "width: 180px" })
+        )
+      
     </p>
 
     <p>
         <input type="submit" value="Agendar" class="btn btn-default" width="170" id="btnCreate" />
     </p>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }
 

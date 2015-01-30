@@ -29,5 +29,6 @@ namespace Poseidon.Models
         public DbSet<User> User { get; set; }
         public DbSet<UserType> UserType { get; set; }
         public DbSet<Logger> Logger { get; set; }
+        public DbSet<zones> zones { get; set; }
     }
 }

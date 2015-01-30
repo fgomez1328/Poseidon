@@ -23,8 +23,26 @@
     </p>
 
     <p>
+        @(Html.Kendo().DropDownListFor(m => m.zone_id)
+              .DataTextField("zone_name")
+              .DataValueField("zone_id")
+              .HtmlAttributes(new { style = "width:175px" })
+              .OptionLabel("Zone")
+              .DataSource(source =>
+                  {
+                      source.Read(read =>
+                      {
+                          read.Action("GetZone", "Helper"); //Set the Action and Controller name
+                      }); //If true the DataSource will not filter the data on the client.
+                  })
+        )
+        @Html.ValidationMessageFor(x => x.zone_id)
+
+    </p>
+
+    <p>
         @Html.Label("Necesario llave")
-        @(Html.CheckBoxFor(model => model.necessary_key)
+        @(Html.CheckBoxFor(model => model.necessary_key.Value, new { id = "necessary_key" })
         )
     </p>
 
@@ -36,7 +54,7 @@
     
     <p>
         @Html.Label("¿Se dispone con llave de bola con salida media?")
-        @(Html.CheckBoxFor(model => model.key_ball.Value))
+        @(Html.CheckBoxFor(model => model.key_ball.Value, new { @checked = true}))
        
     </p>
     

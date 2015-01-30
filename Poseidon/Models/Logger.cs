@@ -44,6 +44,10 @@ namespace Poseidon.Models
         public string zone_code { get; set; }
         public string sites_name { get; set; }
         public Nullable<bool> key_ball { get; set; }
+        public Nullable<int> zone_id { get; set; }
+        public Nullable<int> user_instalation { get; set; }
+        public Nullable<System.DateTime> user_instalation_start_date { get; set; }
+        public Nullable<System.DateTime> user_instalation_end_date { get; set; }
     
         public virtual Company Company { get; set; }
     }

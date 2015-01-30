@@ -48,6 +48,10 @@
           <Property Name="zone_code" Type="varchar" MaxLength="10" />
           <Property Name="sites_name" Type="varchar" MaxLength="50" />
           <Property Name="key_ball" Type="bit" />
+          <Property Name="zone_id" Type="int" />
+          <Property Name="user_instalation" Type="int" />
+          <Property Name="user_instalation_start_date" Type="datetime" />
+          <Property Name="user_instalation_end_date" Type="datetime" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -67,6 +71,13 @@
           </Key>
           <Property Name="user_type_id" Type="int" Nullable="false" />
           <Property Name="user_type_name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="zones">
+          <Key>
+            <PropertyRef Name="zone_id" />
+          </Key>
+          <Property Name="zone_id" Type="int" Nullable="false" />
+          <Property Name="zone_name" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <Association Name="FK_Logger_Company">
           <End Role="Company" Type="Self.Company" Multiplicity="1" />
@@ -109,6 +120,7 @@
           <EntitySet Name="Logger" EntityType="Self.Logger" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserType" EntityType="Self.UserType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="zones" EntityType="Self.zones" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Logger_Company" Association="Self.FK_Logger_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="Logger" EntitySet="Logger" />
@@ -200,6 +212,7 @@
             <End Role="Company" EntitySet="Company" />
             <End Role="Logger" EntitySet="Logger" />
           </AssociationSet>
+          <EntitySet Name="zones" EntityType="poseidon_dbModel.zones" />
         </EntityContainer>
         <EntityType Name="Logger">
           <Key>
@@ -235,7 +248,11 @@
           <Property Name="zone_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="sites_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="key_ball" Type="Boolean" />
+          <Property Name="zone_id" Type="Int32" />
           <NavigationProperty Name="Company" Relationship="poseidon_dbModel.FK_Logger_Company" FromRole="Logger" ToRole="Company" />
+          <Property Name="user_instalation" Type="Int32" />
+          <Property Name="user_instalation_start_date" Type="DateTime" Precision="3" />
+          <Property Name="user_instalation_end_date" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_Logger_Company">
           <End Type="poseidon_dbModel.Company" Role="Company" Multiplicity="1" />
@@ -249,6 +266,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="zones">
+          <Key>
+            <PropertyRef Name="zone_id" />
+          </Key>
+          <Property Name="zone_id" Type="Int32" Nullable="false" />
+          <Property Name="zone_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -289,6 +313,10 @@
           <EntitySetMapping Name="Logger">
             <EntityTypeMapping TypeName="poseidon_dbModel.Logger">
               <MappingFragment StoreEntitySet="Logger">
+                <ScalarProperty Name="user_instalation_end_date" ColumnName="user_instalation_end_date" />
+                <ScalarProperty Name="user_instalation_start_date" ColumnName="user_instalation_start_date" />
+                <ScalarProperty Name="user_instalation" ColumnName="user_instalation" />
+                <ScalarProperty Name="zone_id" ColumnName="zone_id" />
                 <ScalarProperty Name="key_ball" ColumnName="key_ball" />
                 <ScalarProperty Name="sites_name" ColumnName="sites_name" />
                 <ScalarProperty Name="zone_code" ColumnName="zone_code" />
@@ -319,6 +347,14 @@
                 <ScalarProperty Name="logger_sms" ColumnName="logger_sms" />
                 <ScalarProperty Name="logger_sites_name" ColumnName="logger_sites_name" />
                 <ScalarProperty Name="logger_id" ColumnName="logger_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="zones">
+            <EntityTypeMapping TypeName="poseidon_dbModel.zones">
+              <MappingFragment StoreEntitySet="zones">
+                <ScalarProperty Name="zone_name" ColumnName="zone_name" />
+                <ScalarProperty Name="zone_id" ColumnName="zone_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

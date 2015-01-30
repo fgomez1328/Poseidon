@@ -115,6 +115,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\HelperController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Global.asax.cs">
@@ -145,6 +146,9 @@
       <DependentUpon>DbLogger.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserType.cs">
+      <DependentUpon>DbLogger.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\zones.cs">
       <DependentUpon>DbLogger.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -747,9 +751,11 @@
     <Content Include="Views\Status\ListStatus.cshtml" />
     <Content Include="Views\Status\Create.cshtml" />
     <Content Include="Views\Status\PreviewInstalation.cshtml" />
+    <Content Include="Views\Status\ListUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Helper\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
