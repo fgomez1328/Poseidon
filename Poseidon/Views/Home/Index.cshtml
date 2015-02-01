@@ -702,7 +702,7 @@
                                 @Html.HiddenFor(x => x.PictureUrl)
                                 @Html.HiddenFor(x => x.Status)
                                 <div id="kendoUploadImage" style="display: block;">
-                                    <img id="imgUploaded" style="width: 60px; height: 60px;" src="~/Content/Images/loading.gif"
+                                    <img id="imgUploaded" style="width: 60px; height: 60px;" src=""
                                          alt="loading" />
                                 </div>
 
@@ -757,6 +757,8 @@
 
             var status = responseTxt.Status;
             var srcValue = responseTxt.PictureUrl;
+            var reader = new FileReader();
+
             alert(srcValue);
             if (status == true) {
                 $("#imgUploaded").attr('src', srcValue);
