@@ -234,6 +234,14 @@ namespace Poseidon.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Index");
         }
+
+
+        public ActionResult CreateFormulario()
+        {
+            ViewBag.Message = "Welcome to ASP.NET MVC!";
+
+            return View();
+        }
     }
 
 
