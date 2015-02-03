@@ -89,7 +89,7 @@ namespace Poseidon.Controllers
 
 
 
-        // Listado de Directorios
+        // Listado de Directorio
         public static void ListDirectory()
         {
             FtpWebRequest request = (FtpWebRequest)WebRequest.Create(server);
