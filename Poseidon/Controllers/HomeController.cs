@@ -228,7 +228,12 @@ namespace Poseidon.Controllers
             return Json(pictureViewModel, JsonRequestBehavior.AllowGet);
         }
 
-
+        public ActionResult LogOut()
+        {
+            Session.Clear();
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index");
+        }
     }
 
 

@@ -30,19 +30,22 @@ namespace Poseidon.Controllers
             poseidon_dbEntities db = new poseidon_dbEntities();
 
             var result = from a in db.Logger
-                         //join b in db.Zone
-                         //   on a.zone_id equals b.zone_id
+                         join b in db.zones
+                            on a.zone_id equals b.zone_id into zo
+                            from f in zo.DefaultIfEmpty()
                          select new
                          {
 
                              a.logger_id,
                              a.logger_sites_name,
                              a.logger_sms,   
-                             //b.zone_name,
+                             f.zone_name,
                              a.instalation_type,
                              a.necessary_key,
                              a.contact_detail,
+                             
                              a.status
+                             
 
                          };
            

@@ -20,6 +20,7 @@
 <div id="clientsDb">
     @(Html.Kendo().Grid(Model)
         .Name("grid")
+       
         .DataSource(dataSource => dataSource
         .Ajax()
         .Model(c =>
@@ -29,25 +30,38 @@
             c.Field("zone_id", typeof(int));
             c.Field("zone_name", typeof(string));
             c.Field("instalation_type", typeof(string));
-            c.Field("necessary_key", typeof(bool));
+            c.Field("necessary_key", typeof(string));
             c.Field("contact_detail", typeof(string));
-            c.Field("status", typeof(int));
+            c.Field("status", typeof(string));
+            c.Field("responsable_thechnical", typeof(string));
+            c.Field("date_instalation", typeof(DateTime));
+           
                       
         })
+        
         .Read(read => read.Action("Read", "Status"))
+        .Update(read => read.Action("Read", "Status"))
         )
         .Columns(columns =>
         {
-            columns.Bound("logger_sites_name").Title("Sites Name");
-            columns.Bound("zone_name").Width("190").Title("Zone");
-            columns.Bound("status").Title("Status");
-            columns.Bound("instalation_type").Width(110).Title("Instalation Type");
-            columns.Bound("necessary_key").Width(110).Title("Necessary Key");
-            columns.Bound("contact_detail").Width(110).Title("Contact detail");
-            columns.Command(c => c.Custom("Detail"));
+            columns.Bound("logger_sites_name").Title("Nombre Sitio");
+            columns.Bound("zone_name").Width("190").Title("Zona");
+            columns.Bound("status").Title("Estado");
+            columns.Bound("necessary_key").Width(110).Title("Necesario llave");
+            columns.Bound("contact_detail").Width(110).Title("Detalle Contacto");
+            columns.Bound("responsable_thechnical").Width(110).Title("Instalador");
+            columns.Bound("date_instalation").Width(110).Title("Fecha termino");
+            columns.Command(c =>
+            {
+                c.Custom("Detalle");
+                c.Edit().Text("edit");
+            });
+            
            
         })
+                 .Editable(editable => editable.TemplateName("ProductItem").Mode(GridEditMode.PopUp))
         //.HtmlAttributes(new { style = "height: 380px;" })
+        .Events(e => e.DataBound("onDataBound"))
         .Sortable()
         .Pageable(pageable => pageable
         .Refresh(true)
@@ -62,6 +76,62 @@
 <script type="text/javascript">
     function ClickCreate(e) {
         window.location.href = "@Url.Action("Create")";
+    }
+
+
+   
+
+    function onDataBound(e) {
+        var grid = $("#grid").data("kendoGrid");
+
+        var gridData = grid.dataSource.view();
+        var data = grid.dataSource.data();
+      
+        $(data).each(function (i,row) {
+            var uno = "Pendiente";
+            var dos = "En ejecución";
+            var tres = "Instalado";
+            var cuatro = "Aprobado";
+          
+            // set on dataItem
+            var currenvalue = this.status;
+           
+            
+            if (currenvalue == "1")
+                this.set("status",uno)
+            else if (currenvalue == "2")
+                this.set("status", dos)
+            else if (currenvalue == 3) {
+                this.set("status", tres)
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(3)').css("background-color", "yellow");
+            } else if (currenvalue == 4)
+                this.set("status", cuatro)
+
+            var currenkey = this.necessary_key;
+            var no = "No";
+            var yes = "Si";
+            if (currenkey == "false")
+                this.set("necessary_key", no)
+            else if (currenkey == "true")
+                this.set("necessary_key", yes)
+
+        });
+
+        //for (var i = 0; i < gridData.length; i++) {
+        //    var currentUid = gridData[i].uid;
+        //    if (gridData[i].ProcessedDate == null) {
+        //        var currenRow = grid.table.find("tr[data-uid='" + currentUid + "']");
+        //        var currenRow2 = grid.getByUid($(currenrow).data("status"));
+        //        var editButton = $(currenRow).find(".k-grid-edit");
+        //        var custonButton = $(currenRow).find(".k-grid-Detalle")
+        //        var status = $(currenRow).data("status");
+
+        //        status.hide();
+        //        custonButton.hide();
+        //        //editButton.hide();
+                
+        //    }
+        //}
     }
 
 </script>

@@ -19,9 +19,9 @@
             c.Field("zone_id", typeof(int));
             c.Field("zone_name", typeof(string));
             c.Field("instalation_type", typeof(string));
-            c.Field("necessary_key", typeof(bool));
+            c.Field("necessary_key", typeof(string));
             c.Field("contact_detail", typeof(string));
-            c.Field("status", typeof(int));
+            c.Field("status", typeof(string));
 
         })
         .Read(read => read.Action("Read", "Status"))
@@ -40,6 +40,8 @@
         })
             //.HtmlAttributes(new { style = "height: 380px;" })
         .Sortable()
+        .Events(e => e.DataBound("onDataBound"))
+       
         .Pageable(pageable => pageable
         .Refresh(true)
         .PageSizes(true)
@@ -81,5 +83,58 @@
         $("#labeltest").text(selectedProductNames.join(", "));
         window.location.href = "@Url.Action("PreviewInstalation", "Status")?ID=" + selectedProductNames.join(",");
 
+    }
+
+    function onDataBound(e) {
+        var grid = $("#grid").data("kendoGrid");
+
+        var gridData = grid.dataSource.view();
+        var data = grid.dataSource.data();
+
+        $(data).each(function (i, row) {
+            var uno = "Pendiente";
+            var dos = "En ejecución";
+            var tres = "Instalado";
+            var cuatro = "Aprobado";
+
+            // set on dataItem
+            var currenvalue = this.status;
+
+
+            if (currenvalue == "1") {
+                this.set("status", uno)
+            } else if (currenvalue == "2") {
+                this.set("status", dos)
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(4)').css("background-color", "red");
+            } else if (currenvalue == 3) {
+                this.set("status", tres)
+            } else if (currenvalue == 4) {
+                this.set("status", cuatro)
+            }
+            var currenkey = this.necessary_key;
+            var no = "No";
+            var yes = "Si";
+            if (currenkey == "false")
+                this.set("necessary_key", no)
+            else if (currenkey == "true")
+                this.set("necessary_key", yes)
+
+        });
+
+        //for (var i = 0; i < gridData.length; i++) {
+        //    var currentUid = gridData[i].uid;
+        //    if (gridData[i].ProcessedDate == null) {
+        //        var currenRow = grid.table.find("tr[data-uid='" + currentUid + "']");
+        //        var currenRow2 = grid.getByUid($(currenrow).data("status"));
+        //        var editButton = $(currenRow).find(".k-grid-edit");
+        //        var custonButton = $(currenRow).find(".k-grid-Detalle")
+        //        var status = $(currenRow).data("status");
+
+        //        status.hide();
+        //        custonButton.hide();
+        //        //editButton.hide();
+
+        //    }
+        //}
     }
 </script>
