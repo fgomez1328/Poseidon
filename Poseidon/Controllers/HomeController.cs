@@ -42,6 +42,14 @@ namespace Poseidon.Controllers
             return View();
         }
 
+
+        public ActionResult CreateFormulario()
+        {
+            ViewBag.Message = "Welcome to ASP.NET MVC!";
+
+            return View();
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your app description page.";

@@ -12,17 +12,9 @@ namespace Poseidon.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class zone
     {
-        public int user_id { get; set; }
-        public string user_name { get; set; }
-        public Nullable<System.DateTime> user_creation { get; set; }
-        public int user_type_id { get; set; }
-        public int company_id { get; set; }
-        public string user_pass { get; set; }
-        public string user_login { get; set; }
-    
-        public virtual Company Company { get; set; }
-        public virtual UserType UserType { get; set; }
+        public int zone_id { get; set; }
+        public string zone_name { get; set; }
     }
 }
