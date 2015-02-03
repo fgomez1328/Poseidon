@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using System.IO;
 using System.Net;
 using System.Diagnostics;
+using Poseidon.Models;
+using System.Web.Security;
 
 namespace Poseidon.Controllers
 {
@@ -42,12 +44,36 @@ namespace Poseidon.Controllers
             return View();
         }
 
-
-        public ActionResult CreateFormulario()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public ActionResult Index(User u)
         {
-            ViewBag.Message = "Welcome to ASP.NET MVC!";
+            // this action is for handle post (login)
+            if (ModelState.IsValid) // this is check validity
+            {
+                using (poseidon_dbEntities dc = new poseidon_dbEntities())
+                {
 
-            return View();
+                    var v = dc.User.Where(a => a.user_login.Equals(u.user_login) && a.user_pass.Equals(u.user_pass)).FirstOrDefault();
+                    if (v != null)
+                    {
+                        Session["USERID"] = v.user_id.ToString();
+                        Session["USERNAME"] = v.user_name.ToString();
+                        Session["COMPANYID"] = v.company_id.ToString();
+
+                        FormsAuthentication.SetAuthCookie(v.user_name.ToString(), true);
+
+                        if (v.user_type_id == 1)
+                            return RedirectToAction("ListStatus", "Status");
+                        else if (v.user_type_id == 2)
+                            return RedirectToAction("ListUser", "Status");
+                    }
+                    else
+                        ModelState.AddModelError("", "Usuario Invalido");
+                }
+            }
+            return View(u);
         }
 
         public ActionResult About()
@@ -202,10 +228,21 @@ namespace Poseidon.Controllers
             return Json(pictureViewModel, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult LogOut()
+        {
+            Session.Clear();
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index");
+        }
 
 
+        public ActionResult CreateFormulario()
+        {
+            ViewBag.Message = "Welcome to ASP.NET MVC!";
 
-
-
+            return View();
+        }
     }
+
+
 }

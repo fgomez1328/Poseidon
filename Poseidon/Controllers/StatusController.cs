@@ -30,19 +30,22 @@ namespace Poseidon.Controllers
             poseidon_dbEntities db = new poseidon_dbEntities();
 
             var result = from a in db.Logger
-                         //join b in db.Zone
-                         //   on a.zone_id equals b.zone_id
+                         join b in db.zones
+                            on a.zone_id equals b.zone_id into zo
+                            from f in zo.DefaultIfEmpty()
                          select new
                          {
 
                              a.logger_id,
                              a.logger_sites_name,
-                             //b.zone_id,
-                             //b.zone_name,
+                             a.logger_sms,   
+                             f.zone_name,
                              a.instalation_type,
                              a.necessary_key,
                              a.contact_detail,
+                             
                              a.status
+                             
 
                          };
            
@@ -86,7 +89,9 @@ namespace Poseidon.Controllers
                         latitude = lo.latitude,
                         longitute = lo.longitute,
                         creation_date = DateTime.Now,
+                        creation_user = Convert.ToInt16(Session["USERID"].ToString()),
                         status = 1,
+                        zone_id = lo.zone_id,
                         company_id = Convert.ToInt16(Session["COMPANYID"].ToString())
                         
                         
@@ -101,7 +106,65 @@ namespace Poseidon.Controllers
             return View();
         }
 
-        public ActionResult PreviewInstalation()
+        
+        public ActionResult PreviewInstalation(string ID)
+        {
+
+            if (ID.Length == 1)
+            {
+                Session.Remove("listlogger");
+            }
+            else if  (ID.Length < 4)
+            {
+                Session["listlogger"] = ID.Substring(2); 
+            }
+            else
+            {
+                Session["listlogger"] = ID.Substring(2, ID.Length - 1);
+            }
+
+
+            int actual_id = Convert.ToInt16(ID[0].ToString());
+            poseidon_dbEntities db = new poseidon_dbEntities();
+
+           
+            return View(db.Logger.Find(actual_id));
+        }
+
+        [HttpPost]
+        public ActionResult PreviewInstalation([DataSourceRequest] DataSourceRequest request, Logger lo){
+                if (ModelState.IsValid)
+                {
+                    using (var db = new poseidon_dbEntities())
+                    {
+                        var result = from u in db.Logger where (u.logger_id == lo.logger_id) select u;
+                         if (result.Count() != 0)
+                         {
+                             var dblogger = result.First();
+
+                             dblogger.status = 2;
+                             dblogger.user_instalation = Convert.ToInt16(Session["USERID"].ToString());
+                             dblogger.user_instalation_start_date = lo.user_instalation_start_date;
+                             dblogger.user_instalation_end_date = lo.user_instalation_end_date;
+                             db.SaveChanges();
+                         }
+                    }
+                }
+
+                if (Session["listlogger"] != null)
+                {
+                    return RedirectToAction("PreviewInstalation", new { ID = Session["listlogger"].ToString() });
+                }
+                else
+                    return RedirectToAction("ListUser");
+        }
+
+        public ActionResult ListUser()
+        {
+            return View();
+        }
+
+        public ActionResult DetailInstalation()
         {
             return View();
         }
