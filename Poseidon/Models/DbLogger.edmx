@@ -52,6 +52,36 @@
           <Property Name="user_instalation" Type="int" />
           <Property Name="user_instalation_start_date" Type="datetime" />
           <Property Name="user_instalation_end_date" Type="datetime" />
+          <Property Name="necesary_site_enter" Type="bit" />
+          <Property Name="logger_outdoor" Type="bit" />
+          <Property Name="condition_type_instalation" Type="varchar" MaxLength="10" />
+          <Property Name="antenna_type" Type="varchar" MaxLength="30" />
+          <Property Name="Csq_outdoor" Type="bit" />
+          <Property Name="can_lamppost_with_antenna" Type="bit" />
+          <Property Name="manometer_aar_value" Type="varchar" MaxLength="30" />
+          <Property Name="logger_aar_value" Type="varchar" MaxLength="30" />
+          <Property Name="manometer_aab_value" Type="varchar" MaxLength="30" />
+          <Property Name="logger_aab_value" Type="varchar" MaxLength="30" />
+          <Property Name="flowmetter_status" Type="varchar" MaxLength="30" />
+          <Property Name="with_pulser" Type="bit" />
+          <Property Name="pulser_changed" Type="bit" />
+          <Property Name="liters_per_pulser" Type="varchar" MaxLength="30" />
+          <Property Name="logger_position" Type="varchar" MaxLength="30" />
+          <Property Name="flooded_chamber" Type="bit" />
+          <Property Name="chamber_condition" Type="varchar" MaxLength="10" />
+          <Property Name="chamber_cap" Type="varchar" MaxLength="10" />
+          <Property Name="necessary_drain" Type="bit" />
+          <Property Name="necessary_manipulate_traffic" Type="bit" />
+          <Property Name="necessary_tool_open_chamber" Type="bit" />
+          <Property Name="two_thechnical_open_chamber" Type="bit" />
+          <Property Name="channel_1" Type="varchar" MaxLength="30" />
+          <Property Name="channel_2" Type="varchar" MaxLength="30" />
+          <Property Name="channel_3" Type="varchar" MaxLength="30" />
+          <Property Name="channel_4" Type="varchar" MaxLength="30" />
+          <Property Name="battery_installed" Type="bit" />
+          <Property Name="battery_type" Type="varchar" MaxLength="30" />
+          <Property Name="battery_serial_number" Type="varchar" MaxLength="20" />
+          <Property Name="notes" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -253,6 +283,36 @@
           <Property Name="user_instalation" Type="Int32" />
           <Property Name="user_instalation_start_date" Type="DateTime" Precision="3" />
           <Property Name="user_instalation_end_date" Type="DateTime" Precision="3" />
+          <Property Name="necesary_site_enter" Type="Boolean" />
+          <Property Name="logger_outdoor" Type="Boolean" />
+          <Property Name="condition_type_instalation" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="antenna_type" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Csq_outdoor" Type="Boolean" />
+          <Property Name="can_lamppost_with_antenna" Type="Boolean" />
+          <Property Name="manometer_aar_value" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="logger_aar_value" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="manometer_aab_value" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="logger_aab_value" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="flowmetter_status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="with_pulser" Type="Boolean" />
+          <Property Name="pulser_changed" Type="Boolean" />
+          <Property Name="liters_per_pulser" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="logger_position" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="flooded_chamber" Type="Boolean" />
+          <Property Name="chamber_condition" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="chamber_cap" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="necessary_drain" Type="Boolean" />
+          <Property Name="necessary_manipulate_traffic" Type="Boolean" />
+          <Property Name="necessary_tool_open_chamber" Type="Boolean" />
+          <Property Name="two_thechnical_open_chamber" Type="Boolean" />
+          <Property Name="channel_1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="channel_2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="channel_3" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="channel_4" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="battery_installed" Type="Boolean" />
+          <Property Name="battery_type" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="battery_serial_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="notes" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Logger_Company">
           <End Type="poseidon_dbModel.Company" Role="Company" Multiplicity="1" />
@@ -313,6 +373,36 @@
           <EntitySetMapping Name="Logger">
             <EntityTypeMapping TypeName="poseidon_dbModel.Logger">
               <MappingFragment StoreEntitySet="Logger">
+                <ScalarProperty Name="notes" ColumnName="notes" />
+                <ScalarProperty Name="battery_serial_number" ColumnName="battery_serial_number" />
+                <ScalarProperty Name="battery_type" ColumnName="battery_type" />
+                <ScalarProperty Name="battery_installed" ColumnName="battery_installed" />
+                <ScalarProperty Name="channel_4" ColumnName="channel_4" />
+                <ScalarProperty Name="channel_3" ColumnName="channel_3" />
+                <ScalarProperty Name="channel_2" ColumnName="channel_2" />
+                <ScalarProperty Name="channel_1" ColumnName="channel_1" />
+                <ScalarProperty Name="two_thechnical_open_chamber" ColumnName="two_thechnical_open_chamber" />
+                <ScalarProperty Name="necessary_tool_open_chamber" ColumnName="necessary_tool_open_chamber" />
+                <ScalarProperty Name="necessary_manipulate_traffic" ColumnName="necessary_manipulate_traffic" />
+                <ScalarProperty Name="necessary_drain" ColumnName="necessary_drain" />
+                <ScalarProperty Name="chamber_cap" ColumnName="chamber_cap" />
+                <ScalarProperty Name="chamber_condition" ColumnName="chamber_condition" />
+                <ScalarProperty Name="flooded_chamber" ColumnName="flooded_chamber" />
+                <ScalarProperty Name="logger_position" ColumnName="logger_position" />
+                <ScalarProperty Name="liters_per_pulser" ColumnName="liters_per_pulser" />
+                <ScalarProperty Name="pulser_changed" ColumnName="pulser_changed" />
+                <ScalarProperty Name="with_pulser" ColumnName="with_pulser" />
+                <ScalarProperty Name="flowmetter_status" ColumnName="flowmetter_status" />
+                <ScalarProperty Name="logger_aab_value" ColumnName="logger_aab_value" />
+                <ScalarProperty Name="manometer_aab_value" ColumnName="manometer_aab_value" />
+                <ScalarProperty Name="logger_aar_value" ColumnName="logger_aar_value" />
+                <ScalarProperty Name="manometer_aar_value" ColumnName="manometer_aar_value" />
+                <ScalarProperty Name="can_lamppost_with_antenna" ColumnName="can_lamppost_with_antenna" />
+                <ScalarProperty Name="Csq_outdoor" ColumnName="Csq_outdoor" />
+                <ScalarProperty Name="antenna_type" ColumnName="antenna_type" />
+                <ScalarProperty Name="condition_type_instalation" ColumnName="condition_type_instalation" />
+                <ScalarProperty Name="logger_outdoor" ColumnName="logger_outdoor" />
+                <ScalarProperty Name="necesary_site_enter" ColumnName="necesary_site_enter" />
                 <ScalarProperty Name="user_instalation_end_date" ColumnName="user_instalation_end_date" />
                 <ScalarProperty Name="user_instalation_start_date" ColumnName="user_instalation_start_date" />
                 <ScalarProperty Name="user_instalation" ColumnName="user_instalation" />

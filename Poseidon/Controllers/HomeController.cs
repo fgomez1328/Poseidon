@@ -12,7 +12,7 @@ using System.Web.Security;
 namespace Poseidon.Controllers
 {
 
-     [HiddenInput(DisplayValue = false)]
+    [HiddenInput(DisplayValue = false)]
     public class PictureViewModel
     {
         public int PictureId { get; set; }
@@ -20,11 +20,11 @@ namespace Poseidon.Controllers
         public string PictureUrl { get; set; }
         public bool Status { get; set; }
     }
-    
-    
-    
-    
-    
+
+
+
+
+
     public class HomeController : Controller
     {
 
@@ -105,7 +105,7 @@ namespace Poseidon.Controllers
             req.Credentials = new NetworkCredential("IUSR", "poseidon");
             byte[] fileBytes = System.IO.File.ReadAllBytes("c:/folder/myfile.ext");
 
-          
+
             req.ContentLength = fileBytes.Length;
             Stream reqStream = req.GetRequestStream();
             reqStream.Write(fileBytes, 0, fileBytes.Length);
@@ -143,7 +143,7 @@ namespace Poseidon.Controllers
             using (MemoryStream stream = new MemoryStream())
             {
                 ((FtpWebResponse)request.GetResponse()).GetResponseStream().CopyTo(stream);
-               System.IO.File.WriteAllBytes(downloads + document, stream.ToArray());
+                System.IO.File.WriteAllBytes(downloads + document, stream.ToArray());
             }
         }
 
@@ -162,8 +162,8 @@ namespace Poseidon.Controllers
         {
             var pictureViewModel = new PictureViewModel();
             // The Name of the Upload component is "files"
-           
-            
+
+
             if (files != null)
             {
                 foreach (var file in files)
@@ -175,11 +175,11 @@ namespace Poseidon.Controllers
                     ViewBag.ImageURL = "C:/ImagenPoseidon" + fileName;
                     // The files are not actually saved in this demo
 
-                 
+
                     file.SaveAs(physicalPath);
 
                     string pictureUrl = @"C:/ImagenPoseidon/" + fileName;
-                  
+
                     pictureViewModel.PictureId = 1;
                     pictureViewModel.PictureName = fileName;
                     pictureViewModel.PictureUrl = pictureUrl;
@@ -188,10 +188,10 @@ namespace Poseidon.Controllers
             }
 
             // Return an empty string to signify success
-         
+
             return Json(pictureViewModel, JsonRequestBehavior.AllowGet);
         }
- 
+
         public ActionResult Remove(string[] fileNames)
         {
             var pictureViewModel = new PictureViewModel();
@@ -204,10 +204,10 @@ namespace Poseidon.Controllers
                 {
                     var fileName = Path.GetFileName(fullName);
                     var physicalPath = Path.Combine("C:/ImagenPoseidon", fileName);
-                   
-                  
+
+
                     // TODO: Verify user permissions
-                    
+
                     if (System.IO.File.Exists(physicalPath))
                     {
                         // The files are not actually removed in this demo
@@ -246,3 +246,8 @@ namespace Poseidon.Controllers
 
 
 }
+
+
+
+
+
