@@ -16,12 +16,12 @@ namespace Poseidon.Models
     {
         public UserType()
         {
-            this.Users = new HashSet<User>();
+            this.User = new HashSet<User>();
         }
     
         public int user_type_id { get; set; }
         public string user_type_name { get; set; }
     
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<User> User { get; set; }
     }
 }

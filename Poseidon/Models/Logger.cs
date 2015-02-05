@@ -48,16 +48,37 @@ namespace Poseidon.Models
         public Nullable<int> user_instalation { get; set; }
         public Nullable<System.DateTime> user_instalation_start_date { get; set; }
         public Nullable<System.DateTime> user_instalation_end_date { get; set; }
+        public Nullable<bool> necesary_site_enter { get; set; }
+        public Nullable<bool> logger_outdoor { get; set; }
+        public string condition_type_instalation { get; set; }
+        public string antenna_type { get; set; }
+        public Nullable<bool> Csq_outdoor { get; set; }
+        public Nullable<bool> can_lamppost_with_antenna { get; set; }
+        public string manometer_aar_value { get; set; }
+        public string logger_aar_value { get; set; }
+        public string manometer_aab_value { get; set; }
+        public string logger_aab_value { get; set; }
+        public string flowmetter_status { get; set; }
+        public Nullable<bool> with_pulser { get; set; }
+        public Nullable<bool> pulser_changed { get; set; }
+        public string liters_per_pulser { get; set; }
+        public string logger_position { get; set; }
+        public Nullable<bool> flooded_chamber { get; set; }
+        public string chamber_condition { get; set; }
+        public string chamber_cap { get; set; }
+        public Nullable<bool> necessary_drain { get; set; }
+        public Nullable<bool> necessary_manipulate_traffic { get; set; }
+        public Nullable<bool> necessary_tool_open_chamber { get; set; }
+        public Nullable<bool> two_thechnical_open_chamber { get; set; }
+        public string channel_1 { get; set; }
+        public string channel_2 { get; set; }
+        public string channel_3 { get; set; }
+        public string channel_4 { get; set; }
+        public Nullable<bool> battery_installed { get; set; }
+        public string battery_type { get; set; }
+        public string battery_serial_number { get; set; }
+        public string notes { get; set; }
     
         public virtual Company Company { get; set; }
-
-         public int PictureId { get; set; }
-        public string PictureName { get; set; }
-        public string PictureUrl { get; set; }
-        public bool Status { get; set; }
-    
-
-
-
     }
 }
