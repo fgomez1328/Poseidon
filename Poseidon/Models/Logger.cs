@@ -51,7 +51,7 @@ namespace Poseidon.Models
         public Nullable<bool> necesary_site_enter { get; set; }
         public Nullable<bool> logger_outdoor { get; set; }
         public string condition_type_instalation { get; set; }
-        public string antenna_type { get; set; }
+        public Nullable<int> antenna_type { get; set; }
         public Nullable<bool> Csq_outdoor { get; set; }
         public Nullable<bool> can_lamppost_with_antenna { get; set; }
         public string manometer_aar_value { get; set; }
@@ -70,14 +70,22 @@ namespace Poseidon.Models
         public Nullable<bool> necessary_manipulate_traffic { get; set; }
         public Nullable<bool> necessary_tool_open_chamber { get; set; }
         public Nullable<bool> two_thechnical_open_chamber { get; set; }
-        public string channel_1 { get; set; }
-        public string channel_2 { get; set; }
-        public string channel_3 { get; set; }
-        public string channel_4 { get; set; }
+        public Nullable<int> channel_1 { get; set; }
+        public Nullable<int> channel_2 { get; set; }
+        public Nullable<int> channel_3 { get; set; }
+        public Nullable<int> channel_4 { get; set; }
         public Nullable<bool> battery_installed { get; set; }
-        public string battery_type { get; set; }
         public string battery_serial_number { get; set; }
         public string notes { get; set; }
+        public string site_conditions_installation { get; set; }
+        public Nullable<int> id_conditions_installation { get; set; }
+        public Nullable<int> chamber_type_id { get; set; }
+        public Nullable<int> chamber_type_tap_id { get; set; }
+        public string battery_type { get; set; }
+        public Nullable<int> state_flowmeter_id { get; set; }
+        public Nullable<int> type_flowmeter_id { get; set; }
+        public string picture_image { get; set; }
+        public string picture_url { get; set; }
     
         public virtual Company Company { get; set; }
     }

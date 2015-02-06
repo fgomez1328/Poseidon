@@ -16,9 +16,88 @@ namespace Poseidon.Controllers
         {
             return View();
         }
+
+        //DATASOURCE LISTA PARA ADMIN 
+        public ActionResult ReadStatus([DataSourceRequest] DataSourceRequest request)
+        {
+            return GetViewStatus(request);
+        }
+        private JsonResult GetViewStatus(DataSourceRequest request)
+        {
+            return Json(GetDataStatus().ToDataSourceResult(request));
+        }
+        private IEnumerable<dynamic> GetDataStatus()
+        {
+            poseidon_dbEntities db = new poseidon_dbEntities();
+
+            var result = from a in db.Logger
+                         join b in db.zones
+                            on a.zone_id equals b.zone_id into zo
+                         from f in zo.DefaultIfEmpty()
+                         where a.status == 1
+                         select new
+                         {
+                             a.logger_id,
+                             a.logger_sites_name,
+                             a.logger_sms,
+                             f.zone_name,
+                             a.instalation_type,
+                             a.necessary_key,
+                             a.contact_detail,
+                             a.status
+
+                         };
+
+            return result;
+        }
+
+
+        //DATASOURCE LISTA PARA ADMIN READY
+        public ActionResult ReadStatusOther([DataSourceRequest] DataSourceRequest request)
+        {
+
+            return GetViewStatusOther(request);
+        }
+        private JsonResult GetViewStatusOther(DataSourceRequest request)
+        {
+            return Json(GetDataStatusOther().ToDataSourceResult(request));
+        }
+        private IEnumerable<dynamic> GetDataStatusOther()
+        {
+            poseidon_dbEntities db = new poseidon_dbEntities();
+
+            var result = from a in db.Logger
+                         join c in db.User
+                           on a.user_instalation equals c.user_id 
+                         join b in db.zones
+                            on a.zone_id equals b.zone_id into zo
+                         from f in zo.DefaultIfEmpty()
+
+                         // from g in zu.DefaultIfEmpty()
+                         where a.status == 2 || a.status == 3 || a.status == 4
+                         select new
+                         {
+                             a.logger_id,
+                             a.logger_sites_name,
+                             a.logger_sms,
+                             f.zone_name,
+                             a.instalation_type,
+                             a.necessary_key,
+                             a.contact_detail,
+                             a.status,
+                             a.user_instalation_start_date,
+                             a.user_instalation_end_date,
+                             user_instalation = c.user_name,
+                             a.approval_date
+                         };
+
+            return result;
+        }
+
+        
+        //DATASOURCE LISTA PARA THECHNICAL PENDING
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
-           
             return GetView(request);
         }
         private JsonResult GetView(DataSourceRequest request)
@@ -33,6 +112,7 @@ namespace Poseidon.Controllers
                          join b in db.zones
                             on a.zone_id equals b.zone_id into zo
                             from f in zo.DefaultIfEmpty()
+                            where a.status == 2 || a.status == 1
                          select new
                          {
 
@@ -43,14 +123,58 @@ namespace Poseidon.Controllers
                              a.instalation_type,
                              a.necessary_key,
                              a.contact_detail,
-                             
                              a.status
-                             
 
                          };
            
             return result;
         }
+
+
+        //DATASOURCE LISTA PARA THECHNICAL READY
+        public ActionResult OtherData([DataSourceRequest] DataSourceRequest request)
+        {
+            return GetView2(request);
+        }
+        private JsonResult GetView2(DataSourceRequest request)
+        {
+            return Json(GetData2().ToDataSourceResult(request));
+        }
+
+        private IEnumerable<dynamic> GetData2()
+        {
+            poseidon_dbEntities db = new poseidon_dbEntities();
+
+            var result = from a in db.Logger
+                         join c in db.User
+                           on a.user_instalation equals c.user_id //into zu
+                         join b in db.zones
+                            on a.zone_id equals b.zone_id into zo
+                         from f in zo.DefaultIfEmpty()
+                        
+                        // from g in zu.DefaultIfEmpty()
+                         where  a.status == 3 || a.status == 4
+                         select new
+                         {
+                             a.logger_id,
+                             a.logger_sites_name,
+                             a.logger_sms,
+                             f.zone_name,
+                             a.instalation_type,
+                             a.necessary_key,
+                             a.contact_detail,
+                             a.status,
+                             a.user_instalation_start_date,
+                             a.user_instalation_end_date,
+                             a.user_instalation,
+                             a.approval_date
+                         };
+
+            return result;
+        }
+
+
+
 
         public ActionResult Create()
         {
@@ -81,7 +205,7 @@ namespace Poseidon.Controllers
                     var entity = new Logger
                     {
                         logger_id = current_id+1,
-                        logger_sites_name = lo.sites_name,
+                        logger_sites_name = lo.logger_sites_name,
                         logger_sms = lo.logger_sms,
                         necessary_key = lo.necessary_key,
                         contact_detail = lo.contact_detail,
@@ -101,9 +225,13 @@ namespace Poseidon.Controllers
                     northwind.SaveChanges();
                
                 }
+                return RedirectToAction("ListStatus");
             }
-
-            return View();
+            else
+            {
+                return View();
+            }
+           
         }
 
         
@@ -167,6 +295,53 @@ namespace Poseidon.Controllers
         public ActionResult DetailInstalation()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Excel_Export_Save(string contentType, string base64, string fileName)
+        {
+            var fileContents = Convert.FromBase64String(base64);
+
+            return File(fileContents, contentType, fileName);
+        }
+
+
+        public ActionResult Edit(int? logger_id)
+        {
+            poseidon_dbEntities db = new poseidon_dbEntities();
+
+            return View("Edit", db.Logger.Find(logger_id));
+        }
+
+        [HttpPost]
+        public ActionResult Edit([DataSourceRequest] DataSourceRequest request, Logger us)
+        {
+
+            if (ModelState.IsValid)
+            {
+                using (var db = new poseidon_dbEntities())
+                {
+                    var result = from u in db.Logger where (u.logger_id == us.logger_id) select u;
+                    if (result.Count() != 0)
+                    {
+                        var dblogger = result.First();
+
+                        dblogger.logger_sites_name = us.logger_sites_name;
+                        dblogger.logger_sms = us.logger_sms;
+                        dblogger.necessary_key = us.necessary_key;
+                        dblogger.contact_detail = us.contact_detail;
+                        dblogger.key_ball = us.key_ball;
+                        dblogger.latitude = us.latitude;
+                        dblogger.longitute = us.longitute;
+                        dblogger.zone_id = us.zone_id;
+                                             
+                        db.SaveChanges();
+                    }
+                }
+            }
+
+
+            return RedirectToAction("ListStatus");
         }
     }
 }

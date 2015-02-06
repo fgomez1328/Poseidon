@@ -429,6 +429,7 @@
     <Content Include="Content\kendo\2014.3.1119\Uniform\sprite_2x.png" />
     <Content Include="Content\kendo\2014.3.1119\Uniform\sprite_kpi.png" />
     <Content Include="Content\kendo\2014.3.1119\Uniform\sprite_kpi_2x.png" />
+    <Content Include="Content\Status\Create.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Images\accent.png" />
     <Content Include="Images\bullet.png" />
@@ -755,6 +756,7 @@
     <Content Include="Views\Status\PreviewInstalation.cshtml" />
     <Content Include="Views\Status\ListUser.cshtml" />
     <Content Include="Views\Status\DetailInstalation.cshtml" />
+    <Content Include="Views\Status\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

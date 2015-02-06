@@ -1,6 +1,6 @@
 ﻿@model Poseidon.Models.Logger
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Detalle";
 }
 <link href="@Url.Content("~/Content/Status/Create.css")" rel="stylesheet" type="text/css" />
 <h2>Nueva Instalación</h2>
@@ -55,7 +55,7 @@
 
         <p>
             @Html.Label("¿Se dispone con llave de bola con salida media?")
-            @(Html.CheckBoxFor(model => model.key_ball, new { @checked = true}))
+            @(Html.CheckBoxFor(model => model.key_ball, new { @checked = true }))
 
         </p>
 
@@ -69,14 +69,15 @@
             @Html.ValidationMessageFor(model => model.longitute)
         </p>
         <p>
-            <input type="submit" value="Crear" class="btn btn-default" width="170" id="btnCreate" />
+            <input type="submit" value="Guardar" class="btn btn-default" width="170" id="btnCreate" />
+            <input type="button" value="Volver" class="btn btn-default" width="170" id="btnBack" onclick="location.href='@Url.Action("ListStatus", "Status")' " />
         </p>
 
     </div>
     <div class="divmap">
         <p>
             @Html.Label("Inserte dirección para busqueda mas rápida")
-            @Html.TextBox("address","", new { style= "width:300px" })
+            @Html.TextBox("address", "", new { style = "width:300px" })
             <button id="pasar">Obtener coordenadas</button>
 
             <div id="map" style="width: 500px; height: 500px; " />
@@ -85,11 +86,9 @@
     </div>
 
     <style>
-        .itemrow
-        {
+        .itemrow {
             margin-bottom: 10px;
         }
-
     </style>
 
 
@@ -102,14 +101,15 @@
 }
 <script type="text/javascript">
 
-    var lat = null;
-    var lng = null;
-    
+    var lat = $("#latitude").val();
+    var lng = $("#longitute").val();
     var map = null;
     var geocoder = null;
     var marker = null;
 
     $(document).ready(function () {
+      
+
         var site = $("#contact_detail").data("TextBox");
 
         $("#necessary_key").click(function () {
@@ -121,16 +121,16 @@
                 $('#contact_detail').attr("disabled", "disabled")
             }
         });
-      
-       
-       
+
+
+
         jQuery('#pasar').click(function () {
             codeAddress();
             return false;
         });
 
         initialize();
-        InicialcodeAddress();
+        //InicialcodeAddress();
     });
 
     var button = document.getElementById('imageButton');
@@ -148,7 +148,7 @@
                 map.setCenter(results[0].geometry.location);
                 //coloco el marcador en dichas coordenadas
                 marker.setPosition(results[0].geometry.location);
-                //actualizo el formulario      
+                //actualizo el formulario
                 updatePosition(results[0].geometry.location);
 
                 //Añado un listener para cuando el markador se termine de arrastrar
@@ -168,7 +168,7 @@
         geocoder = new google.maps.Geocoder();
 
         //Si hay valores creamos un objeto Latlng
-        
+
          if(lat == null) {
             var latLng = new google.maps.LatLng(-70.65164270000002, -33.4600405);
         }
@@ -211,7 +211,7 @@
     function InicialcodeAddress() {
 
         //obtengo la direccion del formulario
-        var address = "Nataniel cox";
+        var address = null;
         //hago la llamada al geodecoder
         geocoder.geocode({ 'address': address }, function (results, status) {
 
@@ -221,7 +221,7 @@
                 map.setCenter(results[0].geometry.location);
                 //coloco el marcador en dichas coordenadas
                 marker.setPosition(results[0].geometry.location);
-                //actualizo el formulario      
+                //actualizo el formulario
                 updatePosition(results[0].geometry.location);
 
                 //Añado un listener para cuando el markador se termine de arrastrar
@@ -235,9 +235,10 @@
             }
         });
     }
-  
-    
+
 
 </script>
+
+
 
 
