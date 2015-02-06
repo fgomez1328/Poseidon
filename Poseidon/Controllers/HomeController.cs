@@ -61,6 +61,7 @@ namespace Poseidon.Controllers
                         Session["USERID"] = v.user_id.ToString();
                         Session["USERNAME"] = v.user_name.ToString();
                         Session["COMPANYID"] = v.company_id.ToString();
+                        Session["USERTYPE"] = v.user_type_id.ToString();
 
                         FormsAuthentication.SetAuthCookie(v.user_name.ToString(), true);
 
@@ -241,6 +242,20 @@ namespace Poseidon.Controllers
             ViewBag.Message = "Welcome to ASP.NET MVC!";
 
             return View();
+        }
+
+        public ActionResult ListCondition()
+        {
+
+            if (Session["USERTYPE"].ToString() == "1")
+            {
+                return RedirectToAction("ListStatus", "Status");
+            }
+            else if (Session["USERTYPE"].ToString() == "2") 
+            { 
+                return RedirectToAction("ListUser", "Status");
+            }
+        return View();
         }
     }
 
