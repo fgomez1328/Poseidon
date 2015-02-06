@@ -58,7 +58,23 @@
     height: auto;
     border-collapse: collapse;
     text-align: center;
-} 
+
+    .k-textbox .small {
+    width: 50px !important;
+}
+.k-textbox .medium {
+    width: 120px !important;
+}
+.k-textbox .large {
+    width: 320px !important;
+    height:300px;
+}
+
+.wide-full {
+    width: 100%;
+}
+
+
 
 </style>
 
@@ -130,7 +146,8 @@
                         <fieldset class="k-block">
 
                             <label for="theme_red">
-                                <input type="checkbox" value="Si" name="chk9" id="group1" data-bind="checked:flag1" />Si
+                                @Html.CheckBoxFor(model => model. NoNullExclusive)
+                                Si
                             </label>
 
                                
@@ -138,7 +155,7 @@
 
 
                             <label for="theme_white">
-                                <input type="checkbox" value="No" name="chk9" class="group1" data-bind="checked:flag1" />No
+                                @Html.CheckBoxFor(model => model.NoNullExclusive)No
                             </label>
 
 
@@ -181,16 +198,19 @@
                     <td>
 
                         <fieldset class="k-block">
+                           
+                            <label for="theme_red">
+                                @Html.CheckBoxFor(model => model.NoNulllogger_outdoor)
+                                Si
+                            </label>
 
-                            <input type="checkbox" value="Red" data-bind="checked: colors" />
-
-                            <label for="">Si</label>
 
 
 
-                            <input type="checkbox" value="Red" data-bind="checked: colors" />
-
-                            <label for="">No</label>
+                            <label for="theme_red">
+                                @Html.CheckBoxFor(model => model.NoNulllogger_outdoor)
+                                No
+                            </label>
 
 
 
@@ -228,17 +248,34 @@
                     </td>
 
                     <td>
-
+                    
                      
-                        <select idc="condli" 
-                               
-                                data-role="dropdownlist"
-                                data-text-field="name"
-                                data-value-field="idc"
-                                data-bind="source:condli, value: multipleSelectValue"></select>
-               
+                        @(Html.Kendo().DropDownListFor(m => m.id_conditions_installation)
+                        .Name("condicion")
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .HtmlAttributes(new { style = "width:175px" })
+                        .BindTo(new List<SelectListItem>
+                            () {
+                            new SelectListItem() {
+                            Text = "Ideal",
+                            Value = "1"
+                            },
+                            new SelectListItem() {
+                            Text = "Regulares",
+                            Value= "2"
+                            },
+                             new SelectListItem() {
+                             Text = "Malas",
+                              Value= "3"
+                                            },
 
-                    </td>
+                            })
+                            .Value("1")
+                            )
+
+
+</td>
 
 
 
@@ -279,11 +316,31 @@
                     </td>
 
                     <td>
-
-                        <select data-role="dropdownlist" data-text-field="name" data-value-field="value" data-bind="source:antena, value: dropDownListValue"></select>
                        
 
-                    </td>
+                       
+                        @(Html.Kendo().DropDownListFor(m => m.antenna_type_id)
+                        .Name("antenna")
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .HtmlAttributes(new { style = "width:175px" })
+                        .BindTo(new List<SelectListItem>
+    () {
+    new SelectListItem() {
+    Text = "Polarizacion Vertical",
+    Value = "1"
+    },
+    new SelectListItem() {
+    Text = "Domo",
+    Value= "2"
+    },
+
+    })
+    .Value("1")
+    )
+
+
+</td>
 
 
 
@@ -313,19 +370,22 @@
                         <label for="fullname" class="required">CSQ fuera de la Camara</label>
 
                     </td>
-
+                    
                     <td>
                         <fieldset class="k-block">
 
-                            <input type="checkbox" value="Red" data-bind="checked: colors" />
+                            <label for="theme_red">
+                                @Html.CheckBoxFor(model => model.NoNullCsq_outdoor)
+                                Si
+                            </label>
 
-                            <label for="theme_red">Si</label>
 
 
 
-                            <input type="checkbox" value="Red" data-bind="checked: colors" />
-
-                            <label for="theme_white">No</label>
+                            <label for="theme_red">
+                                @Html.CheckBoxFor(model => model.NoNullCsq_outdoor)
+                                No
+                            </label>
 
 
 
@@ -362,15 +422,16 @@
                         <div>
                             <fieldset class="">
 
-                                <input type="checkbox" value="Red" data-bind="checked: colors" />
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullcan_lamppost_with_antenna)
+                                    Si
+                                </label>
 
-                                <label for="theme_red">Si</label>
 
-
-
-                                <input type="checkbox" value="Red" data-bind="checked: colors" />
-
-                                <label for="theme_white">No</label>
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullcan_lamppost_with_antenna)
+                                    No
+                                </label>
 
 
 
@@ -422,11 +483,145 @@
                     <td>
 
                         <div class="">
-                            <select idf="flujestado"
-                                    data-role="dropdownlist"
-                                    data-text-field="name"
-                                    data-value-field="idf"
-                                    data-bind="source:flujestado, value: multipleSelectValue"></select>
+                            @(Html.Kendo().DropDownListFor(m => m.state_flowmeter_id)
+                            .Name("flujometro")
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .HtmlAttributes(new { style = "width:175px" })
+                            .BindTo(new List<SelectListItem>
+                                () {
+                                new SelectListItem() {
+                                Text = "Ideales",
+                                Value = "1"
+                                },
+                                new SelectListItem() {
+                                Text = "Regulares",
+                                Value= "2"
+                                },
+                                new SelectListItem() {
+                                Text = "Malas",
+                                Value= "3"
+                                },
+
+                                })
+                                .Value("1")
+                                )
+</div>
+
+                    </td>
+
+
+
+                </tr>
+
+
+
+                <tr>
+
+                    <td>
+
+                        <label for="fullname" class="required">Lectura Manometro AAb</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.manometer_aab_value, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.manometer_aab_value, "", new { @class = "text-danger" })
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <label for="fullname" class="required">Tipo de Flujometro</label>
+
+                    </td>
+
+                    <td>
+
+                        @(Html.Kendo().DropDownListFor(m => m.type_state_flowmeter_id)
+                        .Name("flujometrotipo")
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .HtmlAttributes(new { style = "width:175px" })
+                        .BindTo(new List<SelectListItem>
+                            () {
+                            new SelectListItem() {
+                            Text = "Electromagnetismo Tubo",
+                            Value = "1"
+                            },
+                            new SelectListItem() {
+                            Text = "Velocimetro Tubo",
+                            Value= "2"
+                            },
+                            new SelectListItem() {
+                            Text = "ElectroMagnetico",
+                            Value= "3"
+                            },
+                                            new SelectListItem() {
+                                            Text = "Insercion",
+                                            Value= "4"
+                                            },
+                                            new SelectListItem() {
+                                            Text = "Velocimetro de Insercion",
+                                            Value= "4"
+                                            },
+
+                            })
+                            .Value("1")
+                            )
+</td>
+
+
+
+                </tr>
+
+
+
+                <tr>
+
+                    <td>
+
+                        <label for="fullname" class="required">Lectura Logger AAr</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.logger_aar_value, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.logger_aar_value, "", new { @class = "text-danger" })
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <label for="fullname" class="required">Emisor de Pulsos</label>
+
+                    </td>
+
+                    <td>
+
+                        <div>
+                            <fieldset class="">
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullwith_pulser)
+                                    Si
+                                </label>
+
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullwith_pulser)
+                                    No
+                                </label>
+
+
+
+                            </fieldset>
                         </div>
 
                     </td>
@@ -447,79 +642,10 @@
 
                     <td>
 
-                        <input type="text" id="fullname" name="studentname" class="k-textbox" placeholder="Full student name" required validationmessage="Please enter {0}" />
-
-                    </td>
-
-                    <td>
-
-                        <label for="fullname" class="required">Tipo de Flujometro</label>
-
-                    </td>
-
-                    <td>
-
-                        <select multiple="multiple"
-                                data-role="dropdownlist"
-                                data-text-field="name"
-                                data-value-field="value"
-                                data-bind="source:flujometro, value:  Apple"></select>
-                    </td>
-
-
-
-                </tr>
-
-
-
-                <tr>
-
-                    <td>
-
-                        <label for="fullname" class="required">Lectura Logger AAr</label>
-
-                    </td>
-
-                    <td>
-
-                        <input type="text" id="fullname" name="studentname" class="k-textbox" placeholder="Full student name" required validationmessage="Please enter {0}" />
-
-                    </td>
-
-                    <td>
-
-                        <label for="fullname" class="required">Emisor de Pulsos</label>
-
-                    </td>
-
-                    <td>
-
-                        <select idp="epulso" 
-                                multiple="multiple"
-                                data-role="dropdownlist"
-                                data-text-field="name"
-                                data-value-field="idp"
-                                data-bind="source:epulso, value:  Apple"></select>
-
-                    </td>
-
-
-
-                </tr>
-
-
-
-                <tr>
-
-                    <td>
-
-                        <label for="fullname" class="required">Lectura Manometro AAb</label>
-
-                    </td>
-
-                    <td>
-
-                        <input type="text" id="fullname" name="studentname" class="k-textbox" placeholder="Full student name" required validationmessage="Please enter {0}" />
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.manometer_aab_value, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.manometer_aab_value, "", new { @class = "text-danger" })
+                        </div>
 
                     </td>
 
@@ -531,12 +657,24 @@
 
                     <td>
 
-                        <select idfp="frepulso" 
-                              
-                                data-role="dropdownlist"
-                                data-text-field="name"
-                                data-value-field="idfp"
-                                data-bind="source:frepulso, value:  Apple"></select>
+                        <div>
+                            <fieldset class="">
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullpulser_changed)
+                                    Si
+                                </label>
+
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullpulser_changed)
+                                    No
+                                </label>
+
+
+
+                            </fieldset>
+                        </div>
 
                     </td>
 
@@ -554,7 +692,10 @@
 
                     <td>
 
-                        <input type="text" id="fullname" name="studentname" class="k-textbox" placeholder="Full student name" required validationmessage="Please enter {0}" />
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.logger_aab_value, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.logger_aab_value, "", new { @class = "text-danger" })
+                        </div>
 
                     </td>
 
@@ -566,7 +707,10 @@
 
                     <td>
 
-                        <input type="text" id="fullname" name="studentname" class="k-textbox" placeholder="Full student name" required validationmessage="Please enter {0}" />
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.liters_per_pulser, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.liters_per_pulser, "", new { @class = "text-danger" })
+                        </div>
 
                     </td>
 
@@ -597,7 +741,10 @@
 
                     <td>
 
-                        <input type="text" id="fullname" name="studentname" class="k-textbox" placeholder="Full student name" required validationmessage="Please enter {0}" />
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.logger_position, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.logger_position, "", new { @class = "text-danger" })
+                        </div>
 
                     </td>
 
@@ -609,11 +756,24 @@
 
                     <td>
 
-                        <select idbd="bombades"
-                                data-role="dropdownlist"
-                                data-text-field="name"
-                                data-value-field="idbd"
-                                data-bind="source:bombades, value:  Apple"></select>
+                        <div>
+                            <fieldset class="">
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullnecessary_drain)
+                                    Si
+                                </label>
+
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullnecessary_drain)
+                                    No
+                                </label>
+
+
+
+                            </fieldset>
+                        </div>
 
                     </td>
 
@@ -633,11 +793,24 @@
 
                     <td>
 
-                        <select idcm="caminundada"
-                                data-role="dropdownlist"
-                                data-text-field="name"
-                                data-value-field="idcm"
-                                data-bind="source:caminundada, value:  Apple"></select>
+                        <div>
+                            <fieldset class="">
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullflooded_chamber)
+                                    Si
+                                </label>
+
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullflooded_chamber)
+                                    No
+                                </label>
+
+
+
+                            </fieldset>
+                        </div>
 
                     </td>
 
@@ -649,11 +822,24 @@
 
                     <td>
 
-                        <select idmt="desviartraf"
-                                data-role="dropdownlist"
-                                data-text-field="name"
-                                data-value-field="idmt"
-                                data-bind="source:desviartraf, value:  Apple"></select>
+                        <div>
+                            <fieldset class="">
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullnecessary_manipulate_traffic)
+                                    Si
+                                </label>
+
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullnecessary_manipulate_traffic)
+                                    No
+                                </label>
+
+
+
+                            </fieldset>
+                        </div>
 
                     </td>
 
@@ -673,13 +859,35 @@
 
                     <td>
 
-                        <select idt="tipcamara"
-                                data-role="dropdownlist"
-                                data-text-field="name"
-                                data-value-field="idt"
-                                data-bind="source:tipcamara, value:  Apple"></select>
+                        @(Html.Kendo().DropDownListFor(m => m.chamber_type_id)
+                        .Name("tipocamara")
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .HtmlAttributes(new { style = "width:175px" })
+                        .BindTo(new List<SelectListItem>
+                            () {
+                            new SelectListItem() {
+                            Text = "Albanileria",
+                            Value = "1"
+                            },
+                            new SelectListItem() {
+                            Text = "Hormigon Armado",
+                            Value= "2"
+                            },
+                            new SelectListItem() {
+                            Text = "Metalica",
+                            Value= "3"
+                            },
+                            new SelectListItem() {
+                            Text = "Hormigon",
+                            Value= "4"
+                            },
+                            
+                            })
+                            .Value("1")
+                            )
 
-                    </td>
+</td>
 
                     <td>
 
@@ -689,11 +897,24 @@
 
                     <td>
 
-                        <select idhap="herrcamara"
-                                data-role="dropdownlist"
-                                data-text-field="name"
-                                data-value-field="idhap"
-                                data-bind="source:flags, value:  Apple"></select>
+                        <div>
+                            <fieldset class="">
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullnecessary_tool_open_chamber)
+                                    Si
+                                </label>
+
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullnecessary_tool_open_chamber)
+                                    No
+                                </label>
+
+
+
+                            </fieldset>
+                        </div>
 
                     </td>
 
@@ -713,13 +934,31 @@
 
                     <td>
 
-                        <select multiple="multiple"
-                                data-role="dropdownlist"
-                                data-text-field="name"
-                                data-value-field="value"
-                                data-bind="source:condicion, value:  Apple"></select>
+                        @(Html.Kendo().DropDownListFor(m => m.chamber_condition_id)
+                        .Name("condicioncamara")
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .HtmlAttributes(new { style = "width:175px" })
+                        .BindTo(new List<SelectListItem>
+                            () {
+                            new SelectListItem() {
+                            Text = "Ideales",
+                            Value = "1"
+                            },
+                            new SelectListItem() {
+                            Text = "Regulares",
+                            Value= "2"
+                            },
+                            new SelectListItem() {
+                            Text = "Malas",
+                            Value= "3"
+                            },
 
-                    </td>
+                            })
+                            .Value("1")
+                            )
+
+</td>
 
                     <td>
 
@@ -729,11 +968,24 @@
 
                     <td>
 
-                        <select idhpc="apertcamara"
-                                data-role="dropdownlist"
-                                data-text-field="name"
-                                data-value-field="idhpc"
-                                data-bind="source:apertcamara, value:  Apple"></select>
+                        <div>
+                            <fieldset class="">
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullis_necessary_tool_open_chamber)
+                                    Si
+                                </label>
+
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullis_necessary_tool_open_chamber)
+                                    No
+                                </label>
+
+
+
+                            </fieldset>
+                        </div>
                     </td>
 
 
@@ -752,11 +1004,24 @@
 
                     <td>
 
-                        <select idoc="ocamara"
-                                data-role="dropdownlist"
-                                data-text-field="name"
-                                data-value-field="idoc"
-                                data-bind="source:ocamara, value:  Apple"></select>
+                        <div>
+                            <fieldset class="">
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNulltwo_thechnical_open_chamber)
+                                    Si
+                                </label>
+
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNulltwo_thechnical_open_chamber)
+                                    No
+                                </label>
+
+
+
+                            </fieldset>
+                        </div>
                     </td>
 
 
@@ -773,13 +1038,35 @@
 
                     <td>
 
-                        <select idttc="tipotapcamara"
-                                data-role="dropdownlist"
-                                data-text-field="name"
-                                data-value-field="idttc"
-                                data-bind="source:tipotapcamara, value:  Apple"></select>
+                        @(Html.Kendo().DropDownListFor(m => m.chamber_type_tap_id)
+                        .Name("tapacamara")
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .HtmlAttributes(new { style = "width:175px" })
+                        .BindTo(new List<SelectListItem>
+                            () {
+                            new SelectListItem() {
+                            Text = "Albanileria",
+                            Value = "1"
+                            },
+                            new SelectListItem() {
+                            Text = "Hormigon Armado",
+                            Value= "2"
+                            },
+                            new SelectListItem() {
+                            Text = "Metalica",
+                            Value= "3"
+                            },
+                            new SelectListItem() {
+                            Text = "Hormigon",
+                            Value= "4"
+                            },
 
-                    </td>
+                            })
+                            .Value("1")
+                            )
+
+</td>
 
 
 
@@ -814,12 +1101,41 @@
 
                     <td>
                         <div style="width:125px; height:205px">
-                            <select id="canales"
-                                    data-role="dropdownlist"
-                                    data-text-field="name"
-                                    data-value-field="id"
-                                    data-bind="source:canales, value:selectValue"></select>
-                        </div>
+                            @(Html.Kendo().DropDownListFor(m => m.channel_id_1)
+                            .Name("canal1")
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .HtmlAttributes(new { style = "width:175px" })
+                            .BindTo(new List<SelectListItem>
+                                () {
+                                new SelectListItem() {
+                                Text = "Presion Interna",
+                                Value = "1"
+                                },
+                                new SelectListItem() {
+                                Text = "Presion Externa",
+                                Value= "2"
+                                },
+                                new SelectListItem() {
+                                Text = "Digital Caudal",
+                                Value= "3"
+                                },
+                                new SelectListItem() {
+                                Text = "4-20mA",
+                                Value= "4"
+                                },
+                                                new SelectListItem() {
+                                                Text = "Modbus",
+                                                Value= "5"
+                                                },
+                                                new SelectListItem() {
+                                                Text = "Serial",
+                                                Value= "6"
+                                                },
+                                })
+                                .Value("1")
+                                )
+</div>
 
                     </td>
 
@@ -832,12 +1148,42 @@
 
                     <td>
                         <div style="width:125px; height:205px">
-                            <select Id3="canales3"
-                                    data-role="dropdownlist"
-                                    data-text-field="name"
-                                    data-value-field="Id3"
-                                    data-bind="source:canales3, value:selectValue"></select>
+                            @(Html.Kendo().DropDownListFor(m => m.channel_id_3)
+                            .Name("canal3")
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .HtmlAttributes(new { style = "width:175px" })
+                            .BindTo(new List<SelectListItem>
+                                () {
+                                new SelectListItem() {
+                                Text = "Presion Interna",
+                                Value = "1"
+                                },
+                                new SelectListItem() {
+                                Text = "Presion Externa",
+                                Value= "2"
+                                },
+                                new SelectListItem() {
+                                Text = "Digital Caudal",
+                                Value= "3"
+                                },
+                                new SelectListItem() {
+                                Text = "4-20mA",
+                                Value= "4"
+                                },
+                                new SelectListItem() {
+                                Text = "Modbus",
+                                Value= "5"
+                                },
+                                new SelectListItem() {
+                                Text = "Serial",
+                                Value= "6"
+                                },
+                                })
+                                .Value("1")
+                                )
                         </div>
+
 
                     </td>
 
@@ -858,13 +1204,42 @@
 
                     <td>
                         <div style="width:125px; height:205px">
-                            <select 
-                                    id2="canales2"
-                                    data-role="dropdownlist"
-                                    data-text-field="name"
-                                    data-value-field="id2"
-                                    data-bind="source:canales2, value: selectValue"></select>
+                            @(Html.Kendo().DropDownListFor(m => m.channel_id_2)
+                            .Name("canal2")
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .HtmlAttributes(new { style = "width:175px" })
+                            .BindTo(new List<SelectListItem>
+                                () {
+                                new SelectListItem() {
+                                Text = "Presion Interna",
+                                Value = "1"
+                                },
+                                new SelectListItem() {
+                                Text = "Presion Externa",
+                                Value= "2"
+                                },
+                                new SelectListItem() {
+                                Text = "Digital Caudal",
+                                Value= "3"
+                                },
+                                new SelectListItem() {
+                                Text = "4-20mA",
+                                Value= "4"
+                                },
+                                new SelectListItem() {
+                                Text = "Modbus",
+                                Value= "5"
+                                },
+                                new SelectListItem() {
+                                Text = "Serial",
+                                Value= "6"
+                                },
+                                })
+                                .Value("1")
+                                )
                         </div>
+
 
 <td align="center">
     <div style="width:125px; height:205px">
@@ -876,13 +1251,42 @@
                     <td>
                         
                         <div style="width:125px; height:205px">
-                            <select
-                                    Id="canales4"
-                                    data-role="dropdownlist"
-                                    data-text-field="name"
-                                    data-value-field="Id"
-                                    data-bind="source:canales4, value: selectValue"></select>
-                    </div>
+                            @(Html.Kendo().DropDownListFor(m => m.channel_id_4)
+                            .Name("canal4")
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .HtmlAttributes(new { style = "width:175px" })
+                            .BindTo(new List<SelectListItem>
+                                () {
+                                new SelectListItem() {
+                                Text = "Presion Interna",
+                                Value = "1"
+                                },
+                                new SelectListItem() {
+                                Text = "Presion Externa",
+                                Value= "2"
+                                },
+                                new SelectListItem() {
+                                Text = "Digital Caudal",
+                                Value= "3"
+                                },
+                                new SelectListItem() {
+                                Text = "4-20mA",
+                                Value= "4"
+                                },
+                                new SelectListItem() {
+                                Text = "Modbus",
+                                Value= "5"
+                                },
+                                new SelectListItem() {
+                                Text = "Serial",
+                                Value= "6"
+                                },
+                                })
+                                .Value("1")
+                                )
+                        </div>
+
 
                 </td>
 
@@ -912,9 +1316,11 @@
                 </td>
 
                 <td>
-
-                    <input type="text" id="fullname" name="studentname" class="k-textbox" placeholder="Full student name" required validationmessage="Please enter {0}" />
-
+                
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.logger_type, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.logger_type, "", new { @class = "text-danger" })
+                    </div>
                 </td>
 
                 <td>
@@ -925,7 +1331,24 @@
 
                 <td>
 
-                    <input type="text" id="fullname" name="studentname" class="k-textbox" placeholder="Full student name" required validationmessage="Please enter {0}" />
+                    <div>
+                        <fieldset class="">
+
+                            <label for="theme_red">
+                                @Html.CheckBoxFor(model => model.NoNullbattery_installed)
+                                Si
+                            </label>
+
+
+                            <label for="theme_red">
+                                @Html.CheckBoxFor(model => model.NoNullbattery_installed)
+                                No
+                            </label>
+
+
+
+                        </fieldset>
+                    </div>
 
                 </td>
 
@@ -945,7 +1368,10 @@
 
                 <td>
 
-                    <input type="text" id="fullname" name="studentname" class="k-textbox" placeholder="Full student name" required validationmessage="Please enter {0}" />
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.logger_serial_number, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.logger_serial_number, "", new { @class = "text-danger" })
+                    </div>
 
                 </td>
 
@@ -957,9 +1383,12 @@
 
                 <td>
 
-                    <input type="text" id="fullname" name="studentname" class="k-textbox" placeholder="Full student name" required validationmessage="Please enter {0}" />
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.battery_type, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.battery_type, "", new { @class = "text-danger" })
+                    </div>
 
-                </td>
+</td>
 
 
 
@@ -975,7 +1404,10 @@
 
                 <td>
 
-                    <input type="text" id="fullname" name="studentname" class="k-textbox" placeholder="Full student name" required validationmessage="Please enter {0}" />
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.battery_serial_number, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.battery_serial_number, "", new { @class = "text-danger" })
+                    </div>
 
                 </td>
 
@@ -1005,8 +1437,11 @@
                 </td>
 
                 <td>
-
-                    <textarea data-bind="value: textareaValue" class="required"></textarea>
+                    
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        @Html.TextBoxFor(model => model.notes, new { @class = "text-box single-line wide-full" })
+                        @Html.ValidationMessageFor(model => model.notes)
+                    </div>
 
                 </td>
 
@@ -1018,7 +1453,10 @@
 
                 <td>
 
-                    <input type="text" id="fullname" name="studentname" class="k-textbox" placeholder="Full student name" required validationmessage="Please enter {0}" />
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.creation_date, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.creation_date, "", new { @class = "text-danger" })
+                    </div>
 
                 </td>
 
@@ -1038,7 +1476,10 @@
 
                 <td>
 
-                    <input type="text" id="fullname" name="studentname" class="k-textbox" placeholder="Full student name" required validationmessage="Please enter {0}" />
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.user_instalation_start_date, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.user_instalation_start_date, "", new { @class = "text-danger" })
+                    </div>
 
                 </td>
 
@@ -1050,7 +1491,10 @@
 
                 <td>
 
-                    <input type="text" id="fullname" name="studentname" class="k-textbox" placeholder="Full student name" required validationmessage="Please enter {0}" />
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Company.User, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Company.User, "", new { @class = "text-danger" })
+                    </div>
 
                 </td>
 
@@ -1090,11 +1534,11 @@
 
 
 
-                            @Html.HiddenFor(x => x.PictureId)
+                            @Html.HiddenFor(x => x.logger_id )
 
-                            @Html.HiddenFor(x => x.PictureName)
+                            @Html.HiddenFor(x => x. picture_url)
 
-                            @Html.HiddenFor(x => x.PictureUrl)
+                            @Html.HiddenFor(x => x. picture_image)
 
                             @Html.HiddenFor(x => x.Status)
 
@@ -1655,7 +2099,7 @@
 
 
 
-        alert(srcValue);
+   
 
         if (status == true) {
 
@@ -1701,6 +2145,6 @@
         $checkedCheckboxes.each(function () {
             selectedValues += $(this).val() + ",";
         });
-        alert(selectedValues);//u get a comma separated list
+      //u get a comma separated list
     });
 </script>

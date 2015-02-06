@@ -55,7 +55,7 @@
           <Property Name="necesary_site_enter" Type="bit" />
           <Property Name="logger_outdoor" Type="bit" />
           <Property Name="condition_type_instalation" Type="varchar" MaxLength="10" />
-          <Property Name="antenna_type" Type="varchar" MaxLength="30" />
+          <Property Name="antenna_type" Type="int" />
           <Property Name="Csq_outdoor" Type="bit" />
           <Property Name="can_lamppost_with_antenna" Type="bit" />
           <Property Name="manometer_aar_value" Type="varchar" MaxLength="30" />
@@ -74,14 +74,22 @@
           <Property Name="necessary_manipulate_traffic" Type="bit" />
           <Property Name="necessary_tool_open_chamber" Type="bit" />
           <Property Name="two_thechnical_open_chamber" Type="bit" />
-          <Property Name="channel_1" Type="varchar" MaxLength="30" />
-          <Property Name="channel_2" Type="varchar" MaxLength="30" />
-          <Property Name="channel_3" Type="varchar" MaxLength="30" />
-          <Property Name="channel_4" Type="varchar" MaxLength="30" />
+          <Property Name="channel_1" Type="int" />
+          <Property Name="channel_2" Type="int" />
+          <Property Name="channel_3" Type="int" />
+          <Property Name="channel_4" Type="int" />
           <Property Name="battery_installed" Type="bit" />
-          <Property Name="battery_type" Type="varchar" MaxLength="30" />
           <Property Name="battery_serial_number" Type="varchar" MaxLength="20" />
           <Property Name="notes" Type="varchar" MaxLength="200" />
+          <Property Name="site_conditions_installation" Type="varchar" MaxLength="15" />
+          <Property Name="id_conditions_installation" Type="int" />
+          <Property Name="chamber_type_id" Type="int" />
+          <Property Name="chamber_type_tap_id" Type="int" />
+          <Property Name="battery_type" Type="varchar" MaxLength="30" />
+          <Property Name="state_flowmeter_id" Type="int" />
+          <Property Name="type_flowmeter_id" Type="int" />
+          <Property Name="picture_image" Type="varchar" MaxLength="30" />
+          <Property Name="picture_url" Type="varchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -237,13 +245,20 @@
             <End Role="UserType" EntitySet="UserType" />
             <End Role="User" EntitySet="User" />
           </AssociationSet>
+          <EntitySet Name="zones" EntityType="poseidon_dbModel.zones" />
           <EntitySet Name="Logger" EntityType="poseidon_dbModel.Logger" />
           <AssociationSet Name="FK_Logger_Company" Association="poseidon_dbModel.FK_Logger_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="Logger" EntitySet="Logger" />
           </AssociationSet>
-          <EntitySet Name="zones" EntityType="poseidon_dbModel.zones" />
         </EntityContainer>
+        <EntityType Name="zones">
+          <Key>
+            <PropertyRef Name="zone_id" />
+          </Key>
+          <Property Name="zone_id" Type="Int32" Nullable="false" />
+          <Property Name="zone_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="Logger">
           <Key>
             <PropertyRef Name="logger_id" />
@@ -279,14 +294,13 @@
           <Property Name="sites_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="key_ball" Type="Boolean" />
           <Property Name="zone_id" Type="Int32" />
-          <NavigationProperty Name="Company" Relationship="poseidon_dbModel.FK_Logger_Company" FromRole="Logger" ToRole="Company" />
           <Property Name="user_instalation" Type="Int32" />
           <Property Name="user_instalation_start_date" Type="DateTime" Precision="3" />
           <Property Name="user_instalation_end_date" Type="DateTime" Precision="3" />
           <Property Name="necesary_site_enter" Type="Boolean" />
           <Property Name="logger_outdoor" Type="Boolean" />
           <Property Name="condition_type_instalation" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="antenna_type" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="antenna_type" Type="Int32" />
           <Property Name="Csq_outdoor" Type="Boolean" />
           <Property Name="can_lamppost_with_antenna" Type="Boolean" />
           <Property Name="manometer_aar_value" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
@@ -305,14 +319,23 @@
           <Property Name="necessary_manipulate_traffic" Type="Boolean" />
           <Property Name="necessary_tool_open_chamber" Type="Boolean" />
           <Property Name="two_thechnical_open_chamber" Type="Boolean" />
-          <Property Name="channel_1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="channel_2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="channel_3" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="channel_4" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="channel_1" Type="Int32" />
+          <Property Name="channel_2" Type="Int32" />
+          <Property Name="channel_3" Type="Int32" />
+          <Property Name="channel_4" Type="Int32" />
           <Property Name="battery_installed" Type="Boolean" />
-          <Property Name="battery_type" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="battery_serial_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="notes" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="site_conditions_installation" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="id_conditions_installation" Type="Int32" />
+          <Property Name="chamber_type_id" Type="Int32" />
+          <Property Name="chamber_type_tap_id" Type="Int32" />
+          <Property Name="battery_type" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="state_flowmeter_id" Type="Int32" />
+          <Property Name="type_flowmeter_id" Type="Int32" />
+          <Property Name="picture_image" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="picture_url" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Company" Relationship="poseidon_dbModel.FK_Logger_Company" FromRole="Logger" ToRole="Company" />
         </EntityType>
         <Association Name="FK_Logger_Company">
           <End Type="poseidon_dbModel.Company" Role="Company" Multiplicity="1" />
@@ -326,13 +349,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="zones">
-          <Key>
-            <PropertyRef Name="zone_id" />
-          </Key>
-          <Property Name="zone_id" Type="Int32" Nullable="false" />
-          <Property Name="zone_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -370,12 +386,28 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="zones">
+            <EntityTypeMapping TypeName="poseidon_dbModel.zones">
+              <MappingFragment StoreEntitySet="zones">
+                <ScalarProperty Name="zone_name" ColumnName="zone_name" />
+                <ScalarProperty Name="zone_id" ColumnName="zone_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Logger">
             <EntityTypeMapping TypeName="poseidon_dbModel.Logger">
               <MappingFragment StoreEntitySet="Logger">
+                <ScalarProperty Name="picture_url" ColumnName="picture_url" />
+                <ScalarProperty Name="picture_image" ColumnName="picture_image" />
+                <ScalarProperty Name="type_flowmeter_id" ColumnName="type_flowmeter_id" />
+                <ScalarProperty Name="state_flowmeter_id" ColumnName="state_flowmeter_id" />
+                <ScalarProperty Name="battery_type" ColumnName="battery_type" />
+                <ScalarProperty Name="chamber_type_tap_id" ColumnName="chamber_type_tap_id" />
+                <ScalarProperty Name="chamber_type_id" ColumnName="chamber_type_id" />
+                <ScalarProperty Name="id_conditions_installation" ColumnName="id_conditions_installation" />
+                <ScalarProperty Name="site_conditions_installation" ColumnName="site_conditions_installation" />
                 <ScalarProperty Name="notes" ColumnName="notes" />
                 <ScalarProperty Name="battery_serial_number" ColumnName="battery_serial_number" />
-                <ScalarProperty Name="battery_type" ColumnName="battery_type" />
                 <ScalarProperty Name="battery_installed" ColumnName="battery_installed" />
                 <ScalarProperty Name="channel_4" ColumnName="channel_4" />
                 <ScalarProperty Name="channel_3" ColumnName="channel_3" />
@@ -437,14 +469,6 @@
                 <ScalarProperty Name="logger_sms" ColumnName="logger_sms" />
                 <ScalarProperty Name="logger_sites_name" ColumnName="logger_sites_name" />
                 <ScalarProperty Name="logger_id" ColumnName="logger_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="zones">
-            <EntityTypeMapping TypeName="poseidon_dbModel.zones">
-              <MappingFragment StoreEntitySet="zones">
-                <ScalarProperty Name="zone_name" ColumnName="zone_name" />
-                <ScalarProperty Name="zone_id" ColumnName="zone_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

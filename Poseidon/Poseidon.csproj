@@ -451,6 +451,7 @@
     </Content>
     <Content Include="Models\DbLogger.edmx.diagram">
       <DependentUpon>DbLogger.edmx</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Models\DbLogger.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
