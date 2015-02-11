@@ -4,7 +4,7 @@ namespace Poseidon.Models
     using System;
 
     using System.Collections.Generic;
-
+    using System.ComponentModel;
 
 
 
@@ -25,7 +25,7 @@ namespace Poseidon.Models
         public Nullable<int> instalation_type { get; set; }
 
         public Nullable<int> chip_id { get; set; }
-
+        [DisplayName("Latitude")]
         public string latitude { get; set; }
 
         public string longitute { get; set; }
@@ -41,6 +41,8 @@ namespace Poseidon.Models
         public Nullable<System.DateTime> creation_date { get; set; }
 
         public Nullable<int> creation_user { get; set; }
+        public Nullable<int> type_flowmeter_id { get; set; }
+       
 
         public Nullable<System.DateTime> instalation_date { get; set; }
 
@@ -91,6 +93,11 @@ namespace Poseidon.Models
 
         }
 
+       
+
+
+
+
         public Nullable<bool> logger_outdoor { get; set; }
 
 
@@ -112,7 +119,7 @@ namespace Poseidon.Models
 
         public string condition_type_instalation { get; set; }
 
-        public string antenna_type { get; set; }
+        public int antenna_type { get; set; }
 
         public int antenna_type_id { get; set; }
 
@@ -326,7 +333,7 @@ namespace Poseidon.Models
 
 
 
-        public string channel_1 { get; set; }
+        public int channel_1 { get; set; }
 
         public int channel_id_1 { get; set; }
 
@@ -334,15 +341,15 @@ namespace Poseidon.Models
 
 
 
-        public string channel_2 { get; set; }
+        public int channel_2 { get; set; }
 
         public int channel_id_2 { get; set; }
 
-        public string channel_3 { get; set; }
+        public int channel_3 { get; set; }
 
         public int channel_id_3 { get; set; }
 
-        public string channel_4 { get; set; }
+        public int channel_4 { get; set; }
 
         public int channel_id_4 { get; set; }
 
@@ -375,8 +382,10 @@ namespace Poseidon.Models
 
         public string picture_url { get; set; }
 
-        public bool Status { get; set; }
 
+
+
+      
     }
 
 }
