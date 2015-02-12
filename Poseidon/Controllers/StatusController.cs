@@ -112,7 +112,7 @@ namespace Poseidon.Controllers
                          join b in db.zones
                             on a.zone_id equals b.zone_id into zo
                             from f in zo.DefaultIfEmpty()
-                            where a.status == 2 || a.status == 1
+                            where a.status == 1
                          select new
                          {
 
@@ -127,6 +127,41 @@ namespace Poseidon.Controllers
 
                          };
            
+            return result;
+        }
+
+        //DATASOURCE LISTA PARA THECHNICAL ReadProgress
+        public ActionResult ReadProgress([DataSourceRequest] DataSourceRequest request)
+        {
+            return GetViewProgress(request);
+        }
+        private JsonResult GetViewProgress(DataSourceRequest request)
+        {
+            return Json(GetDataProgress().ToDataSourceResult(request));
+        }
+        private IEnumerable<dynamic> GetDataProgress()
+        {
+            poseidon_dbEntities db = new poseidon_dbEntities();
+
+            var result = from a in db.Logger
+                         join b in db.zones
+                            on a.zone_id equals b.zone_id into zo
+                         from f in zo.DefaultIfEmpty()
+                         where a.status == 2
+                         select new
+                         {
+
+                             a.logger_id,
+                             a.logger_sites_name,
+                             a.logger_sms,
+                             f.zone_name,
+                             a.instalation_type,
+                             a.necessary_key,
+                             a.contact_detail,
+                             a.status
+
+                         };
+
             return result;
         }
 

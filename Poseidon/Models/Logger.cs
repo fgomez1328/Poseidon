@@ -38,12 +38,12 @@ namespace Poseidon.Models
         public Nullable<int> status { get; set; }
         public string location_name { get; set; }
         public string location_id { get; set; }
-        public Nullable<bool> necessary_key { get; set; }
+        public bool necessary_key { get; set; }
         public string contact_detail { get; set; }
         public string zone_name { get; set; }
         public string zone_code { get; set; }
         public string sites_name { get; set; }
-        public Nullable<bool> key_ball { get; set; }
+        public bool key_ball { get; set; }
         public Nullable<int> zone_id { get; set; }
         public Nullable<int> user_instalation { get; set; }
         public Nullable<System.DateTime> user_instalation_start_date { get; set; }

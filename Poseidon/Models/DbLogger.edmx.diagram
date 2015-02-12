@@ -4,14 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e0c432dd99bb4a0e81dc58a15b1b4e73" Name="Diagram1" ZoomLevel="90">
+      <Diagram DiagramId="e0c432dd99bb4a0e81dc58a15b1b4e73" Name="Diagram1" ZoomLevel="72">
         <EntityTypeShape EntityType="poseidon_dbModel.Company" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="poseidon_dbModel.User" Width="1.5" PointX="3" PointY="3.125" IsExpanded="true" />
         <EntityTypeShape EntityType="poseidon_dbModel.UserType" Width="1.5" PointX="0.75" PointY="2.625" IsExpanded="true" />
         <AssociationConnector Association="poseidon_dbModel.FK_User_Company" ManuallyRouted="false" />
         <AssociationConnector Association="poseidon_dbModel.FK_User_UserType" ManuallyRouted="false" />
         <EntityTypeShape EntityType="poseidon_dbModel.zones" Width="1.5" PointX="3.375" PointY="0.75" />
-        <EntityTypeShape EntityType="poseidon_dbModel.Logger" Width="1.5" PointX="5.375" PointY="0.625" />
+        <EntityTypeShape EntityType="poseidon_dbModel.Logger" Width="1.5" PointX="3" PointY="10" />
         <AssociationConnector Association="poseidon_dbModel.FK_Logger_Company" />
       </Diagram>
     </edmx:Diagrams>
