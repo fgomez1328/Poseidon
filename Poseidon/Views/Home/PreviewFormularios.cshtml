@@ -1,0 +1,2218 @@
+﻿
+
+
+<style>
+    #hide {
+        display: none;
+    }
+
+    .k-numerictextbox .k-formatted-value,
+    #classlatitude {
+        color: #000;
+        background-color: #F1ECEC;
+    }
+</style>
+
+
+
+
+@model Poseidon.Models.Logger
+
+@{
+    ViewBag.Title = "   PreviewFormulario";
+}
+
+<h2>CreateFormulario</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Logger</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <fieldset class="k-block">
+
+            <h3>Detalles del Sitio</h3>
+
+            <table>
+
+
+
+                <tr class="">
+
+                    <td>
+
+                        <label for="fullname" class="required">Latitude</label>
+
+
+                    </td>
+
+                    <td>
+                        <div id="lat">
+                            @Html.TextBoxFor(model => model.latitude, new { disabled = "disabled", @readonly = "readonly", @style = " background-color: #E6E3E3;" })
+                            @Html.ValidationMessageFor(model => model.latitude, String.Empty, new { @class = "help-inline", @style = "color:red" })
+                        </div>
+
+                    </td>
+
+                    <td align="">
+
+
+
+                        <label for="fullname" class="required">Es necesario Acceder al Sitio?</label>
+
+
+                    </td>
+
+
+
+
+
+                    <td>
+
+
+
+                        <fieldset class="k-block">
+
+                            <label for="theme_red">
+                                @Html.CheckBoxFor(model => model.NoNullExclusive, new { @disabled = "disabled" })
+                                Si
+                            </label>
+
+
+
+
+
+                            <label for="theme_white">
+                                @Html.CheckBoxFor(model => model.NoNullExclusive, new { @disabled = "disabled" })No
+                            </label>
+
+
+
+                        </fieldset>
+
+
+                    </td>
+
+
+
+                </tr>
+
+
+
+                <tr>
+
+                    <td>
+
+                        <label for="fullname" class="required">Longitud</label>
+
+
+                    </td>
+
+                    <td>
+
+                        @Html.TextBoxFor(model => model.longitute, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
+                        @Html.ValidationMessageFor(model => model.longitute)
+
+
+
+                    </td>
+
+                    <td>
+
+                        <label for="fullname" class="required">Loger se Encuentra a la Interperie?</label>
+
+
+                    </td>
+
+                    <td>
+
+                        <fieldset class="k-block">
+
+                            <label for="theme_red">
+                                @Html.CheckBoxFor(model => model.NoNulllogger_outdoor, new { @disabled = "disabled" })
+                                Si
+                            </label>
+
+
+
+
+                            <label for="theme_red">
+                                @Html.CheckBoxFor(model => model.NoNulllogger_outdoor, new { @disabled = "disabled" })
+                                No
+                            </label>
+
+
+
+                        </fieldset>
+
+                    </td>
+
+
+
+                </tr>
+
+
+
+                <tr>
+
+                    <td>
+
+                        <label for="fullname" class="required">Elevation</label>
+
+                    </td>
+
+                    <td>
+
+                        @Html.TextBoxFor(model => model.elevation, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
+                        @Html.ValidationMessageFor(model => model.elevation, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+
+
+                    </td>
+
+                    <td>
+
+                        <label for="fullname" class="required">Condiciones del Lugar de la Instalacion?</label>
+
+
+                    </td>
+
+                    <td>
+
+                        <div>
+                            @(Html.Kendo().DropDownListFor(m => m.id_conditions_installation)
+
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .HtmlAttributes(new { style = "width:190px" })
+                            .BindTo(new List<SelectListItem>
+                            () {
+                            new SelectListItem() {
+                            Text = "Ideal",
+                            Value = "1"
+                            },
+                            new SelectListItem() {
+                            Text = "Regulares",
+                            Value= "2"
+                            },
+                            new SelectListItem() {
+                            Text = "Malas",
+                            Value= "3"
+                            },
+
+                            })
+        .Value("1").Enable(false)
+                            )
+
+                        </div>
+                    </td>
+
+
+
+                </tr>
+
+            </table>
+
+        </fieldset>
+        <br>
+        <br>
+
+        <fieldset class="k-block">
+
+            <h3>Detalles de la Calidad de la Señal</h3>
+
+            <table align="left">
+
+                <tr align="left">
+
+                    <td>
+
+                        <label for="fullname" class="required">Antena Position</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.antenna_position, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
+                            @Html.ValidationMessageFor(model => model.antenna_position, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+                        </div>
+                    </td>
+
+                    <td>
+
+                        <label for="fullname" class="required">Tipo de Antena Usada</label>
+
+                    </td>
+
+                    <td>
+
+
+
+                        @(Html.Kendo().DropDownListFor(m => m.antenna_type)
+
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .HtmlAttributes(new { style = "width:175px" })
+                        .BindTo(new List<SelectListItem>
+    () {
+    new SelectListItem() {
+    Text = "Polarizacion Vertical",
+    Value = "1"
+    },
+    new SelectListItem() {
+    Text = "Domo",
+    Value= "2"
+    },
+
+    })
+.Value("1").Enable(false)
+                        )
+
+
+                    </td>
+
+
+
+                </tr>
+
+
+
+                <tr>
+
+                    <td>
+
+                        <label for="fullname" class="required">Final Csq</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.final_csq, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
+                            @Html.ValidationMessageFor(model => model.final_csq, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <label for="fullname" class="required">CSQ fuera de la Camara</label>
+
+                    </td>
+
+                    <td>
+                        <fieldset class="k-block">
+
+                            <label for="theme_red">
+                                @Html.CheckBoxFor(model => model.NoNullCsq_outdoor, new { @disabled = "disabled" })
+                                Si
+                            </label>
+
+
+
+
+                            <label for="theme_red">
+                                @Html.CheckBoxFor(model => model.NoNullCsq_outdoor, new { @disabled = "disabled" })
+                                No
+                            </label>
+
+
+
+                        </fieldset>
+                    </td>
+
+
+
+                </tr>
+
+                <tr>
+
+                    <td>
+
+                        <label for="fullname" class="required">Gprs Status</label>
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.gprs_test_status, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
+                            @Html.ValidationMessageFor(model => model.gprs_test_status, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+
+                        </div>
+                    </td>
+
+                    <td>
+
+                        <label for="fullname" class="required">Se puede Instalar Poste para Antena</label>
+
+                    </td>
+
+                    <td>
+                        <div>
+                            <fieldset class="k-block">
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullcan_lamppost_with_antenna, new { @disabled = "disabled" })
+                                    Si
+                                </label>
+
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullcan_lamppost_with_antenna, new { @disabled = "disabled" })
+                                    No
+                                </label>
+
+
+
+                            </fieldset>
+                        </div>
+                    </td>
+
+
+
+                </tr>
+
+            </table>
+
+        </fieldset>
+
+        <br>
+        <br>
+        <fieldset class="k-block">
+
+            <h3>Detalles de la Instalacion</h3>
+
+            <table align="left">
+
+
+
+                <tr align="center">
+
+                    <td>
+
+                        <label for="fullname" class="required">Tipo de Instalacion</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.instalation_type, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
+                            @Html.ValidationMessageFor(model => model.instalation_type, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <label for="fullname" class="required">Estado del Flujometro</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="">
+                            @(Html.Kendo().DropDownListFor(m => m.state_flowmeter_id)
+
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .HtmlAttributes(new { style = "width:175px" })
+                            .BindTo(new List<SelectListItem>
+                                () {
+                                new SelectListItem() {
+                                Text = "Ideales",
+                                Value = "1"
+                                },
+                                new SelectListItem() {
+                                Text = "Regulares",
+                                Value= "2"
+                                },
+                                new SelectListItem() {
+                                Text = "Malas",
+                                Value= "3"
+                                },
+
+                                })
+            .Value("1").Enable(false)
+                            )
+                        </div>
+
+                    </td>
+
+
+
+                </tr>
+
+
+
+                <tr>
+
+                    <td>
+
+                        <label for="fullname" class="required">Lectura Manometro AAb</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.manometer_aab_value, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
+                            @Html.ValidationMessageFor(model => model.manometer_aab_value, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <label for="fullname" class="required">Tipo de Flujometro</label>
+
+                    </td>
+
+                    <td>
+
+                        @(Html.Kendo().DropDownListFor(m => m.type_state_flowmeter_id)
+
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .HtmlAttributes(new { style = "width:175px" })
+                        .BindTo(new List<SelectListItem>
+                            () {
+                            new SelectListItem() {
+                            Text = "Electromagnetismo Tubo",
+                            Value = "1"
+                            },
+                            new SelectListItem() {
+                            Text = "Velocimetro Tubo",
+                            Value= "2"
+                            },
+                            new SelectListItem() {
+                            Text = "ElectroMagnetico",
+                            Value= "3"
+                            },
+                                            new SelectListItem() {
+                                            Text = "Insercion",
+                                            Value= "4"
+                                            },
+                                            new SelectListItem() {
+                                            Text = "Velocimetro de Insercion",
+                                            Value= "4"
+                                            },
+
+                            })
+            .Value("1").Enable(false)
+                        )
+                    </td>
+
+
+
+                </tr>
+
+
+
+                <tr>
+
+                    <td>
+
+                        <label for="fullname" class="required">Lectura Logger AAr</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.logger_aar_value, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
+                            @Html.ValidationMessageFor(model => model.logger_aar_value, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <label for="fullname" class="required">Emisor de Pulsos</label>
+
+                    </td>
+
+                    <td>
+
+                        <div>
+                            <fieldset class="k-block">
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullwith_pulser, new { @disabled = "disabled" })
+                                    Si
+                                </label>
+
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullwith_pulser, new { @disabled = "disabled" })
+                                    No
+                                </label>
+
+
+
+                            </fieldset>
+                        </div>
+
+                    </td>
+
+
+
+                </tr>
+
+
+
+                <tr>
+
+                    <td>
+
+                        <label for="fullname" class="required">Lectura Manometro AAb</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.manometer_aar_value, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
+                            @Html.ValidationMessageFor(model => model.manometer_aar_value, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <label for="fullname" class="required">Fue Reeplazado el Emisor de Pulsos?</label>
+
+                    </td>
+
+                    <td>
+
+                        <div>
+                            <fieldset class="k-block">
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullpulser_changed, new { @disabled = "disabled" })
+                                    Si
+                                </label>
+
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullpulser_changed, new { @disabled = "disabled" })
+                                    No
+                                </label>
+
+
+
+                            </fieldset>
+                        </div>
+
+                    </td>
+
+
+
+                </tr>
+
+                <tr>
+
+                    <td>
+
+                        <label for="fullname" class="required">Lectura Logger AAb</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.logger_aab_value, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
+                            @Html.ValidationMessageFor(model => model.logger_aab_value, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <label for="fullname" class="required">Litros por Pulso</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.liters_per_pulser, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
+                            @Html.ValidationMessageFor(model => model.liters_per_pulser, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+
+            </table>
+
+        </fieldset>
+
+        <br>
+        <br>
+        <fieldset class="k-block">
+
+            <h3>Detalles de la Camara</h3>
+
+            <table align="left">
+
+
+
+                <tr align="left">
+
+                    <td>
+
+                        <label for="fullname" class="required">Posicion del Logger</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.logger_position, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
+                            @Html.ValidationMessageFor(model => model.liters_per_pulser, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+
+
+
+
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <label for="fullname" class="required">Se necesita Bomba para Desaguar?</label>
+
+                    </td>
+
+                    <td>
+
+                        <div>
+                            <fieldset class="k-block">
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullnecessary_drain, new { @disabled = "disabled" }) Si
+                                </label> <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullnecessary_drain, new { @disabled = "disabled" })
+                                    No
+                                </label>
+
+
+
+                            </fieldset>
+                        </div>
+
+                    </td>
+
+
+
+                </tr>
+
+
+
+                <tr>
+
+                    <td>
+
+                        <label for="fullname" class="required">Camara Inundada</label>
+
+                    </td>
+
+                    <td>
+
+                        <div>
+                            <fieldset class="k-block">
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullflooded_chamber, new { @disabled = "disabled" })
+                                    Si
+                                </label>
+
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullflooded_chamber, new { @disabled = "disabled" })
+                                    No
+                                </label>
+
+
+
+                            </fieldset>
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <label for="fullname" class="required">Se necesita Desviar/Manipular Trafico?</label>
+
+                    </td>
+
+                    <td>
+
+                        <div>
+                            <fieldset class="k-block">
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullnecessary_manipulate_traffic, new { @disabled = "disabled" })
+                                    Si
+                                </label>
+
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullnecessary_manipulate_traffic, new { @disabled = "disabled" })
+                                    No
+                                </label>
+
+
+
+                            </fieldset>
+                        </div>
+
+                    </td>
+
+
+
+                </tr>
+
+
+
+                <tr>
+
+                    <td>
+
+                        <label for="fullname" class="required">Tipo de Camara</label>
+
+                    </td>
+
+                    <td>
+
+                        @(Html.Kendo().DropDownListFor(m => m.chamber_type_id)
+
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .HtmlAttributes(new { style = "width:175px" })
+                        .BindTo(new List<SelectListItem>
+                            () {
+                            new SelectListItem() {
+                            Text = "Albanileria",
+                            Value = "1"
+                            },
+                            new SelectListItem() {
+                            Text = "Hormigon Armado",
+                            Value= "2"
+                            },
+                            new SelectListItem() {
+                            Text = "Metalica",
+                            Value= "3"
+                            },
+                            new SelectListItem() {
+                            Text = "Hormigon",
+                            Value= "4"
+                            },
+
+                            })
+                .Value("1").Enable(false)
+                        )
+
+                    </td>
+
+                    <td>
+
+                        <label for="fullname" class="required">Es necesario Herramienta para apertura de Camara?</label>
+
+                    </td>
+
+                    <td>
+
+                        <div>
+                            <fieldset class="k-block">
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullnecessary_tool_open_chamber, new { @disabled = "disabled" })
+                                    Si
+                                </label>
+
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullnecessary_tool_open_chamber, new { @disabled = "disabled" })
+                                    No
+                                </label>
+
+
+
+                            </fieldset>
+                        </div>
+
+                    </td>
+
+
+
+                </tr>
+
+
+
+                <tr>
+
+                    <td>
+
+                        <label for="fullname" class="required">Condicion de La Camara</label>
+
+                    </td>
+
+                    <td>
+
+                        @(Html.Kendo().DropDownListFor(m => m.chamber_condition_id)
+
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .HtmlAttributes(new { style = "width:175px" })
+                        .BindTo(new List<SelectListItem>
+                            () {
+                            new SelectListItem() {
+                            Text = "Ideales",
+                            Value = "1"
+                            },
+                            new SelectListItem() {
+                            Text = "Regulares",
+                            Value= "2"
+                            },
+                            new SelectListItem() {
+                            Text = "Malas",
+                            Value= "3"
+                            },
+
+                            })
+                .Value("1").Enable(false)
+                        )
+
+                    </td>
+
+                    <td>
+
+                        <label for="fullname" class="required">Se necesita herramienta para apertura de Camara?</label>
+
+                    </td>
+
+                    <td>
+
+                        <div>
+                            <fieldset class="k-block">
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullis_necessary_tool_open_chamber, new { @disabled = "disabled" })
+                                    Si
+                                </label>
+
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullis_necessary_tool_open_chamber, new { @disabled = "disabled" })
+                                    No
+                                </label>
+
+
+
+                            </fieldset>
+                        </div>
+                    </td>
+
+
+
+                </tr>
+
+                <tr>
+
+
+
+                    <td>
+
+                        <label for="fullname" class="required">Se necesitan 2 operadores para abrir la camara</label>
+
+                    </td>
+
+                    <td>
+
+                        <div>
+                            <fieldset class="k-block">
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNulltwo_thechnical_open_chamber, new { @disabled = "disabled" })
+                                    Si
+                                </label>
+
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNulltwo_thechnical_open_chamber, new { @disabled = "disabled" })
+                                    No
+                                </label>
+
+
+
+                            </fieldset>
+                        </div>
+                    </td>
+
+
+
+                </tr>
+
+                <tr>
+
+                    <td>
+
+                        <label for="fullname" class="required">Tipo de Tapa de Camara</label>
+
+                    </td>
+
+                    <td>
+
+                        @(Html.Kendo().DropDownListFor(m => m.chamber_type_tap_id)
+
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .HtmlAttributes(new { style = "width:175px" })
+                        .BindTo(new List<SelectListItem>
+                            () {
+                            new SelectListItem() {
+                            Text = "Albanileria",
+                            Value = "1"
+                            },
+                            new SelectListItem() {
+                            Text = "Hormigon Armado",
+                            Value= "2"
+                            },
+                            new SelectListItem() {
+                            Text = "Metalica",
+                            Value= "3"
+                            },
+                            new SelectListItem() {
+                            Text = "Hormigon",
+                            Value= "4"
+                            },
+
+                            })
+                .Value("1").Enable(false)
+                        )
+
+                    </td>
+
+
+
+
+
+                </tr>
+
+            </table>
+
+        </fieldset>
+
+        <br>
+
+        <br>
+
+        <fieldset class="k-block">
+
+            <h3>Canales Usados del Logger</h3>
+
+            <table align="left">
+
+
+
+                <tr style="width:125px; height:150px" align="center">
+
+                    <td>
+                        <div style="width:125px; height:205px">
+                            <label for="fullname" class="required">Canal 1</label>
+                        </div>
+
+                    </td>
+
+                    <td>
+                        <div style="width:125px; height:205px">
+                            @(Html.Kendo().DropDownListFor(m => m.channel_id_1)
+
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .HtmlAttributes(new { style = "width:175px" })
+                            .BindTo(new List<SelectListItem>
+                                () {
+                                new SelectListItem() {
+                                Text = "Presion Interna",
+                                Value = "1"
+                                },
+                                new SelectListItem() {
+                                Text = "Presion Externa",
+                                Value= "2"
+                                },
+                                new SelectListItem() {
+                                Text = "Digital Caudal",
+                                Value= "3"
+                                },
+                                new SelectListItem() {
+                                Text = "4-20mA",
+                                Value= "4"
+                                },
+                                                new SelectListItem() {
+                                                Text = "Modbus",
+                                                Value= "5"
+                                                },
+                                                new SelectListItem() {
+                                                Text = "Serial",
+                                                Value= "6"
+                                                },
+                                })
+                .Value("1").Enable(false)
+                            )
+                        </div>
+
+                    </td>
+
+                    <td>
+                        <div style="width:125px; height:205px">
+                            <label for="fullname" class="required">Canal 3</label>
+                        </div>
+
+                    </td>
+
+                    <td>
+                        <div style="width:125px; height:205px">
+                            @(Html.Kendo().DropDownListFor(m => m.channel_id_3)
+
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .HtmlAttributes(new { style = "width:175px" })
+                            .BindTo(new List<SelectListItem>
+                                () {
+                                new SelectListItem() {
+                                Text = "Presion Interna",
+                                Value = "1"
+                                },
+                                new SelectListItem() {
+                                Text = "Presion Externa",
+                                Value= "2"
+                                },
+                                new SelectListItem() {
+                                Text = "Digital Caudal",
+                                Value= "3"
+                                },
+                                new SelectListItem() {
+                                Text = "4-20mA",
+                                Value= "4"
+                                },
+                                new SelectListItem() {
+                                Text = "Modbus",
+                                Value= "5"
+                                },
+                                new SelectListItem() {
+                                Text = "Serial",
+                                Value= "6"
+                                },
+                                })
+                .Value("1").Enable(false)
+                            )
+                        </div>
+
+
+                    </td>
+
+
+
+                </tr>
+
+
+
+                <tr>
+
+                    <td align="center">
+                        <div style="width:125px; height:205px">
+                            <label for="fullname" class="required">  Canal 2</label>
+                        </div>
+
+                    </td>
+
+                    <td>
+                        <div style="width:125px; height:205px">
+                            @(Html.Kendo().DropDownListFor(m => m.channel_id_2)
+
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .HtmlAttributes(new { style = "width:175px" })
+                            .BindTo(new List<SelectListItem>
+                                () {
+                                new SelectListItem() {
+                                Text = "Presion Interna",
+                                Value = "1"
+                                },
+                                new SelectListItem() {
+                                Text = "Presion Externa",
+                                Value= "2"
+                                },
+                                new SelectListItem() {
+                                Text = "Digital Caudal",
+                                Value= "3"
+                                },
+                                new SelectListItem() {
+                                Text = "4-20mA",
+                                Value= "4"
+                                },
+                                new SelectListItem() {
+                                Text = "Modbus",
+                                Value= "5"
+                                },
+                                new SelectListItem() {
+                                Text = "Serial",
+                                Value= "6"
+                                },
+                                })
+                .Value("1").Enable(false)
+                            )
+                        </div>
+
+
+                    <td align="center">
+                        <div style="width:125px; height:205px">
+                            <label for="fullname" class="required">Canal 4</label>
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <div style="width:125px; height:205px">
+                            @(Html.Kendo().DropDownListFor(m => m.channel_id_4)
+
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .HtmlAttributes(new { style = "width:175px" })
+                            .BindTo(new List<SelectListItem>
+                                () {
+                                new SelectListItem() {
+                                Text = "Presion Interna",
+                                Value = "1"
+                                },
+                                new SelectListItem() {
+                                Text = "Presion Externa",
+                                Value= "2"
+                                },
+                                new SelectListItem() {
+                                Text = "Digital Caudal",
+                                Value= "3"
+                                },
+                                new SelectListItem() {
+                                Text = "4-20mA",
+                                Value= "4"
+                                },
+                                new SelectListItem() {
+                                Text = "Modbus",
+                                Value= "5"
+                                },
+                                new SelectListItem() {
+                                Text = "Serial",
+                                Value= "6"
+                                },
+                                })
+                .Value("1").Enable(false)
+                            )
+                        </div>
+
+
+                    </td>
+
+                </tr>
+            </table>
+
+        </fieldset>
+
+        <br>
+        <br>
+
+
+        <fieldset class="k-block">
+
+            <h3>Equipamiento Utilizado(Por el Instalador)</h3>
+
+            <table align="left">
+
+
+
+                <tr align="left">
+
+                    <td>
+
+                        <label for="fullname" class="required">Tipo de Logger</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.logger_type, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
+                            @Html.ValidationMessageFor(model => model.logger_type, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+
+                        </div>
+                    </td>
+
+                    <td>
+
+                        <label for="fullname" class="required">Bateria Instalada?</label>
+
+                    </td>
+
+                    <td>
+
+                        <div>
+                            <fieldset class="k-block">
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullbattery_installed, new { @disabled = "disabled" })
+                                    Si
+                                </label>
+
+
+                                <label for="theme_red">
+                                    @Html.CheckBoxFor(model => model.NoNullbattery_installed, new { @disabled = "disabled" })
+                                    No
+                                </label>
+
+
+
+                            </fieldset>
+                        </div>
+
+                    </td>
+
+
+
+                </tr>
+
+
+
+                <tr>
+
+                    <td>
+
+                        <label for="fullname" class="required">N/S Logger</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.logger_serial_number, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
+                            @Html.ValidationMessageFor(model => model.logger_serial_number)
+
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <label for="fullname" class="required">Tipo de Bateria</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.battery_type, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
+                            @Html.ValidationMessageFor(model => model.battery_type, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+
+                        </div>
+
+                    </td>
+
+
+
+                </tr>
+
+                <tr>
+
+                    <td>
+
+                        <label for="fullname" class="required">>N/S Bateria</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.battery_serial_number, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
+                            @Html.ValidationMessageFor(model => model.battery_serial_number, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+                        </div>
+
+                    </td>
+
+                </tr>
+            </table>
+
+        </fieldset>
+
+        <br>
+        <br>
+
+
+        <fieldset class="k-block">
+
+            <h3>Descripcion Detallada</h3>
+
+            <table align="left">
+
+
+
+                <tr align="left">
+
+                    <td>
+
+                        <label for="fullname" class="required">Comentarios</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            @Html.TextAreaFor(model => model.notes, new { disabled = "disabled",@style = " background-color: #E6E3E3;width: 300px; height: 100px;" })
+                            @Html.ValidationMessageFor(model => model.notes, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+                            )
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <label for="fullname" class="required">Fecha</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.creation_date, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
+                            @Html.ValidationMessageFor(model => model.creation_date, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+
+                        </div>
+
+                    </td>
+
+
+
+                </tr>
+
+
+
+                <tr>
+
+                    <td>
+
+                        <label for="fullname" class="required">Hora</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.user_instalation_start_date, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
+                            @Html.ValidationMessageFor(model => model.user_instalation_start_date, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <label for="fullname" class="required">Realizado Por</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.user_instalation, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
+                            @Html.ValidationMessageFor(model => model.user_instalation, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+                        </div>
+
+                    </td>
+                    <td>
+
+                        <label for="fullname" class="required">ID</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.logger_id, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
+                            @Html.ValidationMessageFor(model => model.logger_id)
+
+                        </div>
+
+                    </td>
+
+
+
+
+                    <div id="kendoUploadZone">
+
+                        <div id="kendoUploadForm" style="display: inline-block; padding-bottom: 30px; width: 700px;">
+
+                            <!-- Kendo UI Upload Control for uploading image -->
+
+                            <div id="kendoUploadControl" style="width: 50%; float: left;">
+
+                                @(Html.Kendo().Upload()
+
+                  .Name("files").Async(a => a
+
+                                                .Save("Save", "Home")
+
+                                                .Remove("Remove", "Home")
+
+                                                .AutoUpload(true)).Events(events => events.Select("onSelect")
+
+                                                                                        .Success("onSuccess")
+
+                                                                                        ))
+
+                            </div>
+
+                            <!-- Instant preview uploaded image by Kendo UI Upload Control -->
+
+                            <div id="kendoUploadDisplay" style="width: 45%; float: right;">
+
+
+
+
+
+
+
+                                @Html.HiddenFor(x => x.picture_url)
+
+                                @Html.HiddenFor(x => x.picture_image)
+
+                                @Html.HiddenFor(x => x.status)
+
+                                <div id="kendoUploadImage" style="display: block;">
+
+                                    <img id="imgUploaded" style="width: 60px; height: 60px;" src=""
+                                         alt="loading" />
+
+                                </div>
+
+
+                                @Html.ValidationSummary(true)
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </tr>
+
+            </table>
+
+        </fieldset>
+
+        <div id="print">
+            <br />
+            <button class="k-button k-primary" id="btnPdfExport">Export to PDF</button>
+            <button class="k-button k-primary" id="btnExcelExport">Export to EXCEL</button>
+            <input class="k-button k-primary" type="button" id="printForm" value="Print Me" />
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<div>
+    @Html.ActionLink("PDF", "PrintReport", new { Invid = 2 })
+</div>
+
+
+
+<script>
+    $(function () {
+        $("#printMe").click(function () {
+            $('#lat').jqprint();
+
+        });
+    });
+
+
+</script>
+
+
+<script>
+
+    $("#btnExcelExport").kendoButton({
+        click: function () {
+            $("#grid").getKendoGrid().saveAsExcel();
+        }
+    });
+    $("#btnPdfExport").kendoButton({
+        click: function () {
+            $("#form").getKendoGrid().saveAsPDF();
+        }
+    });
+
+
+
+
+
+
+    function printGrid() {
+        var gridElement = $('#form'),
+            printableContent = '',
+            win = window.open('', '', 'width=800, height=500'),
+            doc = win.document.open();
+
+        var htmlStart =
+                '<!DOCTYPE html>' +
+                '<html>' +
+                '<head>' +
+                '<meta charset="utf-8" />' +
+                '<title>Formulario de Equipos Pegasos</title>' +
+                '<link href="http://cdn.kendostatic.com/' + kendo.version + '/styles/kendo.common.min.css" rel="stylesheet" /> ' +
+                 '<img src="  @Url.Content("~/Content/Images/dnk_logo.jpg")" STYLE="position:absolute; TOP:25px; LEFT:170px; WIDTH:100px; HEIGHT:100px" alt="DNK"> ' +
+
+               '<style>' +
+
+
+
+                '#form { position:absolute; top:20%;left:20%; ;width;:250px }' +
+                 'fieldset.k-block {  border:1px solid green}' +
+                '#legend {padding: 0.2em 0.5em;border:1px solid green;color:green;font-size:90%;text-align:right;}' +
+                'html { font: 11pt sans-serif; }' +
+                '.k-grid { border-top-width: 0; }' +
+                '.k-grid, .k-grid-content { height: auto !important; }' +
+                '.k-grid-content { overflow: visible !important; }' +
+                 '.k-texbox -content { overflow: visible !important; }' +
+
+               'div.col-md-10 table { table-layout: auto; width: 100% !important; }' +
+               'div.k-header table { table-layout: auto; width: 100% !important; }' +
+               'div.k-block k-info-colored table { table-layout: auto; width: 100% !important; }' +
+                'div.k-grid table { table-layout: auto; width: 100% !important; }' +
+                '.k-grid .k-grid-header th { border-top: 1px solid; }' +
+                '.k-grid-toolbar, .k-grid-pager > .k-link { display: none; }' +
+                '</style>' +
+                '</head>' +
+                '<body>';
+
+        var htmlEnd =
+                '</body>' +
+                '</html>';
+
+        var gridHeader = gridElement.children('.k-grid-header');
+        if (gridHeader[0]) {
+            var thead = gridHeader.find('thead').clone().addClass('k-grid-header');
+            printableContent = gridElement
+                .clone()
+                    .children('.k-grid-header').remove()
+                .end()
+                    .children('.k-grid-content')
+                        .find('table')
+                            .first()
+                                .children('tbody').before(thead)
+                            .end()
+                        .end()
+                    .end()
+                .end()[0].outerHTML;
+        } else {
+            printableContent = gridElement.clone()[0].outerHTML;
+        }
+
+        doc.write(htmlStart + printableContent + htmlEnd);
+        doc.close();
+        win.print();
+    }
+
+    $('#printForm').click(function () {
+        printGrid();
+    });
+
+    var viewModel = kendo.observable({
+        material: [
+            { id: 1, name: "Albañilería" },
+            { id: 2, name: "Hormigon Armado" },
+            { id: 3, name: "Metalica" },
+            { id: 4, name: "Hormigon" }
+        ],
+
+        condicion: [
+            { id: 1, name: "Ideal" },
+            { id: 2, name: "Regular" },
+            { id: 3, name: "Mala" }
+        ],
+        antena: [
+            { id: 1, name: "Polarizacion Vertical" },
+            { id: 2, name: "Domo" },
+
+        ],
+
+        flujometro: [
+           { id: 1, name: "Electromagnetico Tubo" },
+           { id: 2, name: "Velocimetro Tubo" },
+           { id: 3, name: "Electromagnetico Insercion" },
+            { id: 4, name: "Velocimetro Insercion" },
+
+        ],
+        flags: [
+            { id: 1, name: "SI" },
+            { id: 2, name: "NO" },
+
+
+        ],
+
+        camara: [
+           { id: 1, name: "Concreto" },
+           { id: 2, name: "Metalica" },
+           { id: 3, name: "Sin Tapa" }
+        ],
+
+        canales: [
+          { id: 1, name: "Presion Interna" },
+          { id: 2, name: "Presion Externa" },
+          { id: 3, name: "4-20mA" },
+          { id: 4, name: "Digital Caudal" },
+           { id: 5, name: "Modbus" },
+             { id: 6, name: "Serial" },
+
+        ],
+
+
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+    var viewModel2 = kendo.observable({
+
+
+
+
+
+        canales4: [
+          { Id: 1, name: "Presion Interna" },
+          { Id: 2, name: "Presion Externa" },
+          { Id: 3, name: "4-20mA" },
+          { Id: 4, name: "Digital Caudal" },
+           { Id: 5, name: "Modbus" },
+             { Id: 6, name: "Serial" },
+
+        ],
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+    var viewModel3 = kendo.observable({
+
+
+
+
+
+        canales3: [
+          { Id3: 1, name: "Presion Interna" },
+          { Id3: 2, name: "Presion Externa" },
+          { Id3: 3, name: "4-20mA" },
+          { Id3: 4, name: "Digital Caudal" },
+           { Id3: 5, name: "Modbus" },
+             { Id3: 6, name: "Serial" },
+
+        ],
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+    var viewModel4 = kendo.observable({
+
+
+
+
+
+        canales2: [
+          { id2: 1, name: "Presion Interna" },
+          { id2: 2, name: "Presion Externa" },
+          { id2: 3, name: "4-20mA" },
+          { id2: 4, name: "Digital Caudal" },
+           { id2: 5, name: "Modbus" },
+             { id2: 6, name: "Serial" },
+
+        ],
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+    var viewModel5 = kendo.observable({
+
+
+
+
+
+        flujestado: [
+           { idf: 1, name: "Ideal" },
+           { idf: 2, name: "Regular" },
+           { idf: 3, name: "Mala" }
+        ],
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+    var viewModel6 = kendo.observable({
+
+
+
+
+
+        condli: [
+           { idc: 1, name: "Ideal" },
+           { idc: 2, name: "Regular" },
+           { idc: 3, name: "Mala" }
+        ],
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+    var viewModel7 = kendo.observable({
+
+
+
+
+
+        tipcamara: [
+            { idt: 1, name: "Albañilería" },
+            { idt: 2, name: "Hormigon Armado" },
+            { idt: 3, name: "Metalica" },
+            { idt: 4, name: "Hormigon" }
+        ],
+
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+
+    var viewModel8 = kendo.observable({
+
+
+
+
+
+        tipotapcamara: [
+            { idttc: 1, name: "Albañilería" },
+            { idttc: 2, name: "Hormigon Armado" },
+            { idttc: 3, name: "Metalica" },
+            { idttc: 4, name: "Hormigon" }
+        ],
+
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+    var viewModel9 = kendo.observable({
+
+
+
+
+
+        epulso: [
+              { idp: 1, name: "SI" },
+              { idp: 2, name: "NO" },
+
+
+        ],
+
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+    var viewModel10 = kendo.observable({
+
+
+
+
+
+        frepulso: [
+              { idfp: 1, name: "SI" },
+              { idfp: 2, name: "NO" },
+
+
+        ],
+
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+    var viewModel11 = kendo.observable({
+
+
+
+
+
+        caminundada: [
+              { idcm: 1, name: "SI" },
+              { idcm: 2, name: "NO" },
+
+
+        ],
+
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+    var viewModel12 = kendo.observable({
+
+
+
+
+
+        ocamara: [
+              { idoc: 1, name: "SI" },
+              { idoc: 2, name: "NO" },
+
+
+        ],
+
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+    var viewModel13 = kendo.observable({
+
+
+
+
+
+        bombades: [
+              { idbd: 1, name: "SI" },
+              { idbd: 2, name: "NO" },
+
+
+        ],
+
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+    var viewModel14 = kendo.observable({
+
+
+
+
+
+        desviartraf: [
+              { idmt: 1, name: "SI" },
+              { idmt: 2, name: "NO" },
+
+
+        ],
+
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+
+    var viewModel15 = kendo.observable({
+
+
+
+
+
+        herrcamara: [
+              { idhap: 1, name: "SI" },
+              { idhap: 2, name: "NO" },
+
+
+        ],
+
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+    var viewModel16 = kendo.observable({
+
+
+
+
+
+        apertcamara: [
+              { idhpc: 1, name: "SI" },
+              { idhpc: 2, name: "NO" },
+
+
+        ],
+
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+    var viewModel17 = kendo.observable({
+
+        flag1: ["Si"],
+        isChecked: true,
+        displayCheckBoxListValue: function() {
+        return this.get("flag").join(", ");
+        },
+
+
+
+
+
+    });
+
+
+
+
+    kendo.bind($("select"), viewModel);
+    kendo.bind($("select"), viewModel2);
+    kendo.bind($("select"), viewModel3);
+    kendo.bind($("select"), viewModel4);
+    kendo.bind($("select"), viewModel5);
+    kendo.bind($("select"), viewModel6);
+    kendo.bind($("select"), viewModel7);
+    kendo.bind($("select"), viewModel8);
+    kendo.bind($("select"), viewModel9);
+    kendo.bind($("select"), viewModel10);
+    kendo.bind($("select"), viewModel11);
+    kendo.bind($("select"), viewModel12);
+    kendo.bind($("select"), viewModel13);
+    kendo.bind($("select"), viewModel14);
+    kendo.bind($("select"), viewModel15);
+    kendo.bind($("select"), viewModel16);
+    kendo.bind($("input"), viewModel17);
+    function onSelect(e) {
+
+
+
+        $("#kendoUploadImage").show();
+        $.each(e.files, function (index, value) {
+            readMultipleFiles(value);
+        });
+
+
+    }
+
+
+
+    function onSuccess(e) {
+
+
+
+        var responseTxt = jQuery.parseJSON(e.XMLHttpRequest.responseText);
+
+
+
+        var status = responseTxt.Status;
+
+        var srcValue = responseTxt.PictureUrl;
+
+        var reader = new FileReader();
+
+
+
+
+
+        if (status == true) {
+
+            $("#imgUploaded").attr('src', srcValue);
+
+        } else {
+
+            $("#imgUploaded").attr('src', srcValue);
+
+            $("#kendoUploadImage").hide();
+
+        }
+
+
+
+    }
+    function readMultipleFiles(file) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            // bind the file content
+            $("img").attr({ src: e.target.result });
+        }
+        reader.readAsDataURL(file.rawFile);
+    }
+
+
+
+    var checkedValues = $('input:checkbox:checked').map(function () {
+        return this.value;
+    }).get();
+
+    $(function () {
+        // Notice that the Name() of the editor is used to get its client-side instance
+        var editor = $("#editor").data("kendoEditor");
+    });
+
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var selectedValues = "";
+        $checkedCheckboxes = $("input:checkbox:checked");
+        $checkedCheckboxes.each(function () {
+            selectedValues += $(this).val() + ",";
+        });
+      //u get a comma separated list
+    });
+</script>

@@ -18,6 +18,16 @@ namespace Poseidon
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "LogOut", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+        name: "Invoice",
+        url: "{controller}/{action}/{id}",
+        defaults: new { controller = "Home", action = "Invoice", id = UrlParameter.Optional }
+    );
+        
+        
+        
+        
         }
     }
 }

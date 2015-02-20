@@ -20,7 +20,15 @@
 <div id="clientsDb">
     @(Html.Kendo().Grid(Model)
         .Name("grid")
-       
+               .ToolBar(tools => tools.Excel())
+        .Excel(excel => excel
+            .AllPages(true)
+            .ProxyURL(Url.Action("Excel_Export_Save", "Task"))
+        ).ToolBar(tools => tools.Pdf())
+    .Pdf(pdf => pdf
+        .FileName("ListStatus.pdf")
+        .ProxyURL(Url.Action("Pdf_Export_Save", "Grid"))
+    )
         .DataSource(dataSource => dataSource
         .Ajax()
         .Model(c =>

@@ -1,4 +1,26 @@
-﻿@model IEnumerable<dynamic>
+﻿<style type="text/css" media="screen">
+ .chileFlag
+{
+background-image: url('../../Content/images/Chile.png');
+width:32px;
+height:32px;
+background-position:initial;
+}
+ .k-i-excel
+{
+
+background-image: url('../../Content/images/table_excel.png');
+width:10px;
+height:10px;
+background-position:left;
+background-repeat: no-repeat;
+
+}
+</style>
+
+
+
+@model IEnumerable<dynamic>
 
 @{
     ViewBag.Title = "ListUser";
@@ -9,6 +31,20 @@
 <div id="clientsDb">
     @(Html.Kendo().Grid(Model)
         .Name("grid")
+
+                 .ToolBar(tools => tools.Excel().HtmlAttributes(new { @class = "k-i-excel", @style = "width:150px;height:30px" }))
+       
+                 .Excel(excel => excel
+               .FileName("Kendo UI Grid Export.xlsx")
+                .Filterable(true)
+                .ProxyURL(Url.Action("Excel_Export_Save", "Grid"))
+                
+            )
+        .ToolBar(tools => tools.Pdf())
+        .Pdf(pdf => pdf
+        .FileName("ListUser.pdf")
+        .ProxyURL(Url.Action("Pdf_Export_Save", "Grid"))
+            )
         .DataSource(dataSource => dataSource
         .Ajax()
         .Model(c =>
@@ -60,8 +96,6 @@
             e.Click("ClickCreate");
         })
     )
-
-</div>
 
 @Html.Label("test", new { id = "labeltest" })
 

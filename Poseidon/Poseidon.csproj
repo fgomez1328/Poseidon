@@ -49,6 +49,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="iTextSharp">
+      <HintPath>..\packages\iTextSharp-LGPL.4.1.6\lib\iTextSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Kendo.Mvc">
       <HintPath>..\lib\KENDOUIMVC\2014.3.1119.545\Kendo.Mvc.dll</HintPath>
       <Private>True</Private>
@@ -61,6 +64,10 @@
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rotativa.1.6.3-beta\lib\net40\Rotativa.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -168,6 +175,9 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\Chile.png" />
+    <Content Include="Content\images\dnk_logo.jpg" />
+    <Content Include="Content\images\table_excel.png" />
     <Content Include="Models\kendo\2014.3.1119\Black\editor.png" />
     <Content Include="Models\kendo\2014.3.1119\Black\imagebrowser.png" />
     <Content Include="Models\kendo\2014.3.1119\Black\indeterminate.gif" />
@@ -446,10 +456,15 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Models\kendo\2014.3.1119\images\kendoui.ttf" />
     <Content Include="Models\kendo\2014.3.1119\images\kendoui.woff" />
+    <Content Include="Scripts\jquery.jqprint.0.3.js" />
+    <Content Include="Views\Home\EditFormularios.cshtml" />
+    <Content Include="App_Browsers\qt.browser" />
+    <Content Include="Views\Home\PreviewFormularios.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

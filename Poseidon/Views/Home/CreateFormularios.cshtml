@@ -37,12 +37,12 @@
 
                     <td>
 
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.latitude, new { htmlAttributes = new { @class = "k-textbox" } })
+                            @Html.ValidationMessageFor(model => model.latitude, String.Empty, new { @class = "help-inline", @style = "color:red" })
+                        </div>
 
-                        @Html.EditorFor(model => model.latitude, new { htmlAttributes = new { @class = "k-textbox" } })
-                        @Html.ValidationMessageFor(model => model.latitude, String.Empty, new { @class = "help-inline", @style = "color:red" })
-                      
-
-                    </td>
+</td>
 
                     <td align="">
 
