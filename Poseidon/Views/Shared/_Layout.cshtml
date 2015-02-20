@@ -20,8 +20,16 @@
         <header>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("Poseidon Controller", "Index", "Home")</p>
-                </div>
+                    @*<p class="site-title">@Html.ActionLink("Poseidon Controller", "Index", "Home")</p>*@
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                    <ul id="menu">
+                        <li>@Html.ActionLink("Listado", "ListCondition", "Home")</li>
+                       
+                        </ul>
+                    }
+</div>
                 <div class="float-right">
                     <nav>
                         <ul id="menu">
