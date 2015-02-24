@@ -1,0 +1,1842 @@
+﻿@model Poseidon.Models.Logger
+
+@{
+    ViewBag.Title = "CreateFormulario";
+}
+
+<h2>CreateFormulario</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Logger</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <fieldset class="k-block">
+
+            <h3>Detalles del Sitio</h3>
+
+            <table>
+
+                <tr class="">
+                    @Html.HiddenFor(model => model.logger_id)
+
+                    @*EMPRESA*@
+                    <td>
+                        <label for="fullname" class="required">Empresa</label>
+                    </td>
+
+                    <td>
+
+                        <div class="editor-field">
+                            @(Html.Kendo().DropDownListFor(m => m.company_id)
+
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .HtmlAttributes(new { style = "width:190px" })
+                            .BindTo(new List<SelectListItem>
+                            () {
+                            new SelectListItem() {
+                            Text = "ESSBIO",
+                            Value = "1"
+                            },
+                            new SelectListItem() {
+                            Text = "NuevoSur",
+                            Value= "2"
+                            }
+
+                            })
+                           
+                            ) 
+                        </div>
+
+                    </td>
+
+                    @*NUMERO DE SERIE*@
+                    <td>
+                        <label for="fullname" class="required">Número de serie</label>
+                    </td>
+
+                    <td>
+
+                        @Html.EditorFor(model => model.logger_serial_number, new { style = "width: 190px" } )
+                        @Html.ValidationMessageFor(model => model.logger_serial_number, String.Empty, new { @class = "help-inline", @style = "color:red" })
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    @*ACCEDER AL SITIO*@
+                    <td align="">
+
+                        <label for="fullname" class="required">¿Fue necesario acceder al sitio?</label>
+
+                    </td>
+
+                    <td>
+                        <fieldset class="k-block" style="width:190px">
+                            @Html.RadioButtonFor(model => model.necesary_site_enter.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
+                            @Html.RadioButtonFor(model => model.necesary_site_enter.Value, "false", new { style = "width: 50px" })No
+                            @Html.ValidationMessageFor(m => m.necesary_site_enter)
+
+                        </fieldset>
+                    </td>
+
+                    @*TIPO DE INSTALACIÓN*@
+                    <td>
+                        <label for="fullname" class="required">Tipo de instalación</label>
+                    </td>
+
+                    <td>
+
+                        <div class="editor-field">
+                            @(Html.Kendo().DropDownListFor(m => m.instalation_type_logger)
+
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .HtmlAttributes(new { style = "width:180px" })
+                            .BindTo(new List<SelectListItem>
+                            () {
+                            new SelectListItem() {
+                            Text = "Presión",
+                            Value = "Presión"
+                            },
+                            new SelectListItem() {
+                            Text = "Flujo",
+                            Value= "Flujo"
+                            },
+                            new SelectListItem() {
+                            Text = "Presión/Flujo",
+                            Value= "Presión/Flujo"
+                            },
+                            new SelectListItem() {
+                            Text = "Controlador de presión",
+                            Value= "Controlador de presión"
+                            },
+                            new SelectListItem() {
+                            Text = "Comercial",
+                            Value= "Comercial"
+                            }
+
+                            })
+
+                            )
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    @*NUMERO DE TELEFONO*@
+                    <td>
+                        <label for="fullname" class="required">Número de teléfono</label>
+                    </td>
+
+                    <td>
+                            @Html.EditorFor(model => model.logger_sms, new { htmlAttributes = new {style = "width: 180px" } })
+                            @Html.ValidationMessageFor(model => model.logger_sms, String.Empty, new { @class = "help-inline", @style = "color:red" })
+                    </td>
+
+                    @*INTERPERIE*@
+                    <td>
+
+                        <label for="fullname" class="required">¿Logger se encuentra a la interperie?</label>
+                    </td>
+
+                    <td>
+                        <fieldset class="k-block">
+                            @Html.RadioButtonFor(model => model.logger_outdoor.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
+                            @Html.RadioButtonFor(model => model.logger_outdoor.Value, "false", new { style = "width: 50px" })No
+                            @Html.ValidationMessageFor(m => m.logger_outdoor)
+                        </fieldset>
+
+                    </td>
+
+                </tr>
+
+                @*CONDICIONES INSTALACIÓN*@
+                <tr>
+                    <td>
+                        <label for="fullname" class="required">Condiciones del Lugar de la Instalacion?</label>
+                    </td>
+
+                    <td>
+
+                        <div>
+                            @(Html.Kendo().DropDownListFor(m => m.id_conditions_installation)
+
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .HtmlAttributes(new { style = "width:190px" })
+                            .BindTo(new List<SelectListItem>
+                            () {
+                            new SelectListItem() {
+                            Text = "Ideal",
+                            Value = "1"
+                            },
+                            new SelectListItem() {
+                            Text = "Regulares",
+                            Value= "2"
+                            },
+                            new SelectListItem() {
+                            Text = "Malas",
+                            Value= "3"
+                            },
+
+                            })
+                            .Value("1")
+                            )
+
+                        </div>
+                    </td>
+                </tr>
+
+            </table>
+
+        </fieldset>
+        <br>
+        <br>
+
+
+        <fieldset class="k-block">
+
+            <h3>Detalles de la Calidad de la Señal</h3>
+
+            <table align="left">
+
+                <tr align="left">
+
+                    @*POSICION ANTENA*@
+                    <td>
+                        <label for="fullname" class="required">Posición de la antena</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10"> 
+                            @Html.EditorFor(model => model.antenna_position, new { style = "width: 50px"  } )
+                            @Html.ValidationMessageFor(model => model.antenna_position, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+                        </div>
+                    </td>
+
+                    @*TIPO DE ANTENA*@
+                    <td>
+
+                        <label for="fullname" class="required">Tipo de Antena Usada</label>
+
+                    </td>
+
+                    <td>
+                        @(Html.Kendo().DropDownListFor(m => m.antenna_type)
+
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .HtmlAttributes(new { style = "width:180px" })
+                        .BindTo(new List<SelectListItem>
+                            () {
+                            new SelectListItem() {
+                            Text = "Polarizacion Vertical",
+                            Value = "1"
+                            },
+                            new SelectListItem() {
+                            Text = "Domo",
+                            Value= "2"
+                            },
+
+                            })
+                            .Value("1")
+                         )
+
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    @*FINAL CSQ*@
+                    <td>
+                        <label for="fullname" class="required">Final Csq</label>
+
+                    </td>
+
+                    <td>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.final_csq, new { htmlAttributes = new { style = "width: 180px" } })
+                            @Html.ValidationMessageFor(model => model.final_csq, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+                        </div>
+
+                    </td>
+
+                    @*CSQ FUERA DE CAMARA*@
+                    <td>
+                        <label for="fullname" class="required">CSQ fuera de la Camara</label>
+
+                    </td>
+
+                    <td>
+                        <fieldset class="k-block" style="width:180px">
+                            @Html.RadioButtonFor(model => model.Csq_outdoor.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
+                            @Html.RadioButtonFor(model => model.Csq_outdoor.Value, "false", new { style = "width: 50px" })No
+                            @Html.ValidationMessageFor(m => m.Csq_outdoor)
+
+                        </fieldset>
+                    </td>
+
+                </tr>
+
+                <tr>
+                    @*GPRS STATUS*@
+                    <td>
+
+                        <label for="fullname" class="required">Test GPRS</label>
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @(Html.Kendo().DropDownListFor(m => m.gprs_test_status)
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .HtmlAttributes(new { style = "width:190px" })
+                            .BindTo(new List<SelectListItem>
+                                () {
+                                new SelectListItem() {
+                                Text = "Aprobado",
+                                Value = "True"
+                                },
+                                new SelectListItem() {
+                                Text = "Rechazado",
+                                Value= "False"
+                                },
+
+                                })
+                               
+                                )                           
+                            @Html.ValidationMessageFor(model => model.gprs_test_status, String.Empty, new { @class = "help-inline", @style = "color:red" })
+                        </div>
+                    </td>
+
+                    @*SE PUEDE INSTALAR POSE DE ANTENA*@
+                    <td>
+                        <label for="fullname" class="required">Se puede Instalar Poste para Antena</label>
+                    </td>
+
+                    <td>
+                        <div>
+                            <fieldset class="k-block">
+                                @Html.RadioButtonFor(model => model.can_lamppost_with_antenna, "true", new { Checked = "checked", style="width: 50px" })Si
+                                @Html.RadioButtonFor(model => model.can_lamppost_with_antenna, "false", new { style = "width: 50px" })No
+                                @Html.ValidationMessageFor(m => m.can_lamppost_with_antenna)
+
+                            </fieldset>
+                        </div>
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </fieldset>
+
+        <br>
+        <br>
+
+
+        <fieldset class="k-block">
+
+            <h3>Detalles de la Instalación</h3>
+
+            <table align="left">
+
+                <tr align="center">
+
+                    @*TIPO DE INSTALACIÓN SITE*@
+                    <td>
+                        <label for="fullname" class="required">Tipo de Instalación</label>
+                    </td>
+
+                    <td>
+                        <div class="col-md-10">
+                            <div class="">
+                                @(Html.Kendo().DropDownListFor(m => m.instalation_type)
+                                    .DataTextField("Text")
+                                    .DataValueField("Value")
+                                    .HtmlAttributes(new { style = "width:175px" })
+                                    .BindTo(new List<SelectListItem>
+                                        () {
+                                        new SelectListItem() {
+                                        Text = "PCP",
+                                        Value = "1"
+                                        },
+                                        new SelectListItem() {
+                                        Text = "VRP",
+                                        Value= "2"
+                                        },
+                                        new SelectListItem() {
+                                        Text = "Comerciales",
+                                        Value= "3"
+                                        },
+
+                                        })
+                                       
+                                        )
+                            </div>
+                                          
+                            @Html.ValidationMessageFor(model => model.instalation_type, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+                        </div>
+
+                    </td>
+
+                    @*FLUJOMETRO STATUS*@
+                    <td>
+                        <label for="fullname" class="required">Estado del Flujómetro</label>
+                    </td>
+
+                    <td>
+
+                        <div class="">
+                            @(Html.Kendo().DropDownListFor(m => m.state_flowmeter_id)
+
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .HtmlAttributes(new { style = "width:175px" })
+                            .BindTo(new List<SelectListItem>
+                                () {
+                                new SelectListItem() {
+                                Text = "Ideales",
+                                Value = "1"
+                                },
+                                new SelectListItem() {
+                                Text = "Regulares",
+                                Value= "2"
+                                },
+                                new SelectListItem() {
+                                Text = "Malas",
+                                Value= "3"
+                                },
+
+                                })
+                                .Value("1")
+                            )
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    @*LECTURA MANOMETRO*@
+                    <td>
+                        <label for="fullname" class="required">Lectura Manómetro AAr</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.manometer_aab_value, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.manometer_aab_value, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+                        </div>
+
+                    </td>
+
+                    @*TIPO DE FLUJOMETRO*@
+                    <td>
+
+                        <label for="fullname" class="required">Tipo de Flujómetro</label>
+
+                    </td>
+
+                    <td>
+
+                        @(Html.Kendo().DropDownListFor(m => m.type_flowmeter_id)
+
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .HtmlAttributes(new { style = "width:175px" })
+                        .BindTo(new List<SelectListItem>
+                            () {
+                            new SelectListItem() {
+                            Text = "Electromagnétismo Tubo",
+                            Value = "1"
+                            },
+                            new SelectListItem() {
+                            Text = "Velocímetro Tubo",
+                            Value= "2"
+                            },
+                            new SelectListItem() {
+                            Text = "ElectroMagnético",
+                            Value= "3"
+                            },
+                            new SelectListItem() {
+                            Text = "Inserción",
+                            Value= "4"
+                            },
+                            new SelectListItem() {
+                            Text = "Velocímetro de Inserción",
+                            Value= "5"
+                            },
+
+                            })
+                           
+                        )
+                    </td>
+
+                </tr>
+
+                <tr>
+                    @*LECTURA LOGGER AAR*@
+                    <td>
+
+                        <label for="fullname" class="required">Lectura Logger AAr</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.logger_aar_value, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.logger_aar_value, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+                        </div>
+
+                    </td>
+
+                    @*CON EMISOR DE PULSOS*@
+                    <td>
+                        <label for="fullname" class="required">Emisor de Pulsos</label>
+
+                    </td>
+
+                    <td>
+
+                        <div>
+                            <fieldset class="k-block">
+                               
+                                @Html.RadioButtonFor(model => model.with_pulser.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
+                                @Html.RadioButtonFor(model => model.with_pulser.Value, "false", new { style = "width: 50px" })No
+                                @Html.ValidationMessageFor(m => m.with_pulser)
+
+                            </fieldset>
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    @*LECTURA MANOMETRO AAB*@
+                    <td>
+                        <label for="fullname" class="required">Lectura Manómetro AAb</label>
+                    </td>
+
+                    <td>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.manometer_aar_value, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.manometer_aar_value, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+
+                        </div>
+
+                    </td>
+
+                    @*FUE REEMPLAZADO EL EMISOR DE PULSOS*@
+                    <td>
+                        <label for="fullname" class="required">¿Fue Reeplazado el Emisor de Pulsos?</label>
+                    </td>
+
+                    <td>
+
+                        <div>
+                            <fieldset class="k-block">
+
+                                @Html.RadioButtonFor(model => model.pulser_changed.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
+                                @Html.RadioButtonFor(model => model.pulser_changed.Value, "false", new { style = "width: 50px" })No
+                                @Html.ValidationMessageFor(m => m.pulser_changed)
+                            </fieldset>
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    @*LECTURA DE LOGGER AAB*@
+                    <td>
+                        <label for="fullname" class="required">Lectura Logger AAb</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.logger_aab_value, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.logger_aab_value, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+
+                        </div>
+
+                    </td>
+
+                    @*LITROS POR PULSOS*@
+                    <td>
+                        <label for="fullname" class="required">Litros por Pulso</label>
+
+                    </td>
+
+                    <td>
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.liters_per_pulser, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.liters_per_pulser, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+
+            </table>
+
+        </fieldset>
+
+        <br>
+        <br>
+        <fieldset class="k-block">
+
+            <h3>Detalles de la Cámara</h3>
+
+        <table>
+
+            <tr>
+                @*POSICION DEL LOGGER*@
+                <td>
+
+                    <label for="fullname" class="required">Posición del Logger</label>
+
+                </td>
+
+                <td>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.logger_position, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.liters_per_pulser, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+                    </div>
+
+                </td>
+
+                @*BOMBA PARA DESAGUAR*@
+                <td>
+                    <label for="fullname" class="required">Se necesita Bomba para Desaguar?</label>
+
+                </td>
+
+                <td>
+
+                    <div>
+                        <fieldset class="k-block">
+
+                            @Html.RadioButtonFor(model => model.necessary_drain.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
+                            @Html.RadioButtonFor(model => model.necessary_drain.Value, "false", new { style = "width: 50px" })No
+                            @Html.ValidationMessageFor(m => m.necessary_drain)
+                   
+                    </fieldset>
+                    </div>
+
+                </td>
+
+            </tr>
+
+            <tr>
+                @*CAMARA INUNDADA*@
+                <td>
+                    <label for="fullname" class="required">Cámara Inundada</label>
+                </td>
+
+                <td>
+                    <div>
+                        <fieldset class="k-block">
+
+                            @Html.RadioButtonFor(model => model.flooded_chamber.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
+                            @Html.RadioButtonFor(model => model.flooded_chamber.Value, "false", new { style = "width: 50px" })No
+                            @Html.ValidationMessageFor(m => m.flooded_chamber)
+
+                        </fieldset>
+                    </div>
+
+                </td>
+
+
+                @*MANIPULAR TRAFICO*@
+                <td>
+                    <label for="fullname" class="required">Se necesita Desviar/Manipular Trafico?</label>
+
+                </td>
+
+                <td>
+
+                    <div>
+                        <fieldset class="k-block">
+                            @Html.RadioButtonFor(model => model.necessary_manipulate_traffic.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
+                            @Html.RadioButtonFor(model => model.necessary_manipulate_traffic.Value, "false", new { style = "width: 50px" })No
+                            @Html.ValidationMessageFor(m => m.necessary_manipulate_traffic)
+
+                        </fieldset>
+                    </div>
+
+                </td>
+
+            </tr>
+
+            <tr>
+                @*TIPO DE CAMARA*@
+                <td>
+                    <label for="fullname" class="required">Tipo de Cámara</label>
+
+                </td>
+
+                <td>
+
+                    @(Html.Kendo().DropDownListFor(m => m.chamber_type_id)
+
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .HtmlAttributes(new { style = "width:175px" })
+                        .BindTo(new List<SelectListItem>
+                            () {
+                            new SelectListItem() {
+                            Text = "Albanileria",
+                            Value = "1"
+                            },
+                            new SelectListItem() {
+                            Text = "Hormigón Armado",
+                            Value= "2"
+                            },
+                            new SelectListItem() {
+                            Text = "Metálica",
+                            Value= "3"
+                            },
+                            new SelectListItem() {
+                            Text = "Hormigón",
+                            Value= "4"
+                            },
+
+                            })
+                            
+                    )
+
+                </td>
+
+                @*HERRAMIENTA PARA ABRIR CAMARA*@
+                <td>
+                    <label for="fullname" class="required">¿Es necesario Herramienta para apertura de Cámara?</label>
+
+                </td>
+
+                <td>
+                    <div>
+                        <fieldset class="k-block">
+
+                            @Html.RadioButtonFor(model => model.necessary_tool_open_chamber.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
+                            @Html.RadioButtonFor(model => model.necessary_tool_open_chamber.Value, "false", new { style = "width: 50px" })No
+                            @Html.ValidationMessageFor(m => m.necessary_tool_open_chamber)
+
+                        </fieldset>
+                    </div>
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                @*CONDICIONES DE LA CAMARA*@
+                <td>
+                    <label for="fullname" class="required">Condición de La Cámara</label>
+                </td>
+
+                <td>
+
+                    @(Html.Kendo().DropDownListFor(m => m.chamber_condition)
+
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .HtmlAttributes(new { style = "width:175px" })
+                        .BindTo(new List<SelectListItem>
+                            () {
+                            new SelectListItem() {
+                            Text = "Ideales",
+                            Value = "1"
+                            },
+                            new SelectListItem() {
+                            Text = "Regulares",
+                            Value= "2"
+                            },
+                            new SelectListItem() {
+                            Text = "Malas",
+                            Value= "3"
+                            },
+
+                            })
+                            .Value("1")
+                    )
+
+                </td>
+
+                @*TIPO DE CAMARA*@
+                <td>
+                    <label for="fullname" class="required">Tipo de Tapa de Camara</label>
+
+                </td>
+
+                <td>
+
+                    @(Html.Kendo().DropDownListFor(m => m.chamber_type_tap_id)
+
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .HtmlAttributes(new { style = "width:175px" })
+                        .BindTo(new List<SelectListItem>
+                            () {
+                            new SelectListItem() {
+                            Text = "Albanileria",
+                            Value = "1"
+                            },
+                            new SelectListItem() {
+                            Text = "Hormigon Armado",
+                            Value= "2"
+                            },
+                            new SelectListItem() {
+                            Text = "Metalica",
+                            Value= "3"
+                            },
+                            new SelectListItem() {
+                            Text = "Hormigon",
+                            Value= "4"
+                            },
+
+                            })
+                            .Value("1")
+                    )
+
+                </td>
+            </tr>
+
+            <tr>
+
+                @*DOS OPERADORES PARA ABRIR CAMARAA*@
+                <td>
+                    <label for="fullname" class="required">¿Se necesitaron 2 operadores para abrir la cámara?</label>
+
+                </td>
+
+                <td>
+
+                    <div>
+                        <fieldset class="k-block">
+                            @Html.RadioButtonFor(model => model.two_thechnical_open_chamber.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
+                            @Html.RadioButtonFor(model => model.two_thechnical_open_chamber.Value, "false", new { style = "width: 50px" })No
+                            @Html.ValidationMessageFor(m => m.two_thechnical_open_chamber)
+
+                        </fieldset>
+                    </div>
+                </td>
+
+            </tr>
+
+
+        </table>
+
+    </fieldset>
+
+    <br>
+
+    <br>
+
+    <fieldset class="k-block">
+
+        <h3>Canales Usados del Logger</h3>
+
+        <table align="left">
+
+            <tr >
+                @*CANAL 1*@
+                <td>
+                        <label for="fullname" class="required">Canal 1</label>
+                </td>
+
+                <td>
+                    <div>
+                        @(Html.Kendo().DropDownListFor(m => m.channel_1)
+
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .HtmlAttributes(new { style = "width:175px" })
+                            .BindTo(new List<SelectListItem>
+                                () {
+                                new SelectListItem() {
+                                Text = "Presion Interna",
+                                Value = "1"
+                                },
+                                new SelectListItem() {
+                                Text = "Presion Externa",
+                                Value= "2"
+                                },
+                                new SelectListItem() {
+                                Text = "Digital Caudal",
+                                Value= "3"
+                                },
+                                new SelectListItem() {
+                                Text = "4-20mA",
+                                Value= "4"
+                                },
+                                new SelectListItem() {
+                                Text = "Modbus",
+                                Value= "5"
+                                },
+                                new SelectListItem() {
+                                Text = "Serial",
+                                Value= "6"
+                                },
+                                })
+                                .Value("1")
+                        )
+                    </div>
+
+                </td>
+
+                @*CANAL 3*@
+                <td>
+                    <label for="fullname" class="required">Canal 3</label>
+                </td>
+
+                <td>
+                    <div >
+                        @(Html.Kendo().DropDownListFor(m => m.channel_3)
+
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .HtmlAttributes(new { style = "width:175px" })
+                            .BindTo(new List<SelectListItem>
+                                () {
+                                new SelectListItem() {
+                                Text = "Presion Interna",
+                                Value = "1"
+                                },
+                                new SelectListItem() {
+                                Text = "Presion Externa",
+                                Value= "2"
+                                },
+                                new SelectListItem() {
+                                Text = "Digital Caudal",
+                                Value= "3"
+                                },
+                                new SelectListItem() {
+                                Text = "4-20mA",
+                                Value= "4"
+                                },
+                                new SelectListItem() {
+                                Text = "Modbus",
+                                Value= "5"
+                                },
+                                new SelectListItem() {
+                                Text = "Serial",
+                                Value= "6"
+                                },
+                                })
+                                .Value("1")
+                        )
+                    </div>
+
+
+                </td>
+
+            </tr>
+
+            <tr>
+                @*CANAL 2*@
+                <td >
+                    <div>
+                        <label for="fullname" class="required">  Canal 2</label>
+                    </div>
+
+                </td>
+
+                <td>
+                    <div>
+                        @(Html.Kendo().DropDownListFor(m => m.channel_2)
+
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .HtmlAttributes(new { style = "width:175px" })
+                            .BindTo(new List<SelectListItem>
+                                () {
+                                new SelectListItem() {
+                                Text = "Presion Interna",
+                                Value = "1"
+                                },
+                                new SelectListItem() {
+                                Text = "Presion Externa",
+                                Value= "2"
+                                },
+                                new SelectListItem() {
+                                Text = "Digital Caudal",
+                                Value= "3"
+                                },
+                                new SelectListItem() {
+                                Text = "4-20mA",
+                                Value= "4"
+                                },
+                                new SelectListItem() {
+                                Text = "Modbus",
+                                Value= "5"
+                                },
+                                new SelectListItem() {
+                                Text = "Serial",
+                                Value= "6"
+                                },
+                                })
+                                .Value("1")
+                        )
+                    </div>
+                </td>
+
+                @*CANAL 4*@
+                 <td>
+                    <label for="fullname" class="required">Canal 4</label>
+                </td>
+
+                <td>
+                    <div >
+                        @(Html.Kendo().DropDownListFor(m => m.channel_4)
+
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .HtmlAttributes(new { style = "width:175px" })
+                            .BindTo(new List<SelectListItem>
+                                () {
+                                new SelectListItem() {
+                                Text = "Presion Interna",
+                                Value = "1"
+                                },
+                                new SelectListItem() {
+                                Text = "Presion Externa",
+                                Value= "2"
+                                },
+                                new SelectListItem() {
+                                Text = "Digital Caudal",
+                                Value= "3"
+                                },
+                                new SelectListItem() {
+                                Text = "4-20mA",
+                                Value= "4"
+                                },
+                                new SelectListItem() {
+                                Text = "Modbus",
+                                Value= "5"
+                                },
+                                new SelectListItem() {
+                                Text = "Serial",
+                                Value= "6"
+                                },
+                                })
+                                .Value("1")
+                        )
+                    </div>
+
+                </td>
+
+            </tr>
+        </table>
+
+    </fieldset>
+
+    <br>
+    <br>
+
+
+    <fieldset class="k-block">
+
+        <h3>Equipamiento Utilizado(Por el Instalador)</h3>
+
+        <table align="left">
+
+
+
+            <tr align="left">
+
+                @*TIPO DE LOGGER*@
+                <td>
+                    <label for="fullname" class="required">Tipo de Logger</label>
+
+                </td>
+
+                <td>
+
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.logger_type, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.logger_type, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+                    </div>
+                </td>
+
+                @*BATERIA INSTALADA*@
+                <td>
+
+                    <label for="fullname" class="required">¿Batería Instalada?</label>
+
+                </td>
+
+                <td>
+                    <div>
+                        <fieldset class="k-block">
+
+                            @Html.RadioButtonFor(model => model.battery_installed.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
+                            @Html.RadioButtonFor(model => model.battery_installed.Value, "false", new { style = "width: 50px" })No
+                            @Html.ValidationMessageFor(m => m.battery_installed)
+
+                        </fieldset>
+                    </div>
+
+                </td>
+
+            </tr>
+
+            <tr>
+            
+                @*NUMERO SERIE BATERIA*@
+                <td>
+                    <label for="fullname" class="required">N/S Logger</label>
+
+                </td>
+
+                <td>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.logger_serial_number, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.logger_serial_number)
+
+
+                    </div>
+
+                </td>
+
+                @*TIPO DE BATERIA*@
+                <td>
+
+                    <label for="fullname" class="required">Tipo de Bateria</label>
+
+                </td>
+
+                <td>
+                    <div>
+                        @(Html.Kendo().DropDownListFor(m => m.battery_type)
+
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .HtmlAttributes(new { style = "width:175px" })
+                            .BindTo(new List<SelectListItem>
+                                () {
+                                new SelectListItem() {
+                                Text = "Interna",
+                                Value = "1"
+                                },
+                                new SelectListItem() {
+                                Text = "Externa",
+                                Value= "2"
+                                },
+                                new SelectListItem() {
+                                Text = "Ambas",
+                                Value= "3"
+                                }
+                                })
+                                
+                        )
+                    </div>
+                </td>
+
+            </tr>
+
+           
+            <tr>
+                @*NUMERO SERIE BATERIA*@
+                <td>
+                    <label for="fullname" class="required">N/S Bateria</label>
+                </td>
+
+                <td>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.battery_serial_number, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.battery_serial_number, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+                    </div>
+
+                </td>
+
+            </tr>
+        </table>
+
+    </fieldset>
+
+    <br>
+    <br>
+
+
+    <fieldset class="k-block">
+
+        <h3>Descripción Detallada</h3>
+
+        <table align="left">
+
+            <tr>
+                @*SUBIR IMAGEN*@
+                <td>
+                    <div id="kendoUploadZone">
+
+                        <div id="kendoUploadForm" style="display: inline-block; padding-bottom: 30px; width: 300px;">
+
+                            <!-- Kendo UI Upload Control for uploading image -->
+
+                            <div id="kendoUploadControl" style="width: 50%; float: left;">
+                                @(Html.Kendo().Upload()
+                                .Name("files").Async(a => a
+                                .Save("Save", "Home")
+                                .Remove("Remove", "Home")
+                                .AutoUpload(true)).Events(events => events.Select("onSelect")
+                                .Success("onSuccess")
+                                 ))
+
+                            </div>
+
+                            <!-- Instant preview uploaded image by Kendo UI Upload Control -->
+
+                            <div id="kendoUploadDisplay" style="width: 45%; float: right;">
+                                @Html.HiddenFor(x => x.picture_url)
+                                @Html.HiddenFor(x => x.picture_image)
+                                @Html.HiddenFor(x => x.status)
+
+                                <div id="kendoUploadImage" style="display: block;">
+                                    <img id="imgUploaded" style="width: 60px; height: 60px;" src=""
+                                         alt="loading" />
+                                </div>
+                                @Html.ValidationSummary(true)
+                            </div>
+
+                        </div>
+
+                    </div>
+                </td>
+
+            </tr>
+
+            <tr>
+                @*COMENTARIOS*@
+                <td>
+                    <label for="fullname" class="required">Comentarios</label>
+                </td>
+
+                <td>
+                    @Html.TextAreaFor(model => model.notes, new { @style = " background-color: #ffffff;width: 300px; height: 100px;" })
+                    @Html.ValidationMessageFor(model => model.notes, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+                </td>
+
+                
+
+            </tr>
+
+            <tr>
+                @*FECHA Y HORA DE TERMINO*@
+                <td>
+                    <label for="fullname" class="required">Fecha termino</label>
+
+                </td>
+
+                <td>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.creation_date, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.creation_date, String.Empty, new { @class = "help-inline", @style = "color:red" })
+                    </div>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </fieldset>
+
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script>
+
+
+
+    var viewModel = kendo.observable({
+        material: [
+            { id: 1, name: "Albañilería" },
+            { id: 2, name: "Hormigon Armado" },
+            { id: 3, name: "Metalica" },
+            { id: 4, name: "Hormigon" }
+        ],
+
+        condicion: [
+            { id: 1, name: "Ideal" },
+            { id: 2, name: "Regular" },
+            { id: 3, name: "Mala" }
+        ],
+        antena: [
+            { id: 1, name: "Polarizacion Vertical" },
+            { id: 2, name: "Domo" },
+
+        ],
+
+        flujometro: [
+           { id: 1, name: "Electromagnetico Tubo" },
+           { id: 2, name: "Velocimetro Tubo" },
+           { id: 3, name: "Electromagnetico Insercion" },
+            { id: 4, name: "Velocimetro Insercion" },
+
+        ],
+        flags: [
+            { id: 1, name: "SI" },
+            { id: 2, name: "NO" },
+
+
+        ],
+
+        camara: [
+           { id: 1, name: "Concreto" },
+           { id: 2, name: "Metalica" },
+           { id: 3, name: "Sin Tapa" }
+        ],
+
+        canales: [
+          { id: 1, name: "Presion Interna" },
+          { id: 2, name: "Presion Externa" },
+          { id: 3, name: "4-20mA" },
+          { id: 4, name: "Digital Caudal" },
+           { id: 5, name: "Modbus" },
+             { id: 6, name: "Serial" },
+
+        ],
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+    var viewModel2 = kendo.observable({
+
+
+        canales4: [
+          { Id: 1, name: "Presion Interna" },
+          { Id: 2, name: "Presion Externa" },
+          { Id: 3, name: "4-20mA" },
+          { Id: 4, name: "Digital Caudal" },
+           { Id: 5, name: "Modbus" },
+             { Id: 6, name: "Serial" },
+
+        ],
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+    var viewModel3 = kendo.observable({
+
+
+
+
+
+        canales3: [
+          { Id3: 1, name: "Presion Interna" },
+          { Id3: 2, name: "Presion Externa" },
+          { Id3: 3, name: "4-20mA" },
+          { Id3: 4, name: "Digital Caudal" },
+           { Id3: 5, name: "Modbus" },
+             { Id3: 6, name: "Serial" },
+
+        ],
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+    var viewModel4 = kendo.observable({
+
+
+
+
+
+        canales2: [
+          { id2: 1, name: "Presion Interna" },
+          { id2: 2, name: "Presion Externa" },
+          { id2: 3, name: "4-20mA" },
+          { id2: 4, name: "Digital Caudal" },
+           { id2: 5, name: "Modbus" },
+             { id2: 6, name: "Serial" },
+
+        ],
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+    var viewModel5 = kendo.observable({
+
+
+
+
+
+        flujestado: [
+           { idf: 1, name: "Ideal" },
+           { idf: 2, name: "Regular" },
+           { idf: 3, name: "Mala" }
+        ],
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+    var viewModel6 = kendo.observable({
+
+
+
+
+
+        condli: [
+           { idc: 1, name: "Ideal" },
+           { idc: 2, name: "Regular" },
+           { idc: 3, name: "Mala" }
+        ],
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+    var viewModel7 = kendo.observable({
+
+
+
+
+
+        tipcamara: [
+            { idt: 1, name: "Albañilería" },
+            { idt: 2, name: "Hormigon Armado" },
+            { idt: 3, name: "Metalica" },
+            { idt: 4, name: "Hormigon" }
+        ],
+
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+
+    var viewModel8 = kendo.observable({
+
+
+
+
+
+        tipotapcamara: [
+            { idttc: 1, name: "Albañilería" },
+            { idttc: 2, name: "Hormigon Armado" },
+            { idttc: 3, name: "Metalica" },
+            { idttc: 4, name: "Hormigon" }
+        ],
+
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+    var viewModel9 = kendo.observable({
+
+
+
+
+
+        epulso: [
+              { idp: 1, name: "SI" },
+              { idp: 2, name: "NO" },
+
+
+        ],
+
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+    var viewModel10 = kendo.observable({
+
+
+
+
+
+        frepulso: [
+              { idfp: 1, name: "SI" },
+              { idfp: 2, name: "NO" },
+
+
+        ],
+
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+    var viewModel11 = kendo.observable({
+
+
+
+
+
+        caminundada: [
+              { idcm: 1, name: "SI" },
+              { idcm: 2, name: "NO" },
+
+
+        ],
+
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+    var viewModel12 = kendo.observable({
+
+
+
+
+
+        ocamara: [
+              { idoc: 1, name: "SI" },
+              { idoc: 2, name: "NO" },
+
+
+        ],
+
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+    var viewModel13 = kendo.observable({
+
+
+
+
+
+        bombades: [
+              { idbd: 1, name: "SI" },
+              { idbd: 2, name: "NO" },
+
+
+        ],
+
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+    var viewModel14 = kendo.observable({
+
+
+
+
+
+        desviartraf: [
+              { idmt: 1, name: "SI" },
+              { idmt: 2, name: "NO" },
+
+
+        ],
+
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+
+    var viewModel15 = kendo.observable({
+
+
+
+
+
+        herrcamara: [
+              { idhap: 1, name: "SI" },
+              { idhap: 2, name: "NO" },
+
+
+        ],
+
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+    var viewModel16 = kendo.observable({
+
+
+
+
+
+        apertcamara: [
+              { idhpc: 1, name: "SI" },
+              { idhpc: 2, name: "NO" },
+
+
+        ],
+
+
+
+
+
+        displayMultipleSelectValue: function () {
+            return this.get("multipleSelectValue").join(", ");
+        }
+
+
+
+    });
+
+    var viewModel17 = kendo.observable({
+
+        flag1: ["Si"],
+        isChecked: true,
+        displayCheckBoxListValue: function() {
+        return this.get("flag").join(", ");
+        },
+
+
+
+
+
+    });
+
+
+
+
+    kendo.bind($("select"), viewModel);
+    kendo.bind($("select"), viewModel2);
+    kendo.bind($("select"), viewModel3);
+    kendo.bind($("select"), viewModel4);
+    kendo.bind($("select"), viewModel5);
+    kendo.bind($("select"), viewModel6);
+    kendo.bind($("select"), viewModel7);
+    kendo.bind($("select"), viewModel8);
+    kendo.bind($("select"), viewModel9);
+    kendo.bind($("select"), viewModel10);
+    kendo.bind($("select"), viewModel11);
+    kendo.bind($("select"), viewModel12);
+    kendo.bind($("select"), viewModel13);
+    kendo.bind($("select"), viewModel14);
+    kendo.bind($("select"), viewModel15);
+    kendo.bind($("select"), viewModel16);
+    kendo.bind($("input"), viewModel17);
+    function onSelect(e) {
+
+
+
+        $("#kendoUploadImage").show();
+        $.each(e.files, function (index, value) {
+            readMultipleFiles(value);
+        });
+
+
+    }
+
+
+
+    function onSuccess(e) {
+
+
+
+        var responseTxt = jQuery.parseJSON(e.XMLHttpRequest.responseText);
+
+
+
+        var status = responseTxt.Status;
+
+        var srcValue = responseTxt.PictureUrl;
+
+        var reader = new FileReader();
+
+
+
+
+
+        if (status == true) {
+
+            $("#imgUploaded").attr('src', srcValue);
+
+        } else {
+
+            $("#imgUploaded").attr('src', srcValue);
+
+            $("#kendoUploadImage").hide();
+
+        }
+
+
+
+    }
+    function readMultipleFiles(file) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            // bind the file content
+            $("img").attr({ src: e.target.result });
+        }
+        reader.readAsDataURL(file.rawFile);
+    }
+
+
+
+    var checkedValues = $('input:checkbox:checked').map(function () {
+        return this.value;
+    }).get();
+
+    $(function () {
+        // Notice that the Name() of the editor is used to get its client-side instance
+        var editor = $("#editor").data("kendoEditor");
+    });
+
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var selectedValues = "";
+        $checkedCheckboxes = $("input:checkbox:checked");
+        $checkedCheckboxes.each(function () {
+            selectedValues += $(this).val() + ",";
+        });
+      //u get a comma separated list
+    });
+</script>

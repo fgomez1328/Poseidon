@@ -1,11 +1,8 @@
-﻿
-<style type="text/css" media="screen">
-   
-
+﻿<style type="text/css" media="screen">
     .k-i-excel {
         background-image: url('../../Content/images/table_excel.png');
-        width: 10px;
-        height: 10px;
+        width: 6px;
+        height: 6px;
         background-position: left;
         background-repeat: no-repeat;
     }
@@ -26,12 +23,12 @@
     ViewBag.Title = "ListStatus";
 }
 
-<h2>ListStatus</h2>
+<link href="@Url.Content("~/Content/List.css")" rel="stylesheet" type="text/css" />
+<h2>Logger creados</h2>
 
 @(Html.Kendo().Button()
         .Name("linkButton")
         .Tag("a")
-
         .Content("Create")
         .Events(e =>
         {
@@ -39,18 +36,19 @@
         })
 )
 
-<div id="clientsDb">
-    @(Html.Kendo().Grid(Model)
+<div id="gridv" class="grid">
+    @(Html.Kendo().Grid<Poseidon.Models.Logger>()
         .Name("grid")
-               .ToolBar(tools => tools.Excel().HtmlAttributes(new { @class = "k-i-excel", @style = "width:150px;height:30px" }))
+        .ToolBar(tools => tools.Excel().HtmlAttributes(new { @class = "k-i-excel", @style = "width:150px;height:30px" }))
         .Excel(excel => excel
-            .AllPages(true)
-            .ProxyURL(Url.Action("Excel_Export_Save", "Task"))
-        ).ToolBar(tools => tools.Pdf().HtmlAttributes(new { @class = "pdf", @style = "width:150px;height:30px" }))
-    .Pdf(pdf => pdf
+                .AllPages(true)
+                .ProxyURL(Url.Action("Excel_Export_Save", "Task"))
+            )
+        .ToolBar(tools => tools.Pdf().HtmlAttributes(new { @class = "pdf", @style = "width:150px;height:30px" }))
+        .Pdf(pdf => pdf
         .FileName("ListStatus.pdf")
         .ProxyURL(Url.Action("Pdf_Export_Save", "Grid"))
-    )
+        )
         .DataSource(dataSource => dataSource
         .Ajax()
         .Model(c =>
@@ -63,72 +61,136 @@
             c.Field("necessary_key", typeof(string));
             c.Field("contact_detail", typeof(string));
             c.Field("status", typeof(string));
-            c.Field("responsable_thechnical", typeof(string));
-            c.Field("date_instalation", typeof(DateTime));
-           
-                      
         })
-        
-        .Read(read => read.Action("Read", "Status"))
-        .Update(read => read.Action("Read", "Status"))
+
+        .Read(read => read.Action("ReadStatus", "Status"))
+
         )
         .Columns(columns =>
         {
             columns.Bound("logger_sites_name").Title("Nombre Sitio");
-            columns.Bound("zone_name").Width("190").Title("Zona");
-            columns.Bound("status").Title("Estado");
-            columns.Bound("necessary_key").Width(110).Title("Necesario llave");
-            columns.Bound("contact_detail").Width(110).Title("Detalle Contacto");
-            columns.Bound("responsable_thechnical").Width(110).Title("Instalador");
-            columns.Bound("date_instalation").Width(110).Title("Fecha termino");
+            columns.Bound("zone_name").Title("Zona");
+            columns.Bound("status").Title("Estado").Filterable(false);
+            columns.Bound("necessary_key").Title("Necesario llave").Filterable(false);
+            columns.Bound("contact_detail").Title("Detalle Contacto");
             columns.Command(c =>
             {
-                c.Custom("Detalle");
-                c.Edit().Text("edit");
+                c.Custom("Detalle").Click("ViewDetail");
+
             });
-            
-           
+
         })
-                 .Editable(editable => editable.TemplateName("ProductItem").Mode(GridEditMode.PopUp))
-        //.HtmlAttributes(new { style = "height: 380px;" })
+        .Editable(editable => editable.TemplateName("ProductItem").Mode(GridEditMode.PopUp))
         .Events(e => e.DataBound("onDataBound"))
         .Sortable()
+        .HtmlAttributes(new { style = "font-size:12px" })
+
+        .Pageable()
+        .Filterable(filterable => filterable
+        .Extra(false))
+
+    )
+
+</div>
+
+<div id="gridv" class="gridDivReady">
+
+    <h2>Lista estado</h2>
+    @(Html.Kendo().Grid<Poseidon.Models.Logger>()
+        .Name("gridReady")
+        .ToolBar(tools => tools.Excel().HtmlAttributes(new { @class = "k-i-excel", @style = "width:150px;height:30px" }))
+        .Excel(excel => excel
+                .AllPages(true)
+                .ProxyURL(Url.Action("Excel_Export_Save", "Task"))
+        )
+        .ToolBar(tools => tools.Pdf().HtmlAttributes(new { @class = "pdf", @style = "width:150px;height:30px" }))
+        .Pdf(pdf => pdf
+            .FileName("ListStatus.pdf")
+            .ProxyURL(Url.Action("Pdf_Export_Save", "Grid"))
+        )
+        .DataSource(dataSource => dataSource
+        .Ajax()
+        .Model(c =>
+        {
+            c.Id("logger_id");
+            c.Field("logger_sms", typeof(int));
+            c.Field("logger_sites_name", typeof(string));
+            c.Field("zone_id", typeof(int));
+            c.Field("zone_name", typeof(string));
+            c.Field("status", typeof(string));
+            c.Field("user_instalation_start_date", typeof(DateTime));
+            c.Field("user_instalation_end_date", typeof(DateTime));
+            c.Field("user_instalation", typeof(string));
+            c.Field("approval_date", typeof(DateTime));
+
+        })
+                        .Read(read => read.Action("ReadStatusOther", "Status"))
+        )
+        .Columns(columns =>
+        {
+            columns.Bound("logger_sites_name").Title("Nombre Sitio");
+            columns.Bound("logger_sms").Title("SMS");
+            columns.Bound("zone_name").Width("190").Title("Zona");
+            columns.Bound("status").Title("Estado");
+            columns.Bound("user_instalation").Title("Instalador a cargo");
+            columns.Bound("user_instalation_start_date").Title("Inicio Instalación").Format("{0:dd/MM/yyyy HH:mm:ss}"); ;
+            columns.Bound("user_instalation_end_date").Title("Termino Instalación").Format("{0:dd/MM/yyyy HH:mm:ss}"); ;
+
+            columns.Bound("approval_date").Title("Fecha aprobación");
+            columns.Command(command =>
+                    {
+                        command.Custom("View").Click("ViewDetailStatus");
+                        command.Custom("Aprobar").Click("Aprobar");
+
+                    });
+
+
+        })
+        .HtmlAttributes(new { style = "font-size:10px" })
+        .Sortable()
+
+        .Events(e => e.DataBound("onDataBound2"))
+        .Filterable(filterable => filterable
+        .Extra(false))
         .Pageable(pageable => pageable
         .Refresh(true)
         .PageSizes(true)
+
         .ButtonCount(5))
-        .Selectable(select => select.Mode(GridSelectionMode.Multiple))
-       
-        )
-    
+
+
+    )
+
 </div>
 
+
+
 <script type="text/javascript">
+
+    var detailsTemplate = kendo.template($("#template").html());
+
     function ClickCreate(e) {
         window.location.href = "@Url.Action("Create")";
     }
-
-
-   
 
     function onDataBound(e) {
         var grid = $("#grid").data("kendoGrid");
 
         var gridData = grid.dataSource.view();
         var data = grid.dataSource.data();
-      
-        $(data).each(function (i,row) {
+
+        $(data).each(function (i, row) {
             var uno = "Pendiente";
             var dos = "En ejecución";
             var tres = "Instalado";
             var cuatro = "Aprobado";
-          
+
             // set on dataItem
             var currenvalue = this.status;
-           
-            
+
+
             if (currenvalue == "1")
-                this.set("status",uno)
+                this.set("status", uno)
             else if (currenvalue == "2")
                 this.set("status", dos)
             else if (currenvalue == 3) {
@@ -147,21 +209,71 @@
 
         });
 
-        //for (var i = 0; i < gridData.length; i++) {
-        //    var currentUid = gridData[i].uid;
-        //    if (gridData[i].ProcessedDate == null) {
-        //        var currenRow = grid.table.find("tr[data-uid='" + currentUid + "']");
-        //        var currenRow2 = grid.getByUid($(currenrow).data("status"));
-        //        var editButton = $(currenRow).find(".k-grid-edit");
-        //        var custonButton = $(currenRow).find(".k-grid-Detalle")
-        //        var status = $(currenRow).data("status");
 
-        //        status.hide();
-        //        custonButton.hide();
-        //        //editButton.hide();
-                
-        //    }
-        //}
+    }
+
+    function ViewDetail(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var stockReceiptId = dataItem.logger_id;
+        window.location.href = "@Url.Action("Edit", "Status")?logger_id=" + stockReceiptId;
+    }
+
+    function onDataBound2(e) {
+        var grid = $("#gridReady").data("kendoGrid");
+
+        var gridData = grid.dataSource.view();
+        var data = grid.dataSource.data();
+
+        $(data).each(function (i, row) {
+            var uno = "Pendiente";
+            var dos = "En ejecución";
+            var tres = "Instalado";
+            var cuatro = "Aprobado";
+
+            // set on dataItem
+            var currenvalue = this.status;
+            var currentUid = gridData[i].uid;
+            var currenRow = grid.table.find("tr[data-uid='" + currentUid + "']");
+            var editButton = $(currenRow).find(".k-grid-Aprobar");
+
+            if (currenvalue == "1") {
+                this.set("status", uno);
+
+            } else if (currenvalue == "2") {
+                this.set("status", dos)
+
+            } else if (currenvalue == 3) {
+                this.set("status", tres)
+            } else if (currenvalue == 4) {
+                this.set("status", cuatro)
+
+            }
+
+            //OCULTA BOTON APROBAR
+            if (currenvalue == tres) {
+                editButton.hide();
+            }
+
+
+
+        });
+
+
+    }
+
+    function ViewDetailStatus(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var stockReceiptId = dataItem.logger_id;
+        window.location.href = "@Url.Action("Edit", "Status")?logger_id=" + stockReceiptId;
+    }
+
+    function Aprobar(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var stockReceiptId = dataItem.logger_id;
+        window.location.href = "@Url.Action("Edit", "Status")?logger_id=" + stockReceiptId;
     }
 
 </script>
