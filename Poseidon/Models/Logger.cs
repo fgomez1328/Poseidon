@@ -175,7 +175,7 @@ namespace Poseidon.Models
 
 
 
-
+        
 
 
 
@@ -393,10 +393,8 @@ namespace Poseidon.Models
 
         public int channel_id_4 { get; set; }
 
-       [Display(Name = "I'm at least 18 years old?")]
         public Nullable<bool> battery_installed { get; set; }
-
-       [Display(Name = "I'm at least 18 years old?")]
+     
         public bool NoNullbattery_installed
         {
 

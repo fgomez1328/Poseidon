@@ -12,7 +12,7 @@
 }
 <h2>CreateFormulario</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "frm", id = "frm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -1276,9 +1276,12 @@
 
                                 <label for="">
                                
-                                     @Html.CheckBoxFor(model => model.NoNullbattery_installed, new { htmlAttributes = new { @class = "", required = "true", validationmessage = "required field" } })
+                                     @Html.CheckBoxFor(model => model.NoNullbattery_installed, new Dictionary<string, object>{
+                     {"id", "p1isCompleted"},
+                     {"onclick"," KeepCount().call(this)"}}
+                  )
                                   
-                                    @* @Html.ValidationMessageFor(model => model.NoNullbattery_installed, "", new { @class = "text-danger" })*@
+                                    @Html.ValidationMessageFor(model => model.NoNullbattery_installed, "", new { @class = "text-danger" })
 
                                     Si
                                 </label>
@@ -1286,8 +1289,8 @@
 
                                 <label for="">
                               
-                                    @Html.CheckBoxFor(model => model.NoNullbattery_installed, new { htmlAttributes = new { @class = "", required = "true", validationmessage = "required field" } })
-                                    @* @Html.ValidationMessageFor(model => model.NoNullbattery_installed, "", new { @class = "text-danger" })*@
+                                    @Html.CheckBoxFor(model => model.NoNullbattery_installed, new { htmlAttributes = new { @class = "", required = "true", @value = "false" ,validationmessage = "required field" } })
+                                     @Html.ValidationMessageFor(model => model.NoNullbattery_installed, "", new { @class = "text-danger" })
 
 
                                      No
@@ -1575,6 +1578,39 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 <script>
+    function KeepCount() {
+      
+
+        var NewCount = 0
+
+        if (document.frm.NoNullbattery_installed.checked)
+        { NewCount = NewCount + 1 }
+       
+        alert('Selecione solo 1')
+      
+       
+
+        if (NewCount == 1) {
+            alert('Selecione solo 1')
+            document.frm; return false;
+        }
+    }
+    function submitWith() {
+        var checkedCount = $("input:checked").length;
+        var valid = checkedCount > 0;
+        if (!valid) {
+            $('#validationMessage').html('You must select at least one option');
+        }
+        return valid;
+    }
+
+
+
+
+
+
+
+
     $('input.chk').change(function () {
         if ($('input.chk').length > 1) {
             $('input.chk').prop('checked', false);
