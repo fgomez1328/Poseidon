@@ -137,6 +137,7 @@
     <Compile Include="Controllers\HelperController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
+    <Compile Include="Controllers\UserLoggerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -175,6 +176,8 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\30x30-pdf-icon.png" />
+    <Content Include="Content\images\32x32-pdf.png" />
     <Content Include="Content\images\Chile.png" />
     <Content Include="Content\images\dnk_logo.jpg" />
     <Content Include="Content\images\table_excel.png" />
@@ -465,6 +468,7 @@
     <Content Include="Views\Home\EditFormularios.cshtml" />
     <Content Include="App_Browsers\qt.browser" />
     <Content Include="Views\Home\PreviewFormularios.cshtml" />
+    <Content Include="Views\UserLogger\ListLogger.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

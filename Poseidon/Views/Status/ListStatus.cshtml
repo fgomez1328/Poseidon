@@ -1,4 +1,26 @@
-﻿@model IEnumerable<dynamic>
+﻿
+<style type="text/css" media="screen">
+   
+
+    .k-i-excel {
+        background-image: url('../../Content/images/table_excel.png');
+        width: 10px;
+        height: 10px;
+        background-position: left;
+        background-repeat: no-repeat;
+    }
+
+    .pdf {
+        background-image: url('../../Content/images/30x30-pdf-icon.png');
+        width: 6px;
+        height: 6px;
+        background-position: left;
+        background-repeat: no-repeat;
+    }
+</style>
+
+
+@model IEnumerable<dynamic>
 
 @{
     ViewBag.Title = "ListStatus";
@@ -20,11 +42,11 @@
 <div id="clientsDb">
     @(Html.Kendo().Grid(Model)
         .Name("grid")
-               .ToolBar(tools => tools.Excel())
+               .ToolBar(tools => tools.Excel().HtmlAttributes(new { @class = "k-i-excel", @style = "width:150px;height:30px" }))
         .Excel(excel => excel
             .AllPages(true)
             .ProxyURL(Url.Action("Excel_Export_Save", "Task"))
-        ).ToolBar(tools => tools.Pdf())
+        ).ToolBar(tools => tools.Pdf().HtmlAttributes(new { @class = "pdf", @style = "width:150px;height:30px" }))
     .Pdf(pdf => pdf
         .FileName("ListStatus.pdf")
         .ProxyURL(Url.Action("Pdf_Export_Save", "Grid"))
