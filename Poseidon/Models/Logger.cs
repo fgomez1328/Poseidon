@@ -10,6 +10,7 @@ namespace Poseidon.Models
 
 
 
+
     public partial class Logger
     {
 
@@ -392,8 +393,10 @@ namespace Poseidon.Models
 
         public int channel_id_4 { get; set; }
 
+       [Display(Name = "I'm at least 18 years old?")]
         public Nullable<bool> battery_installed { get; set; }
 
+       [Display(Name = "I'm at least 18 years old?")]
         public bool NoNullbattery_installed
         {
 
@@ -403,6 +406,11 @@ namespace Poseidon.Models
 
         }
 
+       public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+       {
+           if (!NoNullbattery_installed)
+               yield return new ValidationResult("You must NoNullbattery_installed.", new[] { "NoNullbattery_installed" });
+       }
 
 
 

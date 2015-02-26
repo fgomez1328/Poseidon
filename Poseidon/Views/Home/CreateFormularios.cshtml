@@ -6,7 +6,10 @@
 @{
     ViewBag.Title = "CreateFormulario";
 }
-
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
 <h2>CreateFormulario</h2>
 
 @using (Html.BeginForm())
@@ -14,9 +17,12 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
         <h4>Logger</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+       
 
         <fieldset class="k-block">
 
@@ -1259,29 +1265,37 @@
 
                     <td>
 
-                        <label for="fullname" class="required">Bateria Instalada?</label>
+                        <label for="" class="">Bateria Instalada?</label>
 
                     </td>
 
                     <td>
 
                         <div>
-                            <fieldset class="k-block">
+                          
 
-                                <label for="theme_red">
-                                    @Html.CheckBoxFor(model => model.NoNullbattery_installed)
+                                <label for="">
+                               
+                                     @Html.CheckBoxFor(model => model.NoNullbattery_installed, new { htmlAttributes = new { @class = "", required = "true", validationmessage = "required field" } })
+                                  
+                                    @* @Html.ValidationMessageFor(model => model.NoNullbattery_installed, "", new { @class = "text-danger" })*@
+
                                     Si
                                 </label>
 
 
-                                <label for="theme_red">
-                                    @Html.CheckBoxFor(model => model.NoNullbattery_installed)
-                                    No
+                                <label for="">
+                              
+                                    @Html.CheckBoxFor(model => model.NoNullbattery_installed, new { htmlAttributes = new { @class = "", required = "true", validationmessage = "required field" } })
+                                    @* @Html.ValidationMessageFor(model => model.NoNullbattery_installed, "", new { @class = "text-danger" })*@
+
+
+                                     No
                                 </label>
 
 
 
-                            </fieldset>
+                         
                         </div>
 
                     </td>
@@ -1539,15 +1553,21 @@
 
             </table>
 
-        </fieldset>
-
-
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+       
+            <div class="">
+                <div class="">
+                    <input type="submit" value="Create" />
+                </div>
             </div>
-        </div>
+        
+        
+        
+        
+         </fieldset>
+
+
+
+      
     </div>
 }
 
@@ -1555,8 +1575,43 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 <script>
+    $('input.chk').change(function () {
+        if ($('input.chk').length > 1) {
+            $('input.chk').prop('checked', false);
+            $(this).prop('checked', true);
+        }
+    });
+
+    function Submit() {
+        if ($("form").valid()) { // validate all fields, including blank required fields
+            $("form").submit();
+        }
+        else {
+            DisplayStep(); // validation failed, redisplay correct step
+        }
+    }
 
 
+
+
+
+
+    function check_checkboxes() {
+        var c = document.getElementsByTagName('input');
+        for (var i = 0; i < c.length; i++) {
+            if (c[i].type == 'checkbox') {
+                if (c[i].checked) { return true }
+            }
+        }
+        return false;
+    }
+    function Validate() {
+        if (!check_checkboxes()) {
+            alert("Please identify what warehouses comply:");
+            return false;
+        }
+        return true;
+    }
 
     var viewModel = kendo.observable({
         material: [

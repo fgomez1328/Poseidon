@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using Kendo.Mvc.UI;
+using Poseidon.Models;
+using System;
+using Kendo.Mvc.Extensions;
 namespace Poseidon.Controllers
 {
     public class UserLoggerController : Controller
@@ -35,7 +38,94 @@ namespace Poseidon.Controllers
         }
 
 
+        public ActionResult ListLoggerTot()
+        {
 
+
+
+
+            return View();
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+        public ActionResult Read([DataSourceRequest] DataSourceRequest request)
+        {
+            return GetView(request);
+        }
+        private JsonResult GetView(DataSourceRequest request)
+        {
+            return Json(GetData().ToDataSourceResult(request));
+        }
+        private IEnumerable<dynamic> GetData()
+        {
+            poseidon_dbEntities db = new poseidon_dbEntities();
+
+            var result = from a in db.Logger
+                         join b in db.zones
+                            on a.zone_id equals b.zone_id into zo
+                         from f in zo.DefaultIfEmpty()
+                         where a.status == 1
+                         select new
+                         {
+
+                             a.logger_id,
+                             a.logger_sites_name,
+                             a.logger_sms,
+                             f.zone_name,
+                             a.instalation_type,
+                             a.necessary_key,
+                             a.contact_detail,
+                             a.status
+
+                         };
+
+            return result;
+        }
+
+        public ActionResult Read1([DataSourceRequest] DataSourceRequest request)
+        {
+            return GetView1(request);
+        }
+        private JsonResult GetView1(DataSourceRequest request)
+        {
+            return Json(GetData1().ToDataSourceResult(request));
+        }
+        private IEnumerable<dynamic> GetData1()
+        {
+            poseidon_dbEntities db = new poseidon_dbEntities();
+
+            var result = from a in db.Logger
+                         join b in db.zones
+                            on a.zone_id equals b.zone_id into zo
+                         from f in zo.DefaultIfEmpty()
+                         where a.status == 1
+                         select new
+                         {
+
+                             a.logger_id,
+                             a.logger_sites_name,
+                             a.logger_sms,
+                             f.zone_name,
+                             a.instalation_type,
+                             a.necessary_key,
+                             a.contact_detail,
+                             a.status
+
+                         };
+
+            return result;
+        }
 
         // POST: UserLogger/Create
         [HttpPost]
