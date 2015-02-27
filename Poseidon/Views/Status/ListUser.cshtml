@@ -1,69 +1,33 @@
-﻿<style type="text/css" media="screen">
- .chileFlag
-{
-background-image: url('../../Content/images/Chile.png');
-width:32px;
-height:32px;
-background-position:initial;
-}
- .k-i-excel
-{
-
-background-image: url('../../Content/images/table_excel.png');
-width:10px;
-height:10px;
-background-position:left;
-background-repeat: no-repeat;
-
-}
-
- .pdf
-{
-
-background-image: url('../../Content/images/30x30-pdf-icon.png');
-width:6px;
-height:6px;
-background-position:left;
-background-repeat: no-repeat;
-
-}
-
-
-
-
-
-
-
-
-</style>
-
-
-
-@model IEnumerable<dynamic>
-
-@{
+﻿@{
     ViewBag.Title = "ListUser";
 }
 
-<h2>ListUser</h2>
+<h2>Lista Disponibles para agendar</h2>
 
 <div id="clientsDb">
-    @(Html.Kendo().Grid(Model)
-        .Name("grid")
-
-                 .ToolBar(tools => tools.Excel().HtmlAttributes(new { @class = "k-i-excel", @style = "width:150px;height:30px" }))
-       
-                 .Excel(excel => excel
+    @(Html.Kendo().Grid<Poseidon.Models.Logger>()
+        .Name("gridFree")
+        .ToolBar(tools => tools.Excel().HtmlAttributes(new { @class = "k-i-excel", @style = "width:150px;height:30px" }))
+        .Excel(excel => excel
                .FileName("Kendo UI Grid Export.xlsx")
-                .Filterable(true)
-                .ProxyURL(Url.Action("Excel_Export_Save", "Grid"))
-                
-            )
-                .ToolBar(tools => tools.Pdf().HtmlAttributes(new { @class = "pdf", @style = "width:150px;height:35px" }))
+               .Filterable(true)
+               .ProxyURL(Url.Action("Excel_Export_Save", "Grid"))
+        )
+        .ToolBar(tools => tools.Pdf().HtmlAttributes(new { @class = "pdf", @style = "width:150px;height:35px" }))
         .Pdf(pdf => pdf
-        .FileName("ListUser.pdf")
-        .ProxyURL(Url.Action("Pdf_Export_Save", "Grid"))
-            )
+            .FileName("ListUser.pdf")
+            .ProxyURL(Url.Action("Pdf_Export_Save", "Grid"))
+        )
+        .Columns(columns =>
+        {
+            columns.Bound("logger_sites_name").Title("Nombre Sitio");
+            columns.Bound("logger_sms").Title("SMS");
+            columns.Bound("zone_name").Width("190").Title("Zona");
+            columns.Bound("necessary_key").Width(110).Title("Necesario llaves").Filterable(false);
+            columns.Bound("contact_detail").Width(110).Title("Detalle contacto");
+
+
+        })
         .DataSource(dataSource => dataSource
         .Ajax()
         .Model(c =>
@@ -73,38 +37,26 @@ background-repeat: no-repeat;
             c.Field("logger_sites_name", typeof(string));
             c.Field("zone_id", typeof(int));
             c.Field("zone_name", typeof(string));
-            c.Field("instalation_type", typeof(string));
             c.Field("necessary_key", typeof(string));
             c.Field("contact_detail", typeof(string));
-            c.Field("status", typeof(string));
 
         })
         .Read(read => read.Action("Read", "Status"))
         )
-        .Columns(columns =>
-        {
-            columns.Bound("logger_sites_name").Title("Sites Name");
-            columns.Bound("logger_sms").Title("SMS");
-            columns.Bound("zone_name").Width("190").Title("Zone");
-            columns.Bound("status").Title("Status");
-            columns.Bound("instalation_type").Width(110).Title("Instalation Type");
-            columns.Bound("necessary_key").Width(110).Title("Necessary Key");
-            columns.Bound("contact_detail").Width(110).Title("Contact detail");
-            columns.Command(c => c.Custom("Actualizar"));
 
-        })
-            //.HtmlAttributes(new { style = "height: 380px;" })
+        .HtmlAttributes(new { style = "font-size:12px" })
         .Sortable()
         .Events(e => e.DataBound("onDataBound"))
-       
+
         .Pageable(pageable => pageable
         .Refresh(true)
         .PageSizes(true)
         .ButtonCount(5))
         .Selectable(select => select.Mode(GridSelectionMode.Multiple))
+        .Filterable(filterable => filterable
+           .Extra(false))
 
     )
-
     @Html.Label("Seleccione los logger a agendar, Ocupe la tecla ctrl para seleccionar más de uno")
     @(Html.Kendo().Button()
         .Name("linkButton")
@@ -116,13 +68,137 @@ background-repeat: no-repeat;
         })
     )
 
+</div>
+
+
+<h2>Lista instalaciones en progreso</h2>
+<div id="gridinstalando">
+    @(Html.Kendo().Grid<Poseidon.Models.Logger>()
+        .Name("gridProgress")
+        .ToolBar(tools => tools.Excel().HtmlAttributes(new { @class = "k-i-excel", @style = "width:150px;height:30px" }))
+        .Excel(excel => excel
+                .FileName("Kendo UI Grid Export.xlsx")
+                .Filterable(true)
+                .ProxyURL(Url.Action("Excel_Export_Save", "Grid"))
+        )
+        .ToolBar(tools => tools.Pdf().HtmlAttributes(new { @class = "pdf", @style = "width:150px;height:35px" }))
+        .Pdf(pdf => pdf
+            .FileName("ListUser.pdf")
+            .ProxyURL(Url.Action("Pdf_Export_Save", "Grid"))
+        )
+        .Columns(columns =>
+        {
+            columns.Bound("logger_sites_name").Title("Nombre Sitio");
+            columns.Bound("logger_sms").Title("SMS");
+            columns.Bound("zone_name").Width("190").Title("Zona");
+            columns.Bound("status").Title("Estado").Filterable(false);
+            columns.Command(c => c.Custom("Actualizar").Click("UpdateLogger"));
+
+        })
+        .DataSource(dataSource => dataSource
+        .Ajax()
+        .Model(c =>
+        {
+            c.Id("logger_id");
+            c.Field("logger_sms", typeof(int));
+            c.Field("logger_sites_name", typeof(string));
+            c.Field("zone_id", typeof(int));
+            c.Field("zone_name", typeof(string));
+
+
+
+        })
+        .Read(read => read.Action("ReadProgress", "Status"))
+        )
+
+        .HtmlAttributes(new { style = "font-size:12px" })
+        .Sortable()
+        .Events(e => e.DataBound("onDataBoundProgress"))
+
+        .Pageable(pageable => pageable
+        .Refresh(true)
+        .PageSizes(true)
+        .ButtonCount(5))
+
+        .Filterable(filterable => filterable
+           .Extra(false))
+
+    )
+
+</div>
+
+
+
+<div>
+    <h2>Lista Terminados</h2>
+
+    @(Html.Kendo().Grid<Poseidon.Models.Logger>()
+        .Name("gridReady")
+        .ToolBar(tools => tools.Excel().HtmlAttributes(new { @class = "k-i-excel", @style = "width:150px;height:30px" }))
+        .Excel(excel => excel
+                .FileName("Kendo UI Grid Export.xlsx")
+                .Filterable(true)
+                .ProxyURL(Url.Action("Excel_Export_Save", "Grid"))
+        )
+        .ToolBar(tools => tools.Pdf().HtmlAttributes(new { @class = "pdf", @style = "width:150px;height:35px" }))
+        .Pdf(pdf => pdf
+            .FileName("ListUser.pdf")
+            .ProxyURL(Url.Action("Pdf_Export_Save", "Grid"))
+        )
+        .DataSource(dataSource => dataSource
+        .Ajax()
+        .Model(c =>
+        {
+            c.Id("logger_id");
+            c.Field("logger_sms", typeof(int));
+            c.Field("logger_sites_name", typeof(string));
+            c.Field("zone_id", typeof(int));
+            c.Field("zone_name", typeof(string));
+            c.Field("status", typeof(string));
+            c.Field("user_instalation_start_date", typeof(DateTime));
+            c.Field("user_instalation_end_date", typeof(DateTime));
+            c.Field("instalation_user", typeof(string));
+            c.Field("approval_date", typeof(DateTime));
+
+        })
+                .Read(read => read.Action("OtherData", "Status"))
+        )
+        .Columns(columns =>
+        {
+            columns.Bound("logger_sites_name").Title("Nombre Sitio");
+            columns.Bound("logger_sms").Title("SMS");
+            columns.Bound("zone_name").Width("190").Title("Zona");
+            columns.Bound("status").Title("Estado").Filterable(false);
+            columns.Bound("user_instalation_start_date").Title("Inicio Instalación").Format("{0:dd/MM/yyyy HH:mm:ss}").Filterable(false);
+            columns.Bound("user_instalation_end_date").Title("Termino Instalación").Format("{0:dd/MM/yyyy HH:mm:ss}").Filterable(false);
+            columns.Bound("instalation_user").Title("Instalado por").Filterable(false);
+            columns.Bound("approval_date").Title("Fecha aprobación").Format("{0:dd/MM/yyyy HH:mm:ss}").Filterable(false);
+            columns.Command(c => c.Custom("Ver"));
+
+        })
+        .HtmlAttributes(new { style = "font-size:12px" })
+        .Sortable()
+        .Events(e => e.DataBound("onDataBound2"))
+
+        .Pageable(pageable => pageable
+        .Refresh(true)
+        .PageSizes(true)
+        .ButtonCount(5))
+        .Filterable(filterable => filterable
+          .Extra(false))
+
+
+    )
+</div>
+
+
 @Html.Label("test", new { id = "labeltest" })
 
 <script type="text/javascript">
 
 
     function ClickCreate(e) {
-        var grid = $("#grid").data("kendoGrid");
+        var grid = $("#gridFree").data("kendoGrid");
         var selectedRows = grid.select();
 
         var selectedDataItems = $.map(selectedRows, function (row) {
@@ -133,13 +209,90 @@ background-repeat: no-repeat;
         });
 
         // display the ProductName field of the selected data items
-        $("#labeltest").text(selectedProductNames.join(", "));
-        window.location.href = "@Url.Action("PreviewInstalation", "Status")?ID=" + selectedProductNames.join(",");
+        if (selectedProductNames.length > 0) {
+            $("#labeltest").text(selectedProductNames.join(", "));
+            window.location.href = "@Url.Action("PreviewInstalation", "Status")?ID=" + selectedProductNames.join(",");
+        } else {
+            alert("No seleccionó ningún Logger");
+        }
+
 
     }
 
     function onDataBound(e) {
-        var grid = $("#grid").data("kendoGrid");
+        var grid = $("#gridFree").data("kendoGrid");
+
+        var gridData = grid.dataSource.view();
+        var data = grid.dataSource.data();
+
+        $(data).each(function (i, row) {
+            var uno = "Pendiente";
+            var dos = "En ejecución";
+            var tres = "Instalado";
+            var cuatro = "Aprobado";
+
+            // set on dataItem
+            var currenvalue = this.status;
+
+
+            if (currenvalue == "1") {
+                this.set("status", uno)
+            } else if (currenvalue == "2") {
+                this.set("status", dos)
+                // $('tr[data-uid="' + row.uid + '"] td:nth-child(4)').css("background-color", "red");
+            } else if (currenvalue == 3) {
+                this.set("status", tres)
+            } else if (currenvalue == 4) {
+                this.set("status", cuatro)
+            }
+            var currenkey = this.necessary_key;
+            var no = "No";
+            var yes = "Si";
+            if (currenkey == "false")
+                this.set("necessary_key", no)
+            else if (currenkey == "true")
+                this.set("necessary_key", yes)
+
+        });
+
+        //for (var i = 0; i < gridData.length; i++) {
+        //    var currentUid = gridData[i].uid;
+        //    if (gridData[i].ProcessedDate == null) {
+        //        var currenRow = grid.table.find("tr[data-uid='" + currentUid + "']");
+        //        var currenRow2 = grid.getByUid($(currenrow).data("status"));
+        //        var editButton = $(currenRow).find(".k-grid-edit");
+        //        var custonButton = $(currenRow).find(".k-grid-Detalle")
+        //        var status = $(currenRow).data("status");
+
+        //        status.hide();
+        //        custonButton.hide();
+        //        //editButton.hide();
+
+        //    }
+        //}
+    }
+
+    function onDataBoundProgress(e) {
+        var grid = $("#gridProgress").data("kendoGrid");
+
+        var gridData = grid.dataSource.view();
+        var data = grid.dataSource.data();
+
+        $(data).each(function (i, row) {
+            var currenkey = this.necessary_key;
+            var no = "No";
+            var yes = "Si";
+            if (currenkey == "false")
+                this.set("necessary_key", no)
+            else if (currenkey == "true")
+                this.set("necessary_key", yes)
+
+        });
+
+    }
+
+    function onDataBound2(e) {
+        var grid = $("#gridReady").data("kendoGrid");
 
         var gridData = grid.dataSource.view();
         var data = grid.dataSource.data();
@@ -174,20 +327,40 @@ background-repeat: no-repeat;
 
         });
 
-        //for (var i = 0; i < gridData.length; i++) {
-        //    var currentUid = gridData[i].uid;
-        //    if (gridData[i].ProcessedDate == null) {
-        //        var currenRow = grid.table.find("tr[data-uid='" + currentUid + "']");
-        //        var currenRow2 = grid.getByUid($(currenrow).data("status"));
-        //        var editButton = $(currenRow).find(".k-grid-edit");
-        //        var custonButton = $(currenRow).find(".k-grid-Detalle")
-        //        var status = $(currenRow).data("status");
 
-        //        status.hide();
-        //        custonButton.hide();
-        //        //editButton.hide();
+    }
 
-        //    }
-        //}
+
+    function UpdateLogger(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var stockReceiptId = dataItem.logger_id;
+        window.location.href = "@Url.Action("CreateInstalation", "Status")?logger_id=" + stockReceiptId;
+
     }
 </script>
+
+<style type="text/css" media="screen">
+    .chileFlag {
+        background-image: url('../../Content/images/Chile.png');
+        width: 32px;
+        height: 32px;
+        background-position: initial;
+    }
+
+    .k-i-excel {
+        background-image: url('../../Content/images/table_excel.png');
+        width: 10px;
+        height: 10px;
+        background-position: left;
+        background-repeat: no-repeat;
+    }
+
+    .pdf {
+        background-image: url('../../Content/images/30x30-pdf-icon.png');
+        width: 6px;
+        height: 6px;
+        background-position: left;
+        background-repeat: no-repeat;
+    }
+</style>

@@ -90,6 +90,7 @@
           <Property Name="type_flowmeter_id" Type="int" />
           <Property Name="picture_image" Type="varchar" MaxLength="30" />
           <Property Name="picture_url" Type="varchar" MaxLength="30" />
+          <Property Name="instalation_type_logger" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -336,6 +337,7 @@
           <Property Name="picture_image" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="picture_url" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Company" Relationship="poseidon_dbModel.FK_Logger_Company" FromRole="Logger" ToRole="Company" />
+          <Property Name="instalation_type_logger" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Logger_Company">
           <End Type="poseidon_dbModel.Company" Role="Company" Multiplicity="1" />
@@ -397,6 +399,7 @@
           <EntitySetMapping Name="Logger">
             <EntityTypeMapping TypeName="poseidon_dbModel.Logger">
               <MappingFragment StoreEntitySet="Logger">
+                <ScalarProperty Name="instalation_type_logger" ColumnName="instalation_type_logger" />
                 <ScalarProperty Name="picture_url" ColumnName="picture_url" />
                 <ScalarProperty Name="picture_image" ColumnName="picture_image" />
                 <ScalarProperty Name="type_flowmeter_id" ColumnName="type_flowmeter_id" />
