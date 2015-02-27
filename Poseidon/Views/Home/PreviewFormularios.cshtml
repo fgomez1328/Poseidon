@@ -32,187 +32,105 @@
         <h4>Logger</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
         <fieldset class="k-block">
 
             <h3>Detalles del Sitio</h3>
 
             <table>
 
-
-
                 <tr class="">
+                    @Html.HiddenFor(model => model.logger_id)
 
+                    @*EMPRESA*@
                     <td>
-
-                        <label for="fullname" class="required">Latitude</label>
-
-
+                        <label for="fullname" class="required">Empresa</label>
                     </td>
 
                     <td>
-                        <div id="lat">
-                            @Html.TextBoxFor(model => model.latitude, new { disabled = "disabled", @readonly = "readonly", @style = " background-color: #E6E3E3;" })
-                            @Html.ValidationMessageFor(model => model.latitude, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
+                        <div class="editor-field">
+                            @Html.TextBoxFor(model => model.company_id, new { style = "width: 190px", disabled = "disabled" })
                         </div>
 
                     </td>
 
-                    <td align="">
-
-
-
-                        <label for="fullname" class="required">Es necesario Acceder al Sitio?</label>
-
-
+                    @*NUMERO DE SERIE*@
+                    <td>
+                        <label for="fullname" class="required">Número de serie</label>
                     </td>
-
-
-
-
 
                     <td>
 
-
-
-                        <fieldset class="k-block">
-
-                            <label for="theme_red">
-                                @Html.CheckBoxFor(model => model.NoNullExclusive, new { @disabled = "disabled" })
-                                Si
-                            </label>
-
-
-
-
-
-                            <label for="theme_white">
-                                @Html.CheckBoxFor(model => model.NoNullExclusive, new { @disabled = "disabled" })No
-                            </label>
-
-
-
-                        </fieldset>
-
-
+                        @Html.TextBoxFor(model => model.logger_serial_number, new { style = "width: 190px", disabled = "disabled" })
                     </td>
-
-
 
                 </tr>
 
+                <tr>
 
+                    @*ACCEDER AL SITIO*@
+                    <td >
+
+                        <label for="fullname" class="required">¿Fue necesario acceder al sitio?</label>
+
+                    </td>
+
+                    <td>
+                        <fieldset class="k-block" style="width:190px">
+                            @Html.RadioButtonFor(model => model.necesary_site_enter.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
+                            @Html.RadioButtonFor(model => model.necesary_site_enter.Value, "false", new { style = "width: 50px" })No
+
+                        </fieldset>
+                    </td>
+
+                    @*TIPO DE INSTALACIÓN*@
+                    <td>
+                        <label for="fullname" class="required">Tipo de instalación</label>
+                    </td>
+
+                    <td>
+                        @Html.TextBoxFor(model => model.instalation_type_logger, new { style = "width: 190px", disabled = "disabled" })
+
+                    </td>
+
+                </tr>
 
                 <tr>
 
+                    @*NUMERO DE TELEFONO*@
                     <td>
-
-                        <label for="fullname" class="required">Longitud</label>
-
-
+                        <label for="fullname" class="required">Número de teléfono</label>
                     </td>
 
                     <td>
+                        @Html.TextBoxFor(model => model.logger_sms, new { htmlAttributes = new { style = "width: 180px" } })
+                    </td>
 
-                        @Html.TextBoxFor(model => model.longitute, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
-                        @Html.ValidationMessageFor(model => model.longitute)
+                    @*INTERPERIE*@
+                    <td>
 
-
-
+                        <label for="fullname" class="required">¿Logger se encuentra a la interperie?</label>
                     </td>
 
                     <td>
-
-                        <label for="fullname" class="required">Loger se Encuentra a la Interperie?</label>
-
-
-                    </td>
-
-                    <td>
-
                         <fieldset class="k-block">
-
-                            <label for="theme_red">
-                                @Html.CheckBoxFor(model => model.NoNulllogger_outdoor, new { @disabled = "disabled" })
-                                Si
-                            </label>
-
-
-
-
-                            <label for="theme_red">
-                                @Html.CheckBoxFor(model => model.NoNulllogger_outdoor, new { @disabled = "disabled" })
-                                No
-                            </label>
-
-
-
+                            @Html.RadioButtonFor(model => model.logger_outdoor.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
+                            @Html.RadioButtonFor(model => model.logger_outdoor.Value, "false", new { style = "width: 50px" })No
                         </fieldset>
 
                     </td>
 
-
-
                 </tr>
 
-
-
+                @*CONDICIONES INSTALACIÓN*@
                 <tr>
-
                     <td>
-
-                        <label for="fullname" class="required">Elevation</label>
-
-                    </td>
-
-                    <td>
-
-                        @Html.TextBoxFor(model => model.elevation, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
-                        @Html.ValidationMessageFor(model => model.elevation, String.Empty, new { @class = "help-inline", @style = "color:red" })
-
-
-
-                    </td>
-
-                    <td>
-
                         <label for="fullname" class="required">Condiciones del Lugar de la Instalacion?</label>
-
-
                     </td>
 
                     <td>
-
-                        <div>
-                            @(Html.Kendo().DropDownListFor(m => m.id_conditions_installation)
-
-                            .DataTextField("Text")
-                            .DataValueField("Value")
-                            .HtmlAttributes(new { style = "width:190px" })
-                            .BindTo(new List<SelectListItem>
-                            () {
-                            new SelectListItem() {
-                            Text = "Ideal",
-                            Value = "1"
-                            },
-                            new SelectListItem() {
-                            Text = "Regulares",
-                            Value= "2"
-                            },
-                            new SelectListItem() {
-                            Text = "Malas",
-                            Value= "3"
-                            },
-
-                            })
-        .Value("1").Enable(false)
-                            )
-
-                        </div>
+                        @Html.TextBoxFor(model => model.id_conditions_installation, new { style = "width: 190px", disabled = "disabled" })
                     </td>
-
-
-
                 </tr>
 
             </table>
@@ -220,6 +138,7 @@
         </fieldset>
         <br>
         <br>
+
 
         <fieldset class="k-block">
 
@@ -229,154 +148,89 @@
 
                 <tr align="left">
 
+                    @*POSICION ANTENA*@
                     <td>
-
-                        <label for="fullname" class="required">Antena Position</label>
+                        <label for="fullname" class="required">Posición de la antena</label>
 
                     </td>
 
                     <td>
-
                         <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.antenna_position, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
-                            @Html.ValidationMessageFor(model => model.antenna_position, String.Empty, new { @class = "help-inline", @style = "color:red" })
-
+                            @Html.TextBoxFor(model => model.antenna_position, new { style = "width: 50px" })
+                           
                         </div>
                     </td>
 
+                    @*TIPO DE ANTENA*@
                     <td>
-
                         <label for="fullname" class="required">Tipo de Antena Usada</label>
 
                     </td>
 
                     <td>
-
-
-
-                        @(Html.Kendo().DropDownListFor(m => m.antenna_type)
-
-                        .DataTextField("Text")
-                        .DataValueField("Value")
-                        .HtmlAttributes(new { style = "width:175px" })
-                        .BindTo(new List<SelectListItem>
-    () {
-    new SelectListItem() {
-    Text = "Polarizacion Vertical",
-    Value = "1"
-    },
-    new SelectListItem() {
-    Text = "Domo",
-    Value= "2"
-    },
-
-    })
-.Value("1").Enable(false)
-                        )
-
-
+                        @Html.TextBoxFor(model => model.antenna_type, new { style = "width: 50px" })
                     </td>
-
-
 
                 </tr>
 
-
-
                 <tr>
 
+                    @*FINAL CSQ*@
                     <td>
-
                         <label for="fullname" class="required">Final Csq</label>
 
                     </td>
 
                     <td>
-
                         <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.final_csq, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
-                            @Html.ValidationMessageFor(model => model.final_csq, String.Empty, new { @class = "help-inline", @style = "color:red" })
-
+                            @Html.TextBoxFor(model => model.final_csq, new { htmlAttributes = new { style = "width: 180px" } })
+                           
                         </div>
 
                     </td>
 
+                    @*CSQ FUERA DE CAMARA*@
                     <td>
-
                         <label for="fullname" class="required">CSQ fuera de la Camara</label>
 
                     </td>
 
                     <td>
-                        <fieldset class="k-block">
-
-                            <label for="theme_red">
-                                @Html.CheckBoxFor(model => model.NoNullCsq_outdoor, new { @disabled = "disabled" })
-                                Si
-                            </label>
-
-
-
-
-                            <label for="theme_red">
-                                @Html.CheckBoxFor(model => model.NoNullCsq_outdoor, new { @disabled = "disabled" })
-                                No
-                            </label>
-
-
+                        <fieldset class="k-block" style="width:180px">
+                            @Html.RadioButtonFor(model => model.Csq_outdoor.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
+                            @Html.RadioButtonFor(model => model.Csq_outdoor.Value, "false", new { style = "width: 50px" })No
+                            
 
                         </fieldset>
                     </td>
 
-
-
                 </tr>
 
                 <tr>
-
+                    @*GPRS STATUS*@
                     <td>
 
-                        <label for="fullname" class="required">Gprs Status</label>
+                        <label for="fullname" class="required">Test GPRS</label>
                     </td>
 
                     <td>
+                        @Html.TextBoxFor(model => model.gprs_test_status, new { htmlAttributes = new { style = "width: 180px" } })
 
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.gprs_test_status, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
-                            @Html.ValidationMessageFor(model => model.gprs_test_status, String.Empty, new { @class = "help-inline", @style = "color:red" })
-
-
-                        </div>
                     </td>
 
+                    @*SE PUEDE INSTALAR POSE DE ANTENA*@
                     <td>
-
                         <label for="fullname" class="required">Se puede Instalar Poste para Antena</label>
-
                     </td>
 
                     <td>
                         <div>
                             <fieldset class="k-block">
-
-                                <label for="theme_red">
-                                    @Html.CheckBoxFor(model => model.NoNullcan_lamppost_with_antenna, new { @disabled = "disabled" })
-                                    Si
-                                </label>
-
-
-                                <label for="theme_red">
-                                    @Html.CheckBoxFor(model => model.NoNullcan_lamppost_with_antenna, new { @disabled = "disabled" })
-                                    No
-                                </label>
-
-
-
+                                @Html.RadioButtonFor(model => model.can_lamppost_with_antenna, "true", new { Checked = "checked", style = "width: 50px" })Si
+                                @Html.RadioButtonFor(model => model.can_lamppost_with_antenna, "false", new { style = "width: 50px" })No
                             </fieldset>
                         </div>
                     </td>
-
-
 
                 </tr>
 
@@ -386,141 +240,66 @@
 
         <br>
         <br>
+
+
         <fieldset class="k-block">
 
-            <h3>Detalles de la Instalacion</h3>
+            <h3>Detalles de la Instalación</h3>
 
             <table align="left">
 
-
-
                 <tr align="center">
 
+                    @*TIPO DE INSTALACIÓN SITE*@
                     <td>
-
-                        <label for="fullname" class="required">Tipo de Instalacion</label>
-
+                        <label for="fullname" class="required">Tipo de Instalación</label>
                     </td>
 
                     <td>
+                        @Html.TextBoxFor(model => model.instalation_type, new { htmlAttributes = new { style = "width: 180px" } })
 
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.instalation_type, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
-                            @Html.ValidationMessageFor(model => model.instalation_type, String.Empty, new { @class = "help-inline", @style = "color:red" })
+                    </td>
 
-                        </div>
-
+                    @*FLUJOMETRO STATUS*@
+                    <td>
+                        <label for="fullname" class="required">Estado del Flujómetro</label>
                     </td>
 
                     <td>
-
-                        <label for="fullname" class="required">Estado del Flujometro</label>
-
-                    </td>
-
-                    <td>
-
-                        <div class="">
-                            @(Html.Kendo().DropDownListFor(m => m.state_flowmeter_id)
-
-                            .DataTextField("Text")
-                            .DataValueField("Value")
-                            .HtmlAttributes(new { style = "width:175px" })
-                            .BindTo(new List<SelectListItem>
-                                () {
-                                new SelectListItem() {
-                                Text = "Ideales",
-                                Value = "1"
-                                },
-                                new SelectListItem() {
-                                Text = "Regulares",
-                                Value= "2"
-                                },
-                                new SelectListItem() {
-                                Text = "Malas",
-                                Value= "3"
-                                },
-
-                                })
-            .Value("1").Enable(false)
-                            )
-                        </div>
+                            @Html.TextBoxFor(model => model.state_flowmeter_id, new { htmlAttributes = new { style = "width: 180px" } })
 
                     </td>
-
-
 
                 </tr>
 
-
-
                 <tr>
-
+                    @*LECTURA MANOMETRO*@
                     <td>
-
-                        <label for="fullname" class="required">Lectura Manometro AAb</label>
+                        <label for="fullname" class="required">Lectura Manómetro AAr</label>
 
                     </td>
 
                     <td>
+                        @Html.TextBoxFor(model => model.manometer_aab_value, new { htmlAttributes = new { @class = "form-control" } })
 
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.manometer_aab_value, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
-                            @Html.ValidationMessageFor(model => model.manometer_aab_value, String.Empty, new { @class = "help-inline", @style = "color:red" })
+                    </td>
 
-                        </div>
+                    @*TIPO DE FLUJOMETRO*@
+                    <td>
+
+                        <label for="fullname" class="required">Tipo de Flujómetro</label>
 
                     </td>
 
                     <td>
-
-                        <label for="fullname" class="required">Tipo de Flujometro</label>
+                        @Html.TextBoxFor(model => model.type_flowmeter_id, new { htmlAttributes = new { @class = "form-control" } })
 
                     </td>
-
-                    <td>
-
-                        @(Html.Kendo().DropDownListFor(m => m.type_state_flowmeter_id)
-
-                        .DataTextField("Text")
-                        .DataValueField("Value")
-                        .HtmlAttributes(new { style = "width:175px" })
-                        .BindTo(new List<SelectListItem>
-                            () {
-                            new SelectListItem() {
-                            Text = "Electromagnetismo Tubo",
-                            Value = "1"
-                            },
-                            new SelectListItem() {
-                            Text = "Velocimetro Tubo",
-                            Value= "2"
-                            },
-                            new SelectListItem() {
-                            Text = "ElectroMagnetico",
-                            Value= "3"
-                            },
-                                            new SelectListItem() {
-                                            Text = "Insercion",
-                                            Value= "4"
-                                            },
-                                            new SelectListItem() {
-                                            Text = "Velocimetro de Insercion",
-                                            Value= "4"
-                                            },
-
-                            })
-            .Value("1").Enable(false)
-                        )
-                    </td>
-
-
 
                 </tr>
 
-
-
                 <tr>
-
+                    @*LECTURA LOGGER AAR*@
                     <td>
 
                         <label for="fullname" class="required">Lectura Logger AAr</label>
@@ -528,17 +307,12 @@
                     </td>
 
                     <td>
-
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.logger_aar_value, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
-                            @Html.ValidationMessageFor(model => model.logger_aar_value, String.Empty, new { @class = "help-inline", @style = "color:red" })
-
-                        </div>
+                            @Html.TextBoxFor(model => model.logger_aar_value, new { htmlAttributes = new { @class = "form-control" } })
 
                     </td>
 
+                    @*CON EMISOR DE PULSOS*@
                     <td>
-
                         <label for="fullname" class="required">Emisor de Pulsos</label>
 
                     </td>
@@ -548,53 +322,34 @@
                         <div>
                             <fieldset class="k-block">
 
-                                <label for="theme_red">
-                                    @Html.CheckBoxFor(model => model.NoNullwith_pulser, new { @disabled = "disabled" })
-                                    Si
-                                </label>
-
-
-                                <label for="theme_red">
-                                    @Html.CheckBoxFor(model => model.NoNullwith_pulser, new { @disabled = "disabled" })
-                                    No
-                                </label>
-
-
+                                @Html.RadioButtonFor(model => model.with_pulser.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
+                                @Html.RadioButtonFor(model => model.with_pulser.Value, "false", new { style = "width: 50px" })No
 
                             </fieldset>
                         </div>
 
                     </td>
 
-
-
                 </tr>
-
-
 
                 <tr>
 
+                    @*LECTURA MANOMETRO AAB*@
                     <td>
-
-                        <label for="fullname" class="required">Lectura Manometro AAb</label>
-
+                        <label for="fullname" class="required">Lectura Manómetro AAb</label>
                     </td>
 
                     <td>
-
                         <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.manometer_aar_value, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
-                            @Html.ValidationMessageFor(model => model.manometer_aar_value, String.Empty, new { @class = "help-inline", @style = "color:red" })
-
+                            @Html.TextBoxFor(model => model.manometer_aar_value, new { htmlAttributes = new { @class = "form-control" } })
 
                         </div>
 
                     </td>
 
+                    @*FUE REEMPLAZADO EL EMISOR DE PULSOS*@
                     <td>
-
-                        <label for="fullname" class="required">Fue Reeplazado el Emisor de Pulsos?</label>
-
+                        <label for="fullname" class="required">¿Fue Reeplazado el Emisor de Pulsos?</label>
                     </td>
 
                     <td>
@@ -602,32 +357,19 @@
                         <div>
                             <fieldset class="k-block">
 
-                                <label for="theme_red">
-                                    @Html.CheckBoxFor(model => model.NoNullpulser_changed, new { @disabled = "disabled" })
-                                    Si
-                                </label>
-
-
-                                <label for="theme_red">
-                                    @Html.CheckBoxFor(model => model.NoNullpulser_changed, new { @disabled = "disabled" })
-                                    No
-                                </label>
-
-
-
+                                @Html.RadioButtonFor(model => model.pulser_changed.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
+                                @Html.RadioButtonFor(model => model.pulser_changed.Value, "false", new { style = "width: 50px" })No
                             </fieldset>
                         </div>
 
                     </td>
 
-
-
                 </tr>
 
                 <tr>
 
+                    @*LECTURA DE LOGGER AAB*@
                     <td>
-
                         <label for="fullname" class="required">Lectura Logger AAb</label>
 
                     </td>
@@ -635,16 +377,15 @@
                     <td>
 
                         <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.logger_aab_value, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
+                            @Html.TextBoxFor(model => model.logger_aab_value, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.logger_aab_value, String.Empty, new { @class = "help-inline", @style = "color:red" })
-
 
                         </div>
 
                     </td>
 
+                    @*LITROS POR PULSOS*@
                     <td>
-
                         <label for="fullname" class="required">Litros por Pulso</label>
 
                     </td>
@@ -652,15 +393,12 @@
                     <td>
 
                         <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.liters_per_pulser, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
-                            @Html.ValidationMessageFor(model => model.liters_per_pulser, String.Empty, new { @class = "help-inline", @style = "color:red" })
-
+                            @Html.TextBoxFor(model => model.liters_per_pulser, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
 
                     </td>
 
                 </tr>
-
 
             </table>
 
@@ -670,37 +408,28 @@
         <br>
         <fieldset class="k-block">
 
-            <h3>Detalles de la Camara</h3>
+            <h3>Detalles de la Cámara</h3>
 
-            <table align="left">
+            <table>
 
-
-
-                <tr align="left">
-
+                <tr>
+                    @*POSICION DEL LOGGER*@
                     <td>
 
-                        <label for="fullname" class="required">Posicion del Logger</label>
+                        <label for="fullname" class="required">Posición del Logger</label>
 
                     </td>
 
                     <td>
-
                         <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.logger_position, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
-                            @Html.ValidationMessageFor(model => model.liters_per_pulser, String.Empty, new { @class = "help-inline", @style = "color:red" })
-
-
-
-
-
-
+                            @Html.TextBoxFor(model => model.logger_position, new { htmlAttributes = new { @class = "form-control" } })
+                           
                         </div>
 
                     </td>
 
+                    @*BOMBA PARA DESAGUAR*@
                     <td>
-
                         <label for="fullname" class="required">Se necesita Bomba para Desaguar?</label>
 
                     </td>
@@ -710,59 +439,37 @@
                         <div>
                             <fieldset class="k-block">
 
-                                <label for="theme_red">
-                                    @Html.CheckBoxFor(model => model.NoNullnecessary_drain, new { @disabled = "disabled" }) Si
-                                </label> <label for="theme_red">
-                                    @Html.CheckBoxFor(model => model.NoNullnecessary_drain, new { @disabled = "disabled" })
-                                    No
-                                </label>
-
-
+                                @Html.RadioButtonFor(model => model.necessary_drain.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
+                                @Html.RadioButtonFor(model => model.necessary_drain.Value, "false", new { style = "width: 50px" })No
 
                             </fieldset>
                         </div>
 
                     </td>
-
-
 
                 </tr>
 
-
-
                 <tr>
-
+                    @*CAMARA INUNDADA*@
                     <td>
-
-                        <label for="fullname" class="required">Camara Inundada</label>
-
+                        <label for="fullname" class="required">Cámara Inundada</label>
                     </td>
 
                     <td>
-
                         <div>
                             <fieldset class="k-block">
 
-                                <label for="theme_red">
-                                    @Html.CheckBoxFor(model => model.NoNullflooded_chamber, new { @disabled = "disabled" })
-                                    Si
-                                </label>
-
-
-                                <label for="theme_red">
-                                    @Html.CheckBoxFor(model => model.NoNullflooded_chamber, new { @disabled = "disabled" })
-                                    No
-                                </label>
-
-
+                                @Html.RadioButtonFor(model => model.flooded_chamber.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
+                                @Html.RadioButtonFor(model => model.flooded_chamber.Value, "false", new { style = "width: 50px" })No
 
                             </fieldset>
                         </div>
 
                     </td>
 
-                    <td>
 
+                    @*MANIPULAR TRAFICO*@
+                    <td>
                         <label for="fullname" class="required">Se necesita Desviar/Manipular Trafico?</label>
 
                     </td>
@@ -771,255 +478,94 @@
 
                         <div>
                             <fieldset class="k-block">
-
-                                <label for="theme_red">
-                                    @Html.CheckBoxFor(model => model.NoNullnecessary_manipulate_traffic, new { @disabled = "disabled" })
-                                    Si
-                                </label>
-
-
-                                <label for="theme_red">
-                                    @Html.CheckBoxFor(model => model.NoNullnecessary_manipulate_traffic, new { @disabled = "disabled" })
-                                    No
-                                </label>
-
-
+                                @Html.RadioButtonFor(model => model.necessary_manipulate_traffic.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
+                                @Html.RadioButtonFor(model => model.necessary_manipulate_traffic.Value, "false", new { style = "width: 50px" })No
 
                             </fieldset>
                         </div>
 
                     </td>
 
-
-
                 </tr>
 
-
-
                 <tr>
-
+                    @*TIPO DE CAMARA*@
                     <td>
-
-                        <label for="fullname" class="required">Tipo de Camara</label>
+                        <label for="fullname" class="required">Tipo de Cámara</label>
 
                     </td>
 
                     <td>
 
-                        @(Html.Kendo().DropDownListFor(m => m.chamber_type_id)
+                       @Html.TextBoxFor(model => model.manometer_aar_value, new { htmlAttributes = new { @class = "form-control" } })
 
-                        .DataTextField("Text")
-                        .DataValueField("Value")
-                        .HtmlAttributes(new { style = "width:175px" })
-                        .BindTo(new List<SelectListItem>
-                            () {
-                            new SelectListItem() {
-                            Text = "Albanileria",
-                            Value = "1"
-                            },
-                            new SelectListItem() {
-                            Text = "Hormigon Armado",
-                            Value= "2"
-                            },
-                            new SelectListItem() {
-                            Text = "Metalica",
-                            Value= "3"
-                            },
-                            new SelectListItem() {
-                            Text = "Hormigon",
-                            Value= "4"
-                            },
+                    </td>
 
-                            })
-                .Value("1").Enable(false)
-                        )
+                    @*HERRAMIENTA PARA ABRIR CAMARA*@
+                    <td>
+                        <label for="fullname" class="required">¿Es necesario Herramienta para apertura de Cámara?</label>
 
                     </td>
 
                     <td>
-
-                        <label for="fullname" class="required">Es necesario Herramienta para apertura de Camara?</label>
-
-                    </td>
-
-                    <td>
-
                         <div>
                             <fieldset class="k-block">
 
-                                <label for="theme_red">
-                                    @Html.CheckBoxFor(model => model.NoNullnecessary_tool_open_chamber, new { @disabled = "disabled" })
-                                    Si
-                                </label>
-
-
-                                <label for="theme_red">
-                                    @Html.CheckBoxFor(model => model.NoNullnecessary_tool_open_chamber, new { @disabled = "disabled" })
-                                    No
-                                </label>
-
-
+                                @Html.RadioButtonFor(model => model.necessary_tool_open_chamber.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
+                                @Html.RadioButtonFor(model => model.necessary_tool_open_chamber.Value, "false", new { style = "width: 50px" })No
 
                             </fieldset>
                         </div>
 
                     </td>
 
-
-
-                </tr>
-
-
-
-                <tr>
-
-                    <td>
-
-                        <label for="fullname" class="required">Condicion de La Camara</label>
-
-                    </td>
-
-                    <td>
-
-                        @(Html.Kendo().DropDownListFor(m => m.chamber_condition_id)
-
-                        .DataTextField("Text")
-                        .DataValueField("Value")
-                        .HtmlAttributes(new { style = "width:175px" })
-                        .BindTo(new List<SelectListItem>
-                            () {
-                            new SelectListItem() {
-                            Text = "Ideales",
-                            Value = "1"
-                            },
-                            new SelectListItem() {
-                            Text = "Regulares",
-                            Value= "2"
-                            },
-                            new SelectListItem() {
-                            Text = "Malas",
-                            Value= "3"
-                            },
-
-                            })
-                .Value("1").Enable(false)
-                        )
-
-                    </td>
-
-                    <td>
-
-                        <label for="fullname" class="required">Se necesita herramienta para apertura de Camara?</label>
-
-                    </td>
-
-                    <td>
-
-                        <div>
-                            <fieldset class="k-block">
-
-                                <label for="theme_red">
-                                    @Html.CheckBoxFor(model => model.NoNullis_necessary_tool_open_chamber, new { @disabled = "disabled" })
-                                    Si
-                                </label>
-
-
-                                <label for="theme_red">
-                                    @Html.CheckBoxFor(model => model.NoNullis_necessary_tool_open_chamber, new { @disabled = "disabled" })
-                                    No
-                                </label>
-
-
-
-                            </fieldset>
-                        </div>
-                    </td>
-
-
-
                 </tr>
 
                 <tr>
 
-
-
+                    @*CONDICIONES DE LA CAMARA*@
                     <td>
-
-                        <label for="fullname" class="required">Se necesitan 2 operadores para abrir la camara</label>
-
+                        <label for="fullname" class="required">Condición de La Cámara</label>
                     </td>
 
                     <td>
+                        @Html.TextBoxFor(model => model.chamber_condition, new { htmlAttributes = new { @class = "form-control" } })
 
-                        <div>
-                            <fieldset class="k-block">
-
-                                <label for="theme_red">
-                                    @Html.CheckBoxFor(model => model.NoNulltwo_thechnical_open_chamber, new { @disabled = "disabled" })
-                                    Si
-                                </label>
-
-
-                                <label for="theme_red">
-                                    @Html.CheckBoxFor(model => model.NoNulltwo_thechnical_open_chamber, new { @disabled = "disabled" })
-                                    No
-                                </label>
-
-
-
-                            </fieldset>
-                        </div>
                     </td>
 
-
-
-                </tr>
-
-                <tr>
-
+                    @*TIPO DE CAMARA*@
                     <td>
-
                         <label for="fullname" class="required">Tipo de Tapa de Camara</label>
 
                     </td>
 
                     <td>
+                        @Html.TextBoxFor(model => model.chamber_type_tap_id, new { htmlAttributes = new { @class = "form-control" } })
 
-                        @(Html.Kendo().DropDownListFor(m => m.chamber_type_tap_id)
+                    </td>
+                </tr>
 
-                        .DataTextField("Text")
-                        .DataValueField("Value")
-                        .HtmlAttributes(new { style = "width:175px" })
-                        .BindTo(new List<SelectListItem>
-                            () {
-                            new SelectListItem() {
-                            Text = "Albanileria",
-                            Value = "1"
-                            },
-                            new SelectListItem() {
-                            Text = "Hormigon Armado",
-                            Value= "2"
-                            },
-                            new SelectListItem() {
-                            Text = "Metalica",
-                            Value= "3"
-                            },
-                            new SelectListItem() {
-                            Text = "Hormigon",
-                            Value= "4"
-                            },
+                <tr>
 
-                            })
-                .Value("1").Enable(false)
-                        )
+                    @*DOS OPERADORES PARA ABRIR CAMARAA*@
+                    <td>
+                        <label for="fullname" class="required">¿Se necesitaron 2 operadores para abrir la cámara?</label>
 
                     </td>
 
+                    <td>
 
+                        <div>
+                            <fieldset class="k-block">
+                                @Html.RadioButtonFor(model => model.two_thechnical_open_chamber.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
+                                @Html.RadioButtonFor(model => model.two_thechnical_open_chamber.Value, "false", new { style = "width: 50px" })No
 
-
+                            </fieldset>
+                        </div>
+                    </td>
 
                 </tr>
+
 
             </table>
 
@@ -1035,205 +581,50 @@
 
             <table align="left">
 
-
-
-                <tr style="width:125px; height:150px" align="center">
-
+                <tr>
+                    @*CANAL 1*@
                     <td>
-                        <div style="width:125px; height:205px">
-                            <label for="fullname" class="required">Canal 1</label>
-                        </div>
-
+                        <label for="fullname" class="required">Canal 1</label>
                     </td>
 
                     <td>
-                        <div style="width:125px; height:205px">
-                            @(Html.Kendo().DropDownListFor(m => m.channel_id_1)
+                        @Html.TextBoxFor(model => model.channel_1, new { htmlAttributes = new { @class = "form-control" } })
 
-                            .DataTextField("Text")
-                            .DataValueField("Value")
-                            .HtmlAttributes(new { style = "width:175px" })
-                            .BindTo(new List<SelectListItem>
-                                () {
-                                new SelectListItem() {
-                                Text = "Presion Interna",
-                                Value = "1"
-                                },
-                                new SelectListItem() {
-                                Text = "Presion Externa",
-                                Value= "2"
-                                },
-                                new SelectListItem() {
-                                Text = "Digital Caudal",
-                                Value= "3"
-                                },
-                                new SelectListItem() {
-                                Text = "4-20mA",
-                                Value= "4"
-                                },
-                                                new SelectListItem() {
-                                                Text = "Modbus",
-                                                Value= "5"
-                                                },
-                                                new SelectListItem() {
-                                                Text = "Serial",
-                                                Value= "6"
-                                                },
-                                })
-                .Value("1").Enable(false)
-                            )
-                        </div>
+                    </td>
 
+                    @*CANAL 3*@
+                    <td>
+
+                        <label for="fullname" class="required">Canal 3</label>
                     </td>
 
                     <td>
-                        <div style="width:125px; height:205px">
-                            <label for="fullname" class="required">Canal 3</label>
-                        </div>
+                         @Html.TextBoxFor(model => model.channel_3, new { htmlAttributes = new { @class = "form-control" } })
 
                     </td>
-
-                    <td>
-                        <div style="width:125px; height:205px">
-                            @(Html.Kendo().DropDownListFor(m => m.channel_id_3)
-
-                            .DataTextField("Text")
-                            .DataValueField("Value")
-                            .HtmlAttributes(new { style = "width:175px" })
-                            .BindTo(new List<SelectListItem>
-                                () {
-                                new SelectListItem() {
-                                Text = "Presion Interna",
-                                Value = "1"
-                                },
-                                new SelectListItem() {
-                                Text = "Presion Externa",
-                                Value= "2"
-                                },
-                                new SelectListItem() {
-                                Text = "Digital Caudal",
-                                Value= "3"
-                                },
-                                new SelectListItem() {
-                                Text = "4-20mA",
-                                Value= "4"
-                                },
-                                new SelectListItem() {
-                                Text = "Modbus",
-                                Value= "5"
-                                },
-                                new SelectListItem() {
-                                Text = "Serial",
-                                Value= "6"
-                                },
-                                })
-                .Value("1").Enable(false)
-                            )
-                        </div>
-
-
-                    </td>
-
-
 
                 </tr>
 
-
-
                 <tr>
-
-                    <td align="center">
-                        <div style="width:125px; height:205px">
+                    @*CANAL 2*@
+                    <td>
+                        <div>
                             <label for="fullname" class="required">  Canal 2</label>
                         </div>
 
                     </td>
 
                     <td>
-                        <div style="width:125px; height:205px">
-                            @(Html.Kendo().DropDownListFor(m => m.channel_id_2)
+                        @Html.TextBoxFor(model => model.channel_2, new { htmlAttributes = new { @class = "form-control" } })
+                    </td>
 
-                            .DataTextField("Text")
-                            .DataValueField("Value")
-                            .HtmlAttributes(new { style = "width:175px" })
-                            .BindTo(new List<SelectListItem>
-                                () {
-                                new SelectListItem() {
-                                Text = "Presion Interna",
-                                Value = "1"
-                                },
-                                new SelectListItem() {
-                                Text = "Presion Externa",
-                                Value= "2"
-                                },
-                                new SelectListItem() {
-                                Text = "Digital Caudal",
-                                Value= "3"
-                                },
-                                new SelectListItem() {
-                                Text = "4-20mA",
-                                Value= "4"
-                                },
-                                new SelectListItem() {
-                                Text = "Modbus",
-                                Value= "5"
-                                },
-                                new SelectListItem() {
-                                Text = "Serial",
-                                Value= "6"
-                                },
-                                })
-                .Value("1").Enable(false)
-                            )
-                        </div>
-
-
-                    <td align="center">
-                        <div style="width:125px; height:205px">
-                            <label for="fullname" class="required">Canal 4</label>
-                        </div>
-
+                    @*CANAL 4*@
+                    <td>
+                        <label for="fullname" class="required">Canal 4</label>
                     </td>
 
                     <td>
-
-                        <div style="width:125px; height:205px">
-                            @(Html.Kendo().DropDownListFor(m => m.channel_id_4)
-
-                            .DataTextField("Text")
-                            .DataValueField("Value")
-                            .HtmlAttributes(new { style = "width:175px" })
-                            .BindTo(new List<SelectListItem>
-                                () {
-                                new SelectListItem() {
-                                Text = "Presion Interna",
-                                Value = "1"
-                                },
-                                new SelectListItem() {
-                                Text = "Presion Externa",
-                                Value= "2"
-                                },
-                                new SelectListItem() {
-                                Text = "Digital Caudal",
-                                Value= "3"
-                                },
-                                new SelectListItem() {
-                                Text = "4-20mA",
-                                Value= "4"
-                                },
-                                new SelectListItem() {
-                                Text = "Modbus",
-                                Value= "5"
-                                },
-                                new SelectListItem() {
-                                Text = "Serial",
-                                Value= "6"
-                                },
-                                })
-                .Value("1").Enable(false)
-                            )
-                        </div>
-
+                        @Html.TextBoxFor(model => model.channel_4, new { htmlAttributes = new { @class = "form-control" } })
 
                     </td>
 
@@ -1256,76 +647,57 @@
 
                 <tr align="left">
 
+                    @*TIPO DE LOGGER*@
                     <td>
-
                         <label for="fullname" class="required">Tipo de Logger</label>
 
                     </td>
 
                     <td>
-
                         <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.logger_type, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
-                            @Html.ValidationMessageFor(model => model.logger_type, String.Empty, new { @class = "help-inline", @style = "color:red" })
-
-
+                            @Html.TextBoxFor(model => model.logger_type, new { htmlAttributes = new { @class = "form-control" } })
+                         
                         </div>
                     </td>
 
+                    @*BATERIA INSTALADA*@
                     <td>
 
-                        <label for="fullname" class="required">Bateria Instalada?</label>
+                        <label for="fullname" class="required">¿Batería Instalada?</label>
 
                     </td>
 
                     <td>
-
                         <div>
                             <fieldset class="k-block">
 
-                                <label for="theme_red">
-                                    @Html.CheckBoxFor(model => model.NoNullbattery_installed, new { @disabled = "disabled" })
-                                    Si
-                                </label>
-
-
-                                <label for="theme_red">
-                                    @Html.CheckBoxFor(model => model.NoNullbattery_installed, new { @disabled = "disabled" })
-                                    No
-                                </label>
-
-
+                                @Html.RadioButtonFor(model => model.battery_installed.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
+                                @Html.RadioButtonFor(model => model.battery_installed.Value, "false", new { style = "width: 50px" })No
 
                             </fieldset>
                         </div>
 
                     </td>
 
-
-
                 </tr>
-
-
 
                 <tr>
 
+                    @*NUMERO SERIE BATERIA*@
                     <td>
-
                         <label for="fullname" class="required">N/S Logger</label>
 
                     </td>
 
                     <td>
-
                         <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.logger_serial_number, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
-                            @Html.ValidationMessageFor(model => model.logger_serial_number)
-
+                            @Html.TextBoxFor(model => model.logger_serial_number, new { htmlAttributes = new { @class = "form-control" } })
 
                         </div>
 
                     </td>
 
+                    @*TIPO DE BATERIA*@
                     <td>
 
                         <label for="fullname" class="required">Tipo de Bateria</label>
@@ -1333,34 +705,23 @@
                     </td>
 
                     <td>
-
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.battery_type, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
-                            @Html.ValidationMessageFor(model => model.battery_type, String.Empty, new { @class = "help-inline", @style = "color:red" })
-
-
-                        </div>
+                        @Html.TextBoxFor(model => model.battery_type, new { htmlAttributes = new { @class = "form-control" } })
 
                     </td>
-
-
 
                 </tr>
 
+
                 <tr>
-
+                    @*NUMERO SERIE BATERIA*@
                     <td>
-
-                        <label for="fullname" class="required">>N/S Bateria</label>
-
+                        <label for="fullname" class="required">N/S Bateria</label>
                     </td>
 
                     <td>
-
                         <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.battery_serial_number, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
-                            @Html.ValidationMessageFor(model => model.battery_serial_number, String.Empty, new { @class = "help-inline", @style = "color:red" })
-
+                            @Html.TextBoxFor(model => model.battery_serial_number, new { htmlAttributes = new { @class = "form-control" } })
+                           
                         </div>
 
                     </td>
@@ -1376,46 +737,27 @@
 
         <fieldset class="k-block">
 
-            <h3>Descripcion Detallada</h3>
+            <h3>Descripción Detallada</h3>
 
             <table align="left">
 
-
-
-                <tr align="left">
-
+                <tr>
+                    @*SUBIR IMAGEN*@
                     <td>
+                       muestra imagen aca
+                    </td>
 
-                        <label for="fullname" class="required">Comentarios</label>
+                </tr>
 
+                <tr>
+                    @*COMENTARIOS*@
+                    <td>
+                        <label for="fullname" class="required">Comentarios Instalador</label>
                     </td>
 
                     <td>
-
-                        <div class="col-sm-4 col-md-4 col-lg-4">
-                            @Html.TextAreaFor(model => model.notes, new { disabled = "disabled",@style = " background-color: #E6E3E3;width: 300px; height: 100px;" })
-                            @Html.ValidationMessageFor(model => model.notes, String.Empty, new { @class = "help-inline", @style = "color:red" })
-
-                            )
-
-                        </div>
-
-                    </td>
-
-                    <td>
-
-                        <label for="fullname" class="required">Fecha</label>
-
-                    </td>
-
-                    <td>
-
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.creation_date, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
-                            @Html.ValidationMessageFor(model => model.creation_date, String.Empty, new { @class = "help-inline", @style = "color:red" })
-
-
-                        </div>
+                        @Html.TextAreaFor(model => model.notes, new { @style = " background-color: #ffffff;width: 300px; height: 100px;" })
+                        @Html.ValidationMessageFor(model => model.notes, String.Empty, new { @class = "help-inline", @style = "color:red" })
 
                     </td>
 
@@ -1423,131 +765,26 @@
 
                 </tr>
 
-
-
                 <tr>
-
+                    @*FECHA Y HORA DE TERMINO*@
                     <td>
-
-                        <label for="fullname" class="required">Hora</label>
+                        <label for="fullname" class="required">Fecha termino</label>
 
                     </td>
 
                     <td>
-
                         <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.user_instalation_start_date, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
-                            @Html.ValidationMessageFor(model => model.user_instalation_start_date, String.Empty, new { @class = "help-inline", @style = "color:red" })
-
-
+                            @Html.EditorFor(model => model.creation_date, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.creation_date, String.Empty, new { @class = "help-inline", @style = "color:red" })
                         </div>
 
                     </td>
-
-                    <td>
-
-                        <label for="fullname" class="required">Realizado Por</label>
-
-                    </td>
-
-                    <td>
-
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.user_instalation, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
-                            @Html.ValidationMessageFor(model => model.user_instalation, String.Empty, new { @class = "help-inline", @style = "color:red" })
-
-                        </div>
-
-                    </td>
-                    <td>
-
-                        <label for="fullname" class="required">ID</label>
-
-                    </td>
-
-                    <td>
-
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.logger_id, new { disabled = "disabled", @style = " background-color: #E6E3E3;" })
-                            @Html.ValidationMessageFor(model => model.logger_id)
-
-                        </div>
-
-                    </td>
-
-
-
-
-                    <div id="kendoUploadZone">
-
-                        <div id="kendoUploadForm" style="display: inline-block; padding-bottom: 30px; width: 700px;">
-
-                            <!-- Kendo UI Upload Control for uploading image -->
-
-                            <div id="kendoUploadControl" style="width: 50%; float: left;">
-
-                                @(Html.Kendo().Upload()
-
-                  .Name("files").Async(a => a
-
-                                                .Save("Save", "Home")
-
-                                                .Remove("Remove", "Home")
-
-                                                .AutoUpload(true)).Events(events => events.Select("onSelect")
-
-                                                                                        .Success("onSuccess")
-
-                                                                                        ))
-
-                            </div>
-
-                            <!-- Instant preview uploaded image by Kendo UI Upload Control -->
-
-                            <div id="kendoUploadDisplay" style="width: 45%; float: right;">
-
-
-
-
-
-
-
-                                @Html.HiddenFor(x => x.picture_url)
-
-                                @Html.HiddenFor(x => x.picture_image)
-
-                                @Html.HiddenFor(x => x.status)
-
-                                <div id="kendoUploadImage" style="display: block;">
-
-                                    <img id="imgUploaded" style="width: 60px; height: 60px;" src=""
-                                         alt="loading" />
-
-                                </div>
-
-
-                                @Html.ValidationSummary(true)
-
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
 
                 </tr>
 
             </table>
 
         </fieldset>
-
-        <div id="print">
-            <br />
-            <button class="k-button k-primary" id="btnPdfExport">Export to PDF</button>
-            <button class="k-button k-primary" id="btnExcelExport">Export to EXCEL</button>
-            <input class="k-button k-primary" type="button" id="printForm" value="Print Me" />
-        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

@@ -173,7 +173,7 @@
             columns.Bound("user_instalation_end_date").Title("Termino Instalación").Format("{0:dd/MM/yyyy HH:mm:ss}").Filterable(false);
             columns.Bound("instalation_user").Title("Instalado por").Filterable(false);
             columns.Bound("approval_date").Title("Fecha aprobación").Format("{0:dd/MM/yyyy HH:mm:ss}").Filterable(false);
-            columns.Command(c => c.Custom("Ver"));
+            columns.Command(c => c.Custom("Ver").Click("LoggerView"));
 
         })
         .HtmlAttributes(new { style = "font-size:12px" })
@@ -336,6 +336,14 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         var stockReceiptId = dataItem.logger_id;
         window.location.href = "@Url.Action("CreateInstalation", "Status")?logger_id=" + stockReceiptId;
+
+    }
+
+    function LoggerView(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var stockReceiptId = dataItem.logger_id;
+        window.location.href = "@Url.Action("DetailInstalation", "Status")?logger_id=" + stockReceiptId;
 
     }
 </script>

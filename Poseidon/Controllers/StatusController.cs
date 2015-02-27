@@ -327,9 +327,11 @@ namespace Poseidon.Controllers
             return View();
         }
 
-        public ActionResult DetailInstalation()
+        public ActionResult DetailInstalation(int logger_id)
         {
-            return View();
+            poseidon_dbEntities db = new poseidon_dbEntities();
+            return View("DetailInstalation", db.Logger.Find(logger_id));
+          
         }
 
         [HttpPost]

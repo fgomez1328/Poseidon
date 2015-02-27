@@ -257,6 +257,11 @@ namespace Poseidon.Controllers
             }
         return View();
         }
+
+        public ActionResult PreviewFormularios()
+        {
+            return View();
+        }
     }
 
 
