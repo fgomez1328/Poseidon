@@ -1,4 +1,5 @@
 ﻿
+
 <style type="text/css" media="screen">
     .chileFlag {
         background-image: url('../../Content/images/Chile.png');
@@ -29,10 +30,10 @@
 @model IEnumerable<dynamic>
 
 @{
-    ViewBag.Title = "UserLogger";
+    ViewBag.Title = "UserLoggerTot";
 }
 
-<h2>ListLogger</h2>
+<h2>ListLoggerTot</h2>
 
 <div id="clientsDb">
     @(Html.Kendo().Grid(Model)
@@ -66,7 +67,7 @@
             c.Field("status", typeof(string));
 
         })
-        .Read(read => read.Action("Read", "UserLogger"))
+        .Read(read => read.Action("Read1", "UserLogger"))
         )
         .Columns(columns =>
         {
@@ -108,10 +109,10 @@
     <script type="text/javascript">
 
 
-       
+
 
         function Actualizar() {
-            window.location.href = "@Url.Action("CreateFormularios","Home")";   
+            window.location.href = "@Url.Action("CreateFormularios","Home")";
         }
 
 
@@ -185,4 +186,4 @@
         //    }
         //}
     }
-</script>
+    </script>
