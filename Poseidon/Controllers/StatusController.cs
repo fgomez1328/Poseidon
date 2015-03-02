@@ -291,7 +291,7 @@ namespace Poseidon.Controllers
             poseidon_dbEntities db = new poseidon_dbEntities();
 
            
-            return View(db.Logger.Find(actual_id));
+            return View(db.Logger.Find(1));
         }
 
         [HttpPost]
