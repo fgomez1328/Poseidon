@@ -11,6 +11,7 @@ namespace Poseidon.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class Logger
     {
@@ -18,10 +19,13 @@ namespace Poseidon.Models
         public string logger_sites_name { get; set; }
         public Nullable<int> logger_sms { get; set; }
         public Nullable<int> logger_type { get; set; }
+        [Required(ErrorMessage = "Serial Number is Require")]
         public string logger_serial_number { get; set; }
         public Nullable<int> instalation_type { get; set; }
         public Nullable<int> chip_id { get; set; }
+       [Required(ErrorMessage = "Latitude is Require")]
         public string latitude { get; set; }
+       
         public string longitute { get; set; }
         public Nullable<double> elevation { get; set; }
         public string antenna_position { get; set; }
