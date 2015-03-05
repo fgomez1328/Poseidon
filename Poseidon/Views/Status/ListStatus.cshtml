@@ -1,16 +1,15 @@
 ﻿<style type="text/css" media="screen">
     .k-i-excel {
         background-image: url('../../Content/images/table_excel.png');
-        width: 6px;
-        height: 6px;
+        background-size: 20px 20px;
+
         background-position: left;
         background-repeat: no-repeat;
     }
 
     .pdf {
         background-image: url('../../Content/images/30x30-pdf-icon.png');
-        width: 6px;
-        height: 6px;
+        background-size: 20px 20px;
         background-position: left;
         background-repeat: no-repeat;
     }
@@ -133,13 +132,13 @@
             columns.Bound("zone_name").Width("190").Title("Zona");
             columns.Bound("status").Title("Estado");
             columns.Bound("user_instalation").Title("Instalador a cargo");
-            columns.Bound("user_instalation_start_date").Title("Inicio Instalación").Format("{0:dd/MM/yyyy HH:mm:ss}"); ;
-            columns.Bound("user_instalation_end_date").Title("Termino Instalación").Format("{0:dd/MM/yyyy HH:mm:ss}"); ;
+            columns.Bound("user_instalation_start_date").Title("Inicio Instalación").Format("{0:dd/MM/yyyy HH:mm:ss}"); 
+            columns.Bound("user_instalation_end_date").Title("Termino Instalación").Format("{0:dd/MM/yyyy HH:mm:ss}");
 
-            columns.Bound("approval_date").Title("Fecha aprobación");
+            columns.Bound("approval_date").Title("Fecha aprobación").Format("{0:dd/MM/yyyy HH:mm:ss}"); 
             columns.Command(command =>
                     {
-                        command.Custom("View").Click("ViewDetailStatus");
+                        //command.Custom("View").Click("ViewDetailStatus");
                         command.Custom("Aprobar").Click("Aprobar");
 
                     });
@@ -216,7 +215,7 @@
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         var stockReceiptId = dataItem.logger_id;
-        window.location.href = "@Url.Action("Edit", "Status")?logger_id=" + stockReceiptId;
+        window.location.href = "@Url.Action("PreviewLoggerFree", "Status")?logger_id=" + stockReceiptId;
     }
 
     function onDataBound2(e) {
@@ -242,16 +241,20 @@
 
             } else if (currenvalue == "2") {
                 this.set("status", dos)
-
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(4)').css("color", "brown");
             } else if (currenvalue == 3) {
                 this.set("status", tres)
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(4)').css("color", "blue");
             } else if (currenvalue == 4) {
                 this.set("status", cuatro)
-
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(4)').css("color", "green");
             }
 
             //OCULTA BOTON APROBAR
-            if (currenvalue == tres) {
+            if (currenvalue == cuatro) {
+                editButton.hide();
+            }
+            if (currenvalue == dos) {
                 editButton.hide();
             }
 
@@ -273,7 +276,7 @@
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         var stockReceiptId = dataItem.logger_id;
-        window.location.href = "@Url.Action("Edit", "Status")?logger_id=" + stockReceiptId;
+        window.location.href = "@Url.Action("LoggerApprove", "Status")?logger_id=" + stockReceiptId;
     }
 
 </script>

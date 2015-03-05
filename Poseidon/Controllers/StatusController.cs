@@ -6,6 +6,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
+using System.Net.Mail;
+using System.Net.Mime;
 
 namespace Poseidon.Controllers
 {
@@ -73,7 +75,7 @@ namespace Poseidon.Controllers
                             on a.zone_id equals b.zone_id into zo
                          from f in zo.DefaultIfEmpty()
 
-                         // from g in zu.DefaultIfEmpty()
+                          //from g in zu.DefaultIfEmpty()
                          where a.status == 2 || a.status == 3 || a.status == 4
                          select new
                          {
@@ -117,8 +119,7 @@ namespace Poseidon.Controllers
                          {
 
                              a.logger_id,
-                             a.logger_sites_name,
-                             a.logger_sms,   
+                             a.logger_sites_name,  
                              f.zone_name,
                              a.instalation_type,
                              a.necessary_key,
@@ -202,7 +203,8 @@ namespace Poseidon.Controllers
                              a.user_instalation_start_date,
                              a.user_instalation_end_date,
                              a.user_instalation,
-                             a.approval_date
+                             a.approval_date,
+                             instalation_user = c.user_name
                          };
 
             return result;
@@ -290,8 +292,8 @@ namespace Poseidon.Controllers
             int actual_id = Convert.ToInt16(ID[0].ToString());
             poseidon_dbEntities db = new poseidon_dbEntities();
 
-           
-            return View(db.Logger.Find(1));
+
+            return View(db.Logger.Find(actual_id));
         }
 
         [HttpPost]
@@ -343,15 +345,15 @@ namespace Poseidon.Controllers
         }
 
 
-        public ActionResult Edit(int? logger_id)
+        public ActionResult PreviewLoggerFree(int? logger_id)
         {
             poseidon_dbEntities db = new poseidon_dbEntities();
 
-            return View("Edit", db.Logger.Find(logger_id));
+            return View(db.Logger.Find(logger_id));
         }
 
         [HttpPost]
-        public ActionResult Edit([DataSourceRequest] DataSourceRequest request, Logger us)
+        public ActionResult PreviewLoggerFree([DataSourceRequest] DataSourceRequest request, Logger us)
         {
 
             if (ModelState.IsValid)
@@ -364,14 +366,12 @@ namespace Poseidon.Controllers
                         var dblogger = result.First();
 
                         dblogger.logger_sites_name = us.logger_sites_name;
-                        dblogger.logger_sms = us.logger_sms;
                         dblogger.necessary_key = us.necessary_key;
                         dblogger.contact_detail = us.contact_detail;
                         dblogger.key_ball = us.key_ball;
                         dblogger.latitude = us.latitude;
                         dblogger.longitute = us.longitute;
-                        dblogger.zone_id = us.zone_id;
-                                             
+                 
                         db.SaveChanges();
                     }
                 }
@@ -410,7 +410,7 @@ namespace Poseidon.Controllers
                         var dblogger = result.First();
                         dblogger.logger_id = us.logger_id;
                         
-                        dblogger.logger_sites_name = us.logger_sites_name;
+                        
                         dblogger.logger_sms = us.logger_sms;
                         dblogger.necessary_key = us.necessary_key;
                         dblogger.contact_detail = us.contact_detail;
@@ -426,11 +426,11 @@ namespace Poseidon.Controllers
                         dblogger.final_csq = us.final_csq;
                         dblogger.Csq_outdoor = us.Csq_outdoor;
                         dblogger.gprs_test_status = us.gprs_test_status;
-                        //dblogger.is_necessary_tool_open_chamber = us.is_necessary_tool_open_chamber;
+                        dblogger.necessary_tool_open_chamber = us.necessary_tool_open_chamber;
                         dblogger.instalation_type = us.instalation_type;
                         dblogger.state_flowmeter_id = us.state_flowmeter_id;
                         dblogger.manometer_aab_value = us.manometer_aab_value;
-                        //dblogger.type_state_flowmeter_id = us.type_state_flowmeter_id;
+                        dblogger.type_flowmeter_id = us.type_flowmeter_id;
                         dblogger.logger_aar_value = us.logger_aar_value;
                         dblogger.pulser_changed = us.pulser_changed;
                         dblogger.manometer_aar_value = us.manometer_aar_value;
@@ -443,8 +443,7 @@ namespace Poseidon.Controllers
                         dblogger.flooded_chamber = us.flooded_chamber;
                         dblogger.necessary_manipulate_traffic = us.necessary_manipulate_traffic;
                         dblogger.chamber_type_id = us.chamber_type_id;
-                        //dblogger.is_necessary_tool_open_chamber = us.is_necessary_tool_open_chamber;
-                        //dblogger.chamber_condition_id = us.chamber_condition_id;
+                        dblogger.chamber_condition= us.chamber_condition;
                         dblogger.necessary_tool_open_chamber = us.necessary_tool_open_chamber;
                         dblogger.two_thechnical_open_chamber = us.two_thechnical_open_chamber;
                         dblogger.chamber_type_tap_id = us.chamber_type_tap_id;
@@ -459,8 +458,9 @@ namespace Poseidon.Controllers
                         dblogger.battery_type = us.battery_type;
                         dblogger.notes = us.notes;
                         dblogger.user_instalation_end_date = us.user_instalation_end_date;
-                        dblogger.user_instalation_start_date = us.user_instalation_start_date;
                         dblogger.user_instalation = us.user_instalation;
+                        dblogger.status = 3;
+                        dblogger.user_instalation = Convert.ToInt16(Session["USERID"].ToString());
 
                     
                         db.SaveChanges();
@@ -499,6 +499,96 @@ namespace Poseidon.Controllers
             // Return modelstate info back to client side in json format.
             return Json(ModelState.ToDataSourceResult());
         }
+
+        public ActionResult LoggerApprove(int? logger_id)
+        {
+            poseidon_dbEntities db = new poseidon_dbEntities();
+
+            return View(db.Logger.Find(logger_id));
+        }
+
+         [HttpPost]
+        public ActionResult LoggerApprove([DataSourceRequest] DataSourceRequest request, Logger us)
+        {
+          if (ModelState.IsValid)
+            {
+                
+
+                using (var db = new poseidon_dbEntities())
+                {
+                    var result = from u in db.Logger where (u.logger_id == us.logger_id) select u;
+                    if (result.Count() != 0)
+                    {
+                        var dblogger = result.First();
+
+                        dblogger.status = 4;
+                        dblogger.user_approval_note = us.user_approval_note;
+                        dblogger.user_approval_status = us.user_approval_status;
+                        dblogger.approval_date = DateTime.Now;
+                        
+                        db.SaveChanges();
+                    }
+                }
+
+                Boolean aprueba = us.user_approval_status.Value;
+               
+                    MailMessage mail = new MailMessage();
+
+                    mail.From = new MailAddress("jo.herrera.gomez@gmail.com", "Support", System.Text.Encoding.UTF8);
+                    mail.Subject = "Resumen instalación Logger ";//titulo
+                    mail.SubjectEncoding = System.Text.Encoding.UTF8;
+                    mail.CC.Add("jo.herrera.gomez@gmail.com");
+                    string body = "";
+                    if (aprueba == true)
+                    {
+                         body = @"<p>Estimado cliente,<p>" +
+                               "<p></p><p>Esto es un resumen de instalación para el siguiente equipo:" +
+                               "<p>Ubicación:" + us.logger_sites_name +
+                               "<p>Localidad:" + us.logger_sites_name +
+                               "<p>Zona:" + us.zone_name +
+                               "<p>SMS:" + us.logger_sms +
+                               "<p>Fecha Instalación:" + us.instalation_date +
+                               "<p>Aprueba: Instalación aprobada";
+                    }
+                    else
+                    {
+                         body = @"<p>Estimado cliente,<p>" +
+                               "<p></p><p>Esto es un resumen de instalación para el siguiente equipo:" +
+                               "<p>Ubicación:" + us.logger_sites_name +
+                               "<p>Localidad:" + us.logger_sites_name +
+                               "<p>Zona:" + us.zone_name +
+                               "<p>SMS:" + us.logger_sms +
+                               "<p>Fecha Instalación:" + us.instalation_date +
+                               "<p>Aprueba: Instalación rechazada" +
+                               "<p>Comentario:" + us.user_approval_note;
+                    }
+                   
+
+                   
+                    AlternateView htmlView = AlternateView.CreateAlternateViewFromString(body, new ContentType("text/html"));
+
+                    mail.AlternateViews.Add(htmlView);
+                    mail.To.Add("jherrera@dnkwater.com");
+                    mail.Priority = MailPriority.High;
+
+                    SmtpClient smtp = new SmtpClient();
+                    smtp.Credentials = new System.Net.NetworkCredential("jherrera@dnkwater.com", "omb4a09t");
+
+                    smtp.Port = 587;//puerto
+                    smtp.Host = "smtp.gmail.com";
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
+
+
+                
+               
+            }
+
+          return RedirectToAction("ListStatus", "Status");
+            
+        }
+
+
 
     }
 }

@@ -79,8 +79,8 @@
 
                     <td>
                         <fieldset class="k-block" style="width:190px">
-                            @Html.RadioButtonFor(model => model.necesary_site_enter.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
-                            @Html.RadioButtonFor(model => model.necesary_site_enter.Value, "false", new { style = "width: 50px" })No
+                            @Html.RadioButtonFor(model => model.necesary_site_enter.HasValue, "true", new { Checked = "checked", style = "width: 50px" })Si
+                            @Html.RadioButtonFor(model => model.necesary_site_enter.HasValue, "false", new { style = "width: 50px" })No
                             @Html.ValidationMessageFor(m => m.necesary_site_enter)
 
                         </fieldset>
@@ -151,8 +151,8 @@
 
                     <td>
                         <fieldset class="k-block">
-                            @Html.RadioButtonFor(model => model.logger_outdoor.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
-                            @Html.RadioButtonFor(model => model.logger_outdoor.Value, "false", new { style = "width: 50px" })No
+                            @Html.RadioButtonFor(model => model.logger_outdoor.HasValue, "true", new { Checked = "checked", style = "width: 50px" })Si
+                            @Html.RadioButtonFor(model => model.logger_outdoor.HasValue, "false", new { style = "width: 50px" })No
                             @Html.ValidationMessageFor(m => m.logger_outdoor)
                         </fieldset>
 
@@ -285,8 +285,8 @@
 
                     <td>
                         <fieldset class="k-block" style="width:180px">
-                            @Html.RadioButtonFor(model => model.Csq_outdoor.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
-                            @Html.RadioButtonFor(model => model.Csq_outdoor.Value, "false", new { style = "width: 50px" })No
+                            @Html.RadioButtonFor(model => model.Csq_outdoor.HasValue, "true", new { Checked = "checked", style = "width: 50px" })Si
+                            @Html.RadioButtonFor(model => model.Csq_outdoor.HasValue, "false", new { style = "width: 50px" })No
                             @Html.ValidationMessageFor(m => m.Csq_outdoor)
 
                         </fieldset>
@@ -525,8 +525,8 @@
                         <div>
                             <fieldset class="k-block">
                                
-                                @Html.RadioButtonFor(model => model.with_pulser.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
-                                @Html.RadioButtonFor(model => model.with_pulser.Value, "false", new { style = "width: 50px" })No
+                                @Html.RadioButtonFor(model => model.with_pulser.HasValue, "true", new { Checked = "checked", style = "width: 50px" })Si
+                                @Html.RadioButtonFor(model => model.with_pulser.HasValue, "false", new { style = "width: 50px" })No
                                 @Html.ValidationMessageFor(m => m.with_pulser)
 
                             </fieldset>
@@ -563,8 +563,8 @@
                         <div>
                             <fieldset class="k-block">
 
-                                @Html.RadioButtonFor(model => model.pulser_changed.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
-                                @Html.RadioButtonFor(model => model.pulser_changed.Value, "false", new { style = "width: 50px" })No
+                                @Html.RadioButtonFor(model => model.pulser_changed.HasValue, "true", new { Checked = "checked", style = "width: 50px" })Si
+                                @Html.RadioButtonFor(model => model.pulser_changed.HasValue, "false", new { style = "width: 50px" })No
                                 @Html.ValidationMessageFor(m => m.pulser_changed)
                             </fieldset>
                         </div>
@@ -651,8 +651,8 @@
                     <div>
                         <fieldset class="k-block">
 
-                            @Html.RadioButtonFor(model => model.necessary_drain.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
-                            @Html.RadioButtonFor(model => model.necessary_drain.Value, "false", new { style = "width: 50px" })No
+                            @Html.RadioButtonFor(model => model.necessary_drain.HasValue, "true", new { Checked = "checked", style = "width: 50px" })Si
+                            @Html.RadioButtonFor(model => model.necessary_drain.HasValue, "false", new { style = "width: 50px" })No
                             @Html.ValidationMessageFor(m => m.necessary_drain)
                    
                     </fieldset>
@@ -672,8 +672,8 @@
                     <div>
                         <fieldset class="k-block">
 
-                            @Html.RadioButtonFor(model => model.flooded_chamber.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
-                            @Html.RadioButtonFor(model => model.flooded_chamber.Value, "false", new { style = "width: 50px" })No
+                            @Html.RadioButtonFor(model => model.flooded_chamber.HasValue, "true", new { Checked = "checked", style = "width: 50px" })Si
+                            @Html.RadioButtonFor(model => model.flooded_chamber.HasValue, "false", new { style = "width: 50px" })No
                             @Html.ValidationMessageFor(m => m.flooded_chamber)
 
                         </fieldset>
@@ -692,8 +692,8 @@
 
                     <div>
                         <fieldset class="k-block">
-                            @Html.RadioButtonFor(model => model.necessary_manipulate_traffic.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
-                            @Html.RadioButtonFor(model => model.necessary_manipulate_traffic.Value, "false", new { style = "width: 50px" })No
+                            @Html.RadioButtonFor(model => model.necessary_manipulate_traffic.HasValue, "true", new { Checked = "checked", style = "width: 50px" })Si
+                            @Html.RadioButtonFor(model => model.necessary_manipulate_traffic.HasValue, "false", new { style = "width: 50px" })No
                             @Html.ValidationMessageFor(m => m.necessary_manipulate_traffic)
 
                         </fieldset>
@@ -752,8 +752,8 @@
                     <div>
                         <fieldset class="k-block">
 
-                            @Html.RadioButtonFor(model => model.necessary_tool_open_chamber.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
-                            @Html.RadioButtonFor(model => model.necessary_tool_open_chamber.Value, "false", new { style = "width: 50px" })No
+                            @Html.RadioButtonFor(model => model.necessary_tool_open_chamber.HasValue, "true", new { Checked = "checked", style = "width: 50px" })Si
+                            @Html.RadioButtonFor(model => model.necessary_tool_open_chamber.HasValue, "false", new { style = "width: 50px" })No
                             @Html.ValidationMessageFor(m => m.necessary_tool_open_chamber)
 
                         </fieldset>
@@ -849,8 +849,8 @@
 
                     <div>
                         <fieldset class="k-block">
-                            @Html.RadioButtonFor(model => model.two_thechnical_open_chamber.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
-                            @Html.RadioButtonFor(model => model.two_thechnical_open_chamber.Value, "false", new { style = "width: 50px" })No
+                            @Html.RadioButtonFor(model => model.two_thechnical_open_chamber.HasValue, "true", new { Checked = "checked", style = "width: 50px" })Si
+                            @Html.RadioButtonFor(model => model.two_thechnical_open_chamber.HasValue, "false", new { style = "width: 50px" })No
                             @Html.ValidationMessageFor(m => m.two_thechnical_open_chamber)
 
                         </fieldset>
@@ -913,6 +913,10 @@
                                 Text = "Serial",
                                 Value= "6"
                                 },
+                                 new SelectListItem() {
+                                Text = "--",
+                                Value= "7"
+                                }
                                 })
                                 .Value("1")
                         )
@@ -958,6 +962,10 @@
                                 Text = "Serial",
                                 Value= "6"
                                 },
+                                 new SelectListItem() {
+                                Text = "--",
+                                Value= "7"
+                                }
                                 })
                                 .Value("1")
                         )
@@ -1010,6 +1018,10 @@
                                 Text = "Serial",
                                 Value= "6"
                                 },
+                                new SelectListItem() {
+                                Text = "--",
+                                Value= "7"
+                                }
                                 })
                                 .Value("1")
                         )
@@ -1054,6 +1066,10 @@
                                 Text = "Serial",
                                 Value= "6"
                                 },
+                                new SelectListItem() {
+                                Text = "--",
+                                Value= "7"
+                                }
                                 })
                                 .Value("1")
                         )
@@ -1105,8 +1121,8 @@
                     <div>
                         <fieldset class="k-block">
 
-                            @Html.RadioButtonFor(model => model.battery_installed.Value, "true", new { Checked = "checked", style = "width: 50px" })Si
-                            @Html.RadioButtonFor(model => model.battery_installed.Value, "false", new { style = "width: 50px" })No
+                            @Html.RadioButtonFor(model => model.battery_installed.HasValue, "true", new { Checked = "checked", style = "width: 50px" })Si
+                            @Html.RadioButtonFor(model => model.battery_installed.HasValue, "false", new { style = "width: 50px" })No
                             @Html.ValidationMessageFor(m => m.battery_installed)
 
                         </fieldset>

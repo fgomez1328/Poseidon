@@ -43,7 +43,7 @@
 
         <p>
             @Html.Label("Necesario llave")
-            @(Html.CheckBoxFor(model => model.necessary_key)
+            @(Html.CheckBoxFor(model => model.necessary_key.HasValue)
             )
         </p>
 
@@ -55,7 +55,7 @@
 
         <p>
             @Html.Label("¿Se dispone con llave de bola con salida media?")
-            @(Html.CheckBoxFor(model => model.key_ball, new { @checked = true }))
+            @(Html.CheckBoxFor(model => model.key_ball.HasValue, new { @checked = true }))
 
         </p>
 
@@ -130,7 +130,7 @@
         });
 
         initialize();
-        //InicialcodeAddress();
+        InicialcodeAddress();
     });
 
     var button = document.getElementById('imageButton');

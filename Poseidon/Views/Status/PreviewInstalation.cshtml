@@ -13,7 +13,7 @@
     <p>
         @Html.HiddenFor(model => model.logger_id)
         @Html.Label("Logger Seleccionado")
-        @Html.TextBoxFor(model => model.logger_sms, new { @class = "form-control", style = "width:170px" })
+        @Html.TextBoxFor(model => model.logger_sites_name, new { @class = "form-control", style = "width:170px" })
         @Html.ValidationMessageFor(model => model.logger_sms)
     </p>
 
