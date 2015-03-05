@@ -392,8 +392,8 @@ namespace Poseidon.Controllers
         //FORMULARIO PARA COMPLETA INSTALACIÓN
         public ActionResult CreateInstalation(int logger_id)
         {
-            poseidon_dbEntities db = new poseidon_dbEntities();
-            return View("CreateInstalation",db.Logger.Find(logger_id));
+            //poseidon_dbEntities db = new poseidon_dbEntities();
+            return View();
         }
 
         [HttpPost]

@@ -6,12 +6,31 @@ using System.Web.Mvc;
 using Kendo.Mvc.UI;
 using Poseidon.Models;
 using System;
+using System.Data.SqlClient;
+using System.Collections;
+using System.Configuration;
+
+using System.Diagnostics;
+
+using System.Collections.Generic;
+
+using System.Data;
+
 using Kendo.Mvc.Extensions;
 namespace Poseidon.Controllers
 {
     public class UserLoggerController : Controller
     {
         // GET: UserLogger
+
+        List<Logger> datamap;
+
+
+
+        List<Logger> datamap1;
+
+
+
         public ActionResult Index()
         {
             return View();
@@ -52,6 +71,112 @@ namespace Poseidon.Controllers
 
 
 
+        public List<Logger> DatMapaZona()
+        {
+
+            datamap1 = new System.Collections.Generic.List<Logger>();
+
+
+            DataSet ds = new DataSet();
+
+
+            SqlConnection con1 = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString());
+
+
+            {
+
+                using (SqlCommand cmd1 = new SqlCommand())
+                {
+
+                    cmd1.CommandText = @" SELECT latitude,longitute,status  From Logger WHERE  latitude IS NOT NULL and longitute IS NOT NULL and status IS NOT NULL ";
+
+
+                    cmd1.Connection = con1;
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd1))
+                    {
+
+                        da.Fill(ds, "MapsGraph1");
+
+                    }
+
+                }
+
+            }
+
+
+            if (ds != null)
+            {
+
+                if (ds.Tables.Count > 0)
+                {
+
+                    if (ds.Tables["MapsGraph1"].Rows.Count > 0)
+                    {
+
+                        foreach (DataRow dr in ds.Tables["MapsGraph1"].Rows)
+                        {
+
+                            Debug.WriteLine((dr["latitude"].ToString()));
+
+                            datamap1.Add(new Logger
+                            {
+
+                                latitude = (dr["latitude"].ToString()),
+                                longitute = (dr["longitute"].ToString()),
+                                status = Convert.ToInt16(dr["status"].ToString())
+
+
+                            });
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+
+            return datamap1;
+
+        }
+
+
+        public ActionResult MapDetail()
+        {
+
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(DatMapaZona());
+
+
+            return Json(DatMapaZona(), JsonRequestBehavior.AllowGet);
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+        public ActionResult MapAll()
+        {
+
+
+
+
+            return View();
+
+
+
+
+        }
+
 
 
 
@@ -80,8 +205,8 @@ namespace Poseidon.Controllers
                          {
 
                              a.logger_id,
-                             a.logger_sites_name,
-                             a.logger_sms,
+                             a.latitude,
+                             a.longitute,
                              f.zone_name,
                              a.instalation_type,
                              a.necessary_key,
