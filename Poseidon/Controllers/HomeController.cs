@@ -9,6 +9,7 @@ using System.Diagnostics;
 using Poseidon.Models;
 using System.Web.Security;
 
+
 namespace Poseidon.Controllers
 {
 
@@ -40,10 +41,11 @@ namespace Poseidon.Controllers
         public ActionResult Index()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
-
+            LogOut();
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
@@ -60,15 +62,20 @@ namespace Poseidon.Controllers
                     {
                         Session["USERID"] = v.user_id.ToString();
                         Session["USERNAME"] = v.user_name.ToString();
-                        Session["COMPANYID"] = v.company_id.ToString();
+                        if (v.company_id.ToString() != null)
+                            Session["COMPANYID"] = v.company_id.ToString();
+                            
                         Session["USERTYPE"] = v.user_type_id.ToString();
 
                         FormsAuthentication.SetAuthCookie(v.user_name.ToString(), true);
 
+                     
                         if (v.user_type_id == 1)
                             return RedirectToAction("ListStatus", "Status");
                         else if (v.user_type_id == 2)
                             return RedirectToAction("ListUser", "Status");
+                        else if (v.user_type_id == 3)
+                            return RedirectToAction("ListLogger", "UserLogger");
                     }
                     else
                         ModelState.AddModelError("", "Usuario Invalido");
@@ -158,33 +165,49 @@ namespace Poseidon.Controllers
             request.GetResponse();
         }
 
+        public static void CreateFtp()
+        {
+            string root = @"C:\ImagenPoseidon";
+            string subdir = @"\2080\";
+            var physicalPath = Path.GetFullPath(Path.Combine(@"C:\\", @"..\ImagenPoseidon\")) + subdir;
 
+
+            // If directory does not exist, create it. 
+            if (!Directory.Exists(physicalPath))
+            {
+                Directory.CreateDirectory(physicalPath);
+            }
+
+        }
+
+        [HttpPost]
         public ActionResult Save(IEnumerable<HttpPostedFileBase> files)
         {
             var pictureViewModel = new PictureViewModel();
+
             // The Name of the Upload component is "files"
 
 
             if (files != null)
             {
+
                 foreach (var file in files)
                 {
                     // Some browsers send file names with full path.
                     // We are only interested in the file name.
                     var fileName = Path.GetFileName(file.FileName);
-                    var physicalPath = Path.Combine("C:/ImagenPoseidon", fileName);
-                    ViewBag.ImageURL = "C:/ImagenPoseidon" + fileName;
+                    var physicalPath = Path.Combine(Server.MapPath("~/Images/"), fileName);
                     // The files are not actually saved in this demo
-
-
                     file.SaveAs(physicalPath);
 
-                    string pictureUrl = @"C:/ImagenPoseidon/" + fileName;
 
                     pictureViewModel.PictureId = 1;
                     pictureViewModel.PictureName = fileName;
-                    pictureViewModel.PictureUrl = pictureUrl;
-                    pictureViewModel.Status = true;
+
+                    pictureViewModel.Status = false;
+                    Session["PictureUrl"] = fileName.ToString();
+
+                    HomeController.CreateFtp();
                 }
             }
 
@@ -192,6 +215,7 @@ namespace Poseidon.Controllers
 
             return Json(pictureViewModel, JsonRequestBehavior.AllowGet);
         }
+
 
         public ActionResult Remove(string[] fileNames)
         {
@@ -254,6 +278,10 @@ namespace Poseidon.Controllers
             else if (Session["USERTYPE"].ToString() == "2") 
             { 
                 return RedirectToAction("ListUser", "Status");
+            }
+            else if (Session["USERTYPE"].ToString() == "3")
+            {
+                return RedirectToAction("ListLogger", "UserLogger");
             }
         return View();
         }

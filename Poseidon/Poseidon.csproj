@@ -136,12 +136,16 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HelperController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Controllers\UserLoggerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Company.cs">
+      <DependentUpon>DbLogger.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Customers.cs">
       <DependentUpon>DbLogger.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DbLogger.Context.cs">
@@ -162,6 +166,12 @@
     <Compile Include="Models\Logger.cs">
       <DependentUpon>DbLogger.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Regions.cs">
+      <DependentUpon>DbLogger.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>DbLogger.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\User.cs">
       <DependentUpon>DbLogger.tt</DependentUpon>
     </Compile>
@@ -178,9 +188,16 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\images\30x30-pdf-icon.png" />
     <Content Include="Content\images\32x32-pdf.png" />
+    <Content Include="Content\images\blue_MarkerI.png" />
+    <Content Include="Content\images\brown_MarkerE.png" />
     <Content Include="Content\images\Chile.png" />
-    <Content Include="Content\images\dnk_logo.jpg" />
+    <Content Include="Content\images\dnk_logo.png" />
+    <Content Include="Content\images\green_MarkerA.png" />
+    <Content Include="Content\images\orange_MarkerN.png" />
+    <Content Include="Content\images\red_MarkerR.png" />
     <Content Include="Content\images\table_excel.png" />
+    <Content Include="Content\images\yellow_MarkerA.png" />
+    <Content Include="Content\images\yellow_MarkerP.png" />
     <Content Include="Models\kendo\2014.3.1119\Black\editor.png" />
     <Content Include="Models\kendo\2014.3.1119\Black\imagebrowser.png" />
     <Content Include="Models\kendo\2014.3.1119\Black\indeterminate.gif" />
@@ -472,11 +489,12 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="App_Browsers\qt.browser" />
     <Content Include="Views\UserLogger\ListLogger.cshtml" />
-    <Content Include="Views\UserLogger\ListLoggerTot.cshtml" />
     <Content Include="Views\Status\CreateInstalation.cshtml" />
     <Content Include="Views\Status\PreviewLoggerFree.cshtml" />
     <Content Include="Views\Status\Edit.cshtml" />
     <Content Include="Views\Status\LoggerApprove.cshtml" />
+    <Content Include="Views\UserLogger\ErrorCorrection.cshtml" />
+    <Content Include="Views\Map\LoggerList.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

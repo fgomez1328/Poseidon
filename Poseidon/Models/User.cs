@@ -14,15 +14,22 @@ namespace Poseidon.Models
     
     public partial class User
     {
+        public User()
+        {
+            this.Logger = new HashSet<Logger>();
+        }
+    
         public int user_id { get; set; }
         public string user_name { get; set; }
         public Nullable<System.DateTime> user_creation { get; set; }
         public int user_type_id { get; set; }
-        public int company_id { get; set; }
+        public Nullable<int> company_id { get; set; }
         public string user_pass { get; set; }
         public string user_login { get; set; }
     
-        public virtual Company Company { get; set; }
         public virtual UserType UserType { get; set; }
+        public virtual User User1 { get; set; }
+        public virtual User User2 { get; set; }
+        public virtual ICollection<Logger> Logger { get; set; }
     }
 }

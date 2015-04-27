@@ -5,19 +5,18 @@
 }
 
 
-<div id="example" align="left" class="k-content2">
-
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form" }))
+@using (Html.BeginForm())
 {
-
+    @Html.AntiForgeryToken()
+    
+<div id="example" align="left" class="k-content2">
     <fieldset class="k-block">
 
-        <h3>Detalles del Sitio : @Html.DisplayFor(model => model.logger_sites_name)</h3>
+        <h3>Detalles del Sitio</h3>
 
         <table>
-        
 
-            <tr>
+            <tr class="">
                 @Html.HiddenFor(model => model.logger_id)
 
                 @*EMPRESA*@
@@ -26,34 +25,10 @@
                 </td>
 
                 <td>
+
                     <div class="editor-field">
                         @Html.TextBoxFor(model => model.Company.company_name, new { style = "width: 190px", disabled = "disabled" })
                     </div>
-                </td>
-
-                @*INSTALADOR*@
-                <td>
-                    <label for="fullname" class="required" style="width:210px">Instalador</label>
-                </td>
-
-                <td>
-                    <div class="editor-field">
-                        @Html.TextBoxFor(model => model.User.user_name, new { style = "width: 190px", disabled = "disabled" })
-                    </div>
-                </td>
-              
-
-            </tr>
-
-            <tr>
-
-                @*LOCALIDAD*@
-                <td>
-                    <label for="fullname" class="required" style="width:210px">Localidad</label>
-                </td>
-
-                <td>
-                    @Html.TextBoxFor(model => model.zones.zone_name, new { @class = "form-control", style = "width:190px", disabled = "disabled" })
 
                 </td>
 
@@ -66,6 +41,7 @@
 
                     @Html.TextBoxFor(model => model.logger_serial_number, new { style = "width: 190px", disabled = "disabled" })
                 </td>
+
             </tr>
 
             <tr>
@@ -121,7 +97,7 @@
 
             </tr>
 
-            
+
             <tr>
                 @*CONDICIONES INSTALACIÓN*@
                 <td>
@@ -147,21 +123,18 @@
                 </td>
             </tr>
 
-           
-           
-
-
         </table>
 
     </fieldset>
     <br>
     <br>
 
+
     <fieldset class="k-block">
 
         <h3>Detalles de la Calidad de la Señal</h3>
 
-        <table align="left" id="signal_quality_id">
+        <table align="left" id="camera_table_id">
 
             <tr align="left">
 
@@ -231,10 +204,8 @@
                 </td>
 
                 <td>
-                    <fieldset class="k-block" style="width:200px">
-                        @Html.RadioButtonFor(model => model.gprs_test_status, "true", new { style = "width: 50px", disabled = "disabled" })Si
-                        @Html.RadioButtonFor(model => model.gprs_test_status, "false", new { style = "width: 50px", disabled = "disabled" })No
-                    </fieldset>
+                    @Html.TextBoxFor(model => model.gprs_test_status, new { style = "width: 190px", disabled = "disabled" })
+
                 </td>
 
                 @*SE PUEDE INSTALAR POSE DE ANTENA*@
@@ -260,11 +231,12 @@
     <br>
     <br>
 
+
     <fieldset class="k-block">
 
         <h3>Detalles de la Instalación</h3>
 
-        <table align="left" id="instalation_detail_id">
+        <table align="left">
 
             <tr align="center">
 
@@ -427,7 +399,7 @@
 
         <h3>Detalles de la Cámara</h3>
 
-        <table id="logger_canal_id">
+        <table>
 
             <tr>
                 @*POSICION DEL LOGGER*@
@@ -514,7 +486,7 @@
 
                 <td>
 
-                    @Html.TextBoxFor(model => model.chamber_type, new { @class = "form-control", style = "width: 190px", disabled = "disabled" })
+                    @Html.TextBoxFor(model => model.manometer_aar_value, new { @class = "form-control", style = "width: 190px", disabled = "disabled" })
 
                 </td>
 
@@ -589,13 +561,14 @@
     </fieldset>
 
     <br>
+
     <br>
 
     <fieldset class="k-block">
 
         <h3>Canales Usados del Logger</h3>
 
-        <table align="left" id="camera_table_id">
+        <table align="left">
 
             <tr>
                 @*CANAL 1*@
@@ -652,11 +625,12 @@
     <br>
     <br>
 
+
     <fieldset class="k-block">
 
         <h3>Equipamiento Utilizado(Por el Instalador)</h3>
 
-        <table align="left" id="tool_thechnical_id">
+        <table align="left">
 
 
 
@@ -749,11 +723,39 @@
     <br>
     <br>
 
+
     <fieldset class="k-block">
 
-        <h3>Descripción Instalador</h3>
+        <h3>Descripción Instalación</h3>
 
         <table align="left">
+
+            <tr>
+                @*COMENTARIOS*@
+                <td>
+                    <label for="fullname" class="required" style="width:210px">Comentarios Administrador</label>
+                </td>
+
+                <td width="210px">
+                    @Html.TextAreaFor(model => model.user_approval_note, new { @style = " background-color: #ffffff;width: 190px; height: 100px;", @disabled = "disabled" })
+
+                </td>
+
+            </tr>
+            <tr>
+                @*FECHA Y HORA DE TERMINO*@
+                <td>
+                    <label for="fullname" class="required" style="width:210px">Fecha Rechazo</label>
+
+                </td>
+                <td>
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.creation_date, new { @class = "form-control", disabled = "disabled", style = "width: 190px" })
+                        @Html.ValidationMessageFor(model => model.creation_date, String.Empty, new { @class = "help-inline", @style = "color:red" })
+                    </div>
+
+                </td>
+            </tr>
 
             <tr>
                 @*SUBIR IMAGEN*@
@@ -766,39 +768,6 @@
 
             </tr>
 
-            <tr>
-                @*COMENTARIOS*@
-                <td>
-                    <label for="fullname" class="required" style="width:210px">Comentarios Instalador</label>
-                </td>
-
-                <td>
-                    @Html.TextAreaFor(model => model.notes, new { @style = " background-color: #ffffff;width: 300px; height: 100px;" })
-                    @Html.ValidationMessageFor(model => model.notes, String.Empty, new { @class = "help-inline", @style = "color:red" })
-
-                </td>
-
-
-
-            </tr>
-
-            <tr>
-                @*FECHA Y HORA DE TERMINO*@
-                <td>
-                    <label for="fullname" class="required" style="width:210px">Fecha término</label>
-
-                </td>
-
-                <td>
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.user_instalation_end_date, new {  @class = "form-control" , style = "width: 190px"} )
-                        @Html.ValidationMessageFor(model => model.creation_date, String.Empty, new { @class = "help-inline", @style = "color:red" })
-                    </div>
-
-                </td>
-
-            </tr>
-
         </table>
 
     </fieldset>
@@ -807,37 +776,33 @@
     <br />
     <fieldset class="k-block">
 
-        <h3>Descripción Administrador</h3>
+        <h3>Corrección problema de Instalación</h3>
 
         <table align="left">
 
             <tr>
-                @*SUBIR IMAGEN*@
+                @*Corregir*@
                 <td>
-                    <label for="fullname" class="required" style="width:210px">Resultado Instalación</label>
+                    <label for="fullname" class="required" style="width:800px">Se continua instalación, cumpliendo ahora todos los requisitos para proceder a su aprobación.</label>
                 </td>
                 <td>
-                    @Html.RadioButtonFor(model => model.status, "4", new { style = "width: 50px", disabled = "disabled" })Aprobado
-                    @Html.RadioButtonFor(model => model.status, "5", new { style = "width: 50px", disabled = "disabled" })No Conectado
-                    @Html.RadioButtonFor(model => model.status, "6", new { style = "width: 50px", disabled = "disabled" })No Instalado
+                   
+                    @Html.CheckBox("Check")Si
+                 
                 </td>
 
             </tr>
 
             <tr>
-                @*COMENTARIOS*@
-                <td>
-                    <label for="fullname" class="required" style="width:210px">Comentarios Administrador</label>
-                </td>
+             
 
-                <td>
-                    @Html.TextAreaFor(model => model.user_approval_note, new { @style = " background-color: #ffffff;width: 300px; height: 100px;", @disabled = "disabled" })
-                    
-                </td>
 
             </tr>
 
+            <tr>
             
+            </tr>
+
         </table>
 
     </fieldset>
@@ -846,13 +811,14 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input class="btn btn-default" type="button" id="printForm" value="Imprimir" />
-            @*<input type="button" value="Volver" class="btn btn-default" width="170" id="btnBack" onclick="location.href='@Url.Action("ListCondition", "Home")' " />*@
+            <input type="submit" value="Guardar" class="btn btn-default" />
+            <input type="button" value="Volver" class="btn btn-default" width="170" id="btnBack" onclick="location.href='@Url.Action("LisLogger", "UserLogger")' " />
         </div>
     </div>
-}
+
 </div>
 
+}
 
 
 
@@ -880,17 +846,16 @@
         }
 
         $(document).ready(function () {
-          
+
             var lat = $("#flooded_chamber").val();
             var enter = $("#necesary_site_enter").val();
 
-            
+
             if (enter == "True") {
                 EnterYes();
-            }else{
-                if (lat == "True") {
-                    ApproveYes();
-                }
+            }
+            if (lat == "True") {
+                ApproveYes();
             }
 
         });
@@ -901,7 +866,7 @@
             $("#logger_canal_id").hide();
             $("#tool_thechnical_id").hide();
 
-         
+
             var lat = $("#flooded_chamber");
             lat.val(true)
         }
@@ -912,179 +877,27 @@
             $("#logger_canal_id").hide();
             $("#tool_thechnical_id").hide();
             $("#camera_table_id").hide();
-       
-            var lat = $("#necesary_site_enter");
+
+            var lat = $("#flooded_chamber");
             lat.val(true);
 
         }
 
-        function printGrid() {
-            var gridElement = $('#form'),
-                printableContent = '',
-                win = window.open('', '', 'width=800, height=500'),
-                doc = win.document.open();
+        $(function () {
 
-            var htmlStart =
-                    '<!DOCTYPE html>' +
-                    '<html>' +
-                    '<head>' +
-                    '<meta charset="utf-8" />' +
-                    '<title>Formulario de Equipos Pegasos</title>' +
-                    '<link href="http://cdn.kendostatic.com/' + kendo.version + '/styles/kendo.common.min.css" rel="stylesheet" /> ' +
-                     '<img src="  @Url.Content("~/Content/Images/dnk_logo.jpg")" STYLE="position:absolute; TOP:25px; LEFT:170px; WIDTH:100px; HEIGHT:100px" alt="DNK"> ' +
-
-                   '<style>' +
-
-                    '#form { position:absolute; top:20%;left:20%; ;width;:250px }' +
-                     'fieldset.k-block {  border:1px solid green}' +
-                    '#legend {padding: 0.2em 0.5em;border:1px solid green;color:green;font-size:90%;text-align:right;}' +
-                    'html { font: 11pt sans-serif; }' +
-                    '.k-grid { border-top-width: 0; }' +
-                    '.k-grid, .k-grid-content { height: auto !important; }' +
-                    '.k-grid-content { overflow: visible !important; }' +
-                     '.k-texbox -content { overflow: visible !important; }' +
-
-                   'div.col-md-10 table { table-layout: auto; width: 100% !important; }' +
-                   'div.k-header table { table-layout: auto; width: 100% !important; }' +
-                   'div.k-block k-info-colored table { table-layout: auto; width: 100% !important; }' +
-                    'div.k-grid table { table-layout: auto; width: 100% !important; }' +
-                    '.k-grid .k-grid-header th { border-top: 1px solid; }' +
-                    '.k-grid-toolbar, .k-grid-pager > .k-link { display: none; }' +
-                    '</style>' +
-                    '</head>' +
-                    '<body>';
-
-            var htmlEnd =
-                    '</body>' +
-                    '</html>';
-
-            var gridHeader = gridElement.children('.k-grid-header');
-            if (gridHeader[0]) {
-                var thead = gridHeader.find('thead').clone().addClass('k-grid-header');
-                printableContent = gridElement
-                    .clone()
-                        .children('.k-grid-header').remove()
-                    .end()
-                        .children('.k-grid-content')
-                            .find('table')
-                                .first()
-                                    .children('tbody').before(thead)
-                                .end()
-                            .end()
-                        .end()
-                    .end()[0].outerHTML;
-            } else {
-                printableContent = gridElement.clone()[0].outerHTML;
-            }
-
-            doc.write(htmlStart + printableContent + htmlEnd);
-            doc.close();
-            win.print();
-        }
-
-        $('#printForm').click(function () {
-            printGrid();
+            $("#Check").click(function () {
+                var isChecked = $(this).attr("checked");
+                if (isChecked) {
+                    var fd = $("Check").val;
+                    //window.location.href = "@Url.Action("ErrorCorrection", "UserLogger");
+                }
+                else {
+                    alert("Debe Aprobar condición antes de continuar");
+                }
+            });
         });
+       
+
 
 </script>
-
-<style scoped>
-    .k-textbox {
-        width: 20.8em;
-    }
-
-    .k-content2 {
-        float: left;
-        border-spacing: 0;
-        width: 100%;
-        border-width: 0;
-        margin: 0;
-        table-layout: fixed;
-        text-align: left;
-        outline: 0;
-        align-content: flex-start;
-        align-items: flex-start;
-    }
-
-
-
-
-
-    #students {
-        width: 510px;
-        margin: 30px auto;
-        padding: 10px 20px 20px 170px;
-    }
-
-        #students h3 {
-            font-weight: normal;
-            font-size: 1.4em;
-            border-bottom: 1px solid #ccc;
-        }
-
-        #students ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        #students li {
-            margin: 10px 0 0 0;
-        }
-
-    label {
-        display: inline-block;
-        width: 100px;
-        text-align: left;
-    }
-
-    .required {
-        font-weight: bold;
-    }
-
-    .accept {
-        padding-left: 90px;
-    }
-
-    .status {
-        padding-left: 90px;
-        padding-bottom: 550;
-    }
-
-    .valid {
-        color: green;
-    }
-
-    .invalid {
-        color: red;
-    }
-
-    span.k-tooltip {
-        margin-left: 1px;
-    }
-
-    #frmSearch label {
-        display: inline-block;
-        width: 120px;
-        padding-right: 5px;
-        text-align: right;
-    }
-
-    #frmSearch .k-button {
-        margin: 20px 0 0 125px;
-    }
-
-    #frmSearch .k-readonly {
-        color: gray;
-    }
-
-    .demo-section {
-        width: 600px;
-    }
-
-    .k-content1 > table > tbody > tr {
-        cursor: pointer;
-        align-content: flex-end;
-    }
-</style>
 

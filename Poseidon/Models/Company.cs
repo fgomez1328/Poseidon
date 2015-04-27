@@ -16,7 +16,6 @@ namespace Poseidon.Models
     {
         public Company()
         {
-            this.User = new HashSet<User>();
             this.Logger = new HashSet<Logger>();
         }
     
@@ -25,7 +24,6 @@ namespace Poseidon.Models
         public Nullable<System.DateTime> creation_date { get; set; }
         public string company_description { get; set; }
     
-        public virtual ICollection<User> User { get; set; }
         public virtual ICollection<Logger> Logger { get; set; }
     }
 }

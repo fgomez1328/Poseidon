@@ -1,8 +1,8 @@
 ﻿@{
-    ViewBag.Title = "ListUser";
+    ViewBag.Title = "INSTALACIONES";
 }
 
-<h2>Lista Disponibles para agendar</h2>
+<h2>Lista Disponibles para Agendar</h2>
 
 <div id="clientsDb">
     @(Html.Kendo().Grid<Poseidon.Models.Logger>()
@@ -22,7 +22,7 @@
         {
             columns.Bound("logger_sites_name").Title("Nombre Sitio");
 
-            columns.Bound("zone_name").Width("190").Title("Zona");
+            columns.Bound("zone_name").Width("190").Title("Localidad");
             columns.Bound("necessary_key").Width(110).Title("Necesario llaves").Filterable(false);
             columns.Bound("contact_detail").Width(110).Title("Detalle contacto");
 
@@ -71,7 +71,7 @@
 </div>
 
 
-<h2>Lista instalaciones en progreso</h2>
+<h2>Lista Instalaciones en Progreso</h2>
 <div id="gridinstalando">
     @(Html.Kendo().Grid<Poseidon.Models.Logger>()
         .Name("gridProgress")
@@ -89,8 +89,9 @@
         .Columns(columns =>
         {
             columns.Bound("logger_sites_name").Title("Nombre Sitio");
-            columns.Bound("logger_sms").Title("SMS");
-            columns.Bound("zone_name").Width("190").Title("Zona");
+            columns.Bound("user_instalation").Title("Instalador");
+            columns.Bound("zone_name").Width("190").Title("Localidad");
+            columns.Bound("user_instalation_start_date").Title("Fecha Inicio instalación").Format("{0:dd/MM/yyyy HH:mm}").Filterable(false).ToString();
             columns.Command(c => c.Custom("Actualizar").Click("UpdateLogger"));
 
         })
@@ -99,10 +100,11 @@
         .Model(c =>
         {
             c.Id("logger_id");
-            c.Field("logger_sms", typeof(int));
+            c.Field("user_instalation", typeof(string));
             c.Field("logger_sites_name", typeof(string));
             c.Field("zone_id", typeof(int));
             c.Field("zone_name", typeof(string));
+            c.Field("user_instalation_start_date", typeof(DateTime));
 
 
 
@@ -161,17 +163,18 @@
 
         })
                 .Read(read => read.Action("OtherData", "Status"))
+                .Sort(a => a.Add("status").Ascending())
         )
         .Columns(columns =>
         {
             columns.Bound("logger_sites_name").Title("Nombre Sitio");
-            columns.Bound("logger_sms").Title("SMS");
-            columns.Bound("zone_name").Width("190").Title("Zona");
+            //columns.Bound("logger_sms").Title("SMS");
+            columns.Bound("zone_name").Width("190").Title("Localidad");
             columns.Bound("status").Title("Estado").Filterable(false);
-            columns.Bound("user_instalation_start_date").Title("Inicio Instalación").Format("{0:dd/MM/yyyy HH:mm:ss}").Filterable(false);
-            columns.Bound("user_instalation_end_date").Title("Termino Instalación").Format("{0:dd/MM/yyyy HH:mm:ss}").Filterable(false);
+            columns.Bound("user_instalation_start_date").Title("Inicio Instalación").Format("{0:dd/MM/yyyy HH:mm}").Filterable(false);
+            columns.Bound("user_instalation_end_date").Title("Termino Instalación").Format("{0:dd/MM/yyyy HH:mm}").Filterable(false);
             columns.Bound("instalation_user").Title("Instalado por").Filterable(false);
-            columns.Bound("approval_date").Title("Fecha aprobación").Format("{0:dd/MM/yyyy HH:mm:ss}").Filterable(false);
+            columns.Bound("approval_date").Title("Fecha aprobación").Format("{0:dd/MM/yyyy HH:mm}").Filterable(false);
             columns.Command(c =>
                     {
                         c.Custom("Ver").Click("LoggerView");
@@ -306,23 +309,56 @@
             var dos = "En ejecución";
             var tres = "Instalado";
             var cuatro = "Aprobado";
+            var cinco = "No Conectado";
+            var seis = "No Instalado";
 
             // set on dataItem
             var currenvalue = this.status;
             var currentUid = gridData[i].uid;
             var currenRow = grid.table.find("tr[data-uid='" + currentUid + "']");
             var editButton = $(currenRow).find(".k-grid-Actualizar");
+            var verButton = $(currenRow).find(".k-grid-Ver");
 
-            if (currenvalue == "1") {
+            if (currenvalue == 1) {
                 this.set("status", uno)
-            } else if (currenvalue == "2") {
+
+            } else if (currenvalue == 2) {
                 this.set("status", dos)
-                $('tr[data-uid="' + row.uid + '"] td:nth-child(4)').css("background-color", "red");
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(1)').css("color", "brown");
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(2)').css("color", "brown");
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(3)').css("color", "brown");
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(4)').css("color", "brown");
+
             } else if (currenvalue == 3) {
                 this.set("status", tres)
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(1)').css("color", "blue");
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(2)').css("color", "blue");
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(3)').css("color", "blue");
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(4)').css("color", "blue");
+
             } else if (currenvalue == 4) {
                 this.set("status", cuatro)
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(1)').css("color", "green");
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(2)').css("color", "green");
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(3)').css("color", "green");
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(4)').css("color", "green");
+
+            } else if (currenvalue == 5) {
+                this.set("status", cinco)
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(1)').css("color", "orange");
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(2)').css("color", "orange");
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(3)').css("color", "orange");
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(4)').css("color", "orange");
+            
+            } else if (currenvalue == 6) {
+                this.set("status", seis)
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(1)').css("color", "red");
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(2)').css("color", "red");
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(3)').css("color", "red");
+                $('tr[data-uid="' + row.uid + '"] td:nth-child(4)').css("color", "red");
+
             }
+
             var currenkey = this.necessary_key;
             var no = "No";
             var yes = "Si";
@@ -332,8 +368,11 @@
                 this.set("necessary_key", yes)
 
             //OCULTA BOTON APROBAR
-            if (currenvalue == cuatro) {
+            if (currenvalue == cuatro || currenvalue == cinco || currenvalue == seis) {
                 editButton.hide();
+            }
+            if (currenvalue == tres) {
+                verButton.hide();
             }
            
         });
@@ -362,7 +401,7 @@
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         var stockReceiptId = dataItem.logger_id;
-        window.location.href = "@Url.Action("DetailInstalation", "Status")?logger_id=" + stockReceiptId;
+        window.location.href = "@Url.Action("CreateInstalation", "Status")?logger_id=" + stockReceiptId;
 
     }
 </script>
@@ -371,14 +410,14 @@
     
 
     .k-i-excel {
-        background-image: url('../../Content/images/table_excel.png');
+        background-image: url('../Content/images/table_excel.png');
         background-size: 20px 20px;
         background-position: left;
         background-repeat: no-repeat;
     }
 
     .pdf {
-        background-image: url('../../Content/images/30x30-pdf-icon.png');
+        background-image: url('../Content/images/30x30-pdf-icon.png');
         background-size: 20px 20px;
         background-position: left;
         background-repeat: no-repeat;

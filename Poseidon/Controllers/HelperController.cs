@@ -29,5 +29,20 @@ namespace Poseidon.Controllers
 
             return Json(rol_result.Select(o => new { o.zone_id, o.zone_name }), JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetCompany()
+        {
+            var db = new poseidon_dbEntities();
+
+            var rol_result = from a in db.Company
+
+                             select new
+                             {
+                                 a.company_id,
+                                 a.company_name
+                             };
+
+            return Json(rol_result.Select(o => new { o.company_id, o.company_name }), JsonRequestBehavior.AllowGet);
+        }
     }
 }

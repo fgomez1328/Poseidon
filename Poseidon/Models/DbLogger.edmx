@@ -14,16 +14,26 @@
           <Property Name="creation_date" Type="datetime" />
           <Property Name="company_description" Type="varchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="customer_id" />
+          </Key>
+          <Property Name="customer_id" Type="int" Nullable="false" />
+          <Property Name="customer_name" Type="varchar" MaxLength="50" />
+          <Property Name="customer_company_id" Type="int" />
+          <Property Name="customer_email" Type="varchar" MaxLength="50" />
+          <Property Name="cc" Type="bit" />
+        </EntityType>
         <EntityType Name="Logger">
           <Key>
             <PropertyRef Name="logger_id" />
           </Key>
           <Property Name="logger_id" Type="int" Nullable="false" />
           <Property Name="logger_sites_name" Type="varchar" MaxLength="50" />
-          <Property Name="logger_sms" Type="int" />
+          <Property Name="logger_sms" Type="varchar" MaxLength="20" />
           <Property Name="logger_type" Type="int" />
           <Property Name="logger_serial_number" Type="varchar" MaxLength="50" />
-          <Property Name="instalation_type" Type="int" />
+          <Property Name="instalation_type" Type="varchar" MaxLength="10" />
           <Property Name="chip_id" Type="int" />
           <Property Name="latitude" Type="varchar" MaxLength="20" />
           <Property Name="longitute" Type="varchar" MaxLength="20" />
@@ -55,7 +65,7 @@
           <Property Name="necesary_site_enter" Type="bit" />
           <Property Name="logger_outdoor" Type="bit" />
           <Property Name="condition_type_instalation" Type="varchar" MaxLength="10" />
-          <Property Name="antenna_type" Type="int" />
+          <Property Name="antenna_type" Type="varchar" MaxLength="30" />
           <Property Name="Csq_outdoor" Type="bit" />
           <Property Name="can_lamppost_with_antenna" Type="bit" />
           <Property Name="manometer_aar_value" Type="varchar" MaxLength="30" />
@@ -74,25 +84,40 @@
           <Property Name="necessary_manipulate_traffic" Type="bit" />
           <Property Name="necessary_tool_open_chamber" Type="bit" />
           <Property Name="two_thechnical_open_chamber" Type="bit" />
-          <Property Name="channel_1" Type="int" />
-          <Property Name="channel_2" Type="int" />
-          <Property Name="channel_3" Type="int" />
-          <Property Name="channel_4" Type="int" />
+          <Property Name="channel_1" Type="varchar" MaxLength="20" />
+          <Property Name="channel_2" Type="varchar" MaxLength="20" />
+          <Property Name="channel_3" Type="varchar" MaxLength="20" />
+          <Property Name="channel_4" Type="varchar" MaxLength="20" />
           <Property Name="battery_installed" Type="bit" />
           <Property Name="battery_serial_number" Type="varchar" MaxLength="20" />
-          <Property Name="notes" Type="varchar" MaxLength="200" />
+          <Property Name="notes" Type="varchar(max)" />
           <Property Name="site_conditions_installation" Type="varchar" MaxLength="15" />
-          <Property Name="id_conditions_installation" Type="int" />
-          <Property Name="chamber_type_id" Type="int" />
-          <Property Name="chamber_type_tap_id" Type="int" />
+          <Property Name="conditions_installation" Type="varchar" MaxLength="10" />
+          <Property Name="chamber_type" Type="varchar" MaxLength="20" />
+          <Property Name="chamber_type_tap" Type="varchar" MaxLength="20" />
           <Property Name="battery_type" Type="varchar" MaxLength="30" />
-          <Property Name="state_flowmeter_id" Type="int" />
-          <Property Name="type_flowmeter_id" Type="int" />
-          <Property Name="picture_image" Type="varchar" MaxLength="30" />
-          <Property Name="picture_url" Type="varchar" MaxLength="30" />
+          <Property Name="state_flowmeter" Type="varchar" MaxLength="20" />
+          <Property Name="type_flowmeter" Type="varchar" MaxLength="30" />
           <Property Name="instalation_type_logger" Type="varchar" MaxLength="50" />
-          <Property Name="user_approval_status" Type="bit" />
           <Property Name="user_approval_note" Type="varchar(max)" />
+          <Property Name="type_company_sms" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Regions">
+          <Key>
+            <PropertyRef Name="region_id" />
+          </Key>
+          <Property Name="region_id" Type="int" Nullable="false" />
+          <Property Name="region_name" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -102,7 +127,7 @@
           <Property Name="user_name" Type="varchar" MaxLength="50" />
           <Property Name="user_creation" Type="datetime" />
           <Property Name="user_type_id" Type="int" Nullable="false" />
-          <Property Name="company_id" Type="int" Nullable="false" />
+          <Property Name="company_id" Type="int" />
           <Property Name="user_pass" Type="varchar" MaxLength="32" />
           <Property Name="user_login" Type="varchar" MaxLength="20" />
         </EntityType>
@@ -119,6 +144,7 @@
           </Key>
           <Property Name="zone_id" Type="int" Nullable="false" />
           <Property Name="zone_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="region_id" Type="int" />
         </EntityType>
         <Association Name="FK_Logger_Company">
           <End Role="Company" Type="Self.Company" Multiplicity="1" />
@@ -132,33 +158,48 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_User_Company">
-          <End Role="Company" Type="Self.Company" Multiplicity="1" />
-          <End Role="User" Type="Self.User" Multiplicity="*" />
+        <Association Name="FK_Logger_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Logger" Type="Self.Logger" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="company_id" />
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
             </Principal>
-            <Dependent Role="User">
-              <PropertyRef Name="company_id" />
+            <Dependent Role="Logger">
+              <PropertyRef Name="user_instalation" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_User_UserType">
-          <End Role="UserType" Type="Self.UserType" Multiplicity="1" />
-          <End Role="User" Type="Self.User" Multiplicity="*" />
+        <Association Name="FK_Logger_zones">
+          <End Role="zones" Type="Self.zones" Multiplicity="0..1" />
+          <End Role="Logger" Type="Self.Logger" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="UserType">
-              <PropertyRef Name="user_type_id" />
+            <Principal Role="zones">
+              <PropertyRef Name="zone_id" />
             </Principal>
-            <Dependent Role="User">
-              <PropertyRef Name="user_type_id" />
+            <Dependent Role="Logger">
+              <PropertyRef Name="zone_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="User1" Type="Self.User" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="User1">
+              <PropertyRef Name="user_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="poseidon_dbModelStoreContainer">
           <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Logger" EntityType="Self.Logger" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Regions" EntityType="Self.Regions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserType" EntityType="Self.UserType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="zones" EntityType="Self.zones" Schema="dbo" store:Type="Tables" />
@@ -166,19 +207,57 @@
             <End Role="Company" EntitySet="Company" />
             <End Role="Logger" EntitySet="Logger" />
           </AssociationSet>
-          <AssociationSet Name="FK_User_Company" Association="Self.FK_User_Company">
-            <End Role="Company" EntitySet="Company" />
+          <AssociationSet Name="FK_Logger_User" Association="Self.FK_Logger_User">
             <End Role="User" EntitySet="User" />
+            <End Role="Logger" EntitySet="Logger" />
           </AssociationSet>
-          <AssociationSet Name="FK_User_UserType" Association="Self.FK_User_UserType">
-            <End Role="UserType" EntitySet="UserType" />
+          <AssociationSet Name="FK_Logger_zones" Association="Self.FK_Logger_zones">
+            <End Role="zones" EntitySet="zones" />
+            <End Role="Logger" EntitySet="Logger" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_User" Association="Self.FK_User_User">
             <End Role="User" EntitySet="User" />
+            <End Role="User1" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="poseidon_dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="poseidon_dbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Company" EntityType="poseidon_dbModel.Company" />
+          <EntitySet Name="Customers" EntityType="poseidon_dbModel.Customers" />
+          <EntitySet Name="Regions" EntityType="poseidon_dbModel.Regions" />
+          <EntitySet Name="User" EntityType="poseidon_dbModel.User" />
+          <EntitySet Name="UserType" EntityType="poseidon_dbModel.UserType" />
+          <EntitySet Name="zones" EntityType="poseidon_dbModel.zones" />
+          <AssociationSet Name="FK_zones_Regions" Association="poseidon_dbModel.FK_zones_Regions">
+            <End Role="Regions" EntitySet="Regions" />
+            <End Role="zones" EntitySet="zones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_UserType" Association="poseidon_dbModel.FK_User_UserType">
+            <End Role="UserType" EntitySet="UserType" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_User" Association="poseidon_dbModel.FK_User_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="User1" EntitySet="User" />
+          </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="poseidon_dbModel.sysdiagrams" />
+          <EntitySet Name="Logger" EntityType="poseidon_dbModel.Logger" />
+          <AssociationSet Name="FK_Logger_Company" Association="poseidon_dbModel.FK_Logger_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Logger" EntitySet="Logger" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Logger_User" Association="poseidon_dbModel.FK_Logger_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Logger" EntitySet="Logger" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Logger_zones" Association="poseidon_dbModel.FK_Logger_zones">
+            <End Role="zones" EntitySet="zones" />
+            <End Role="Logger" EntitySet="Logger" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Company">
           <Key>
             <PropertyRef Name="company_id" />
@@ -187,8 +266,25 @@
           <Property Name="company_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="creation_date" Type="DateTime" Precision="3" />
           <Property Name="company_description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="User" Relationship="Self.FK_User_Company" FromRole="Company" ToRole="User" />
           <NavigationProperty Name="Logger" Relationship="poseidon_dbModel.FK_Logger_Company" FromRole="Company" ToRole="Logger" />
+        </EntityType>
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="customer_id" />
+          </Key>
+          <Property Name="customer_id" Type="Int32" Nullable="false" />
+          <Property Name="customer_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="customer_company_id" Type="Int32" />
+          <Property Name="customer_email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="cc" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Regions">
+          <Key>
+            <PropertyRef Name="region_id" />
+          </Key>
+          <Property Name="region_id" Type="Int32" Nullable="false" />
+          <Property Name="region_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="zones" Relationship="poseidon_dbModel.FK_zones_Regions" FromRole="Regions" ToRole="zones" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -198,11 +294,13 @@
           <Property Name="user_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="user_creation" Type="DateTime" Precision="3" />
           <Property Name="user_type_id" Type="Int32" Nullable="false" />
-          <Property Name="company_id" Type="Int32" Nullable="false" />
+          <Property Name="company_id" Type="Int32" />
           <Property Name="user_pass" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
           <Property Name="user_login" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Company" Relationship="Self.FK_User_Company" FromRole="User" ToRole="Company" />
-          <NavigationProperty Name="UserType" Relationship="Self.FK_User_UserType" FromRole="User" ToRole="UserType" />
+          <NavigationProperty Name="UserType" Relationship="poseidon_dbModel.FK_User_UserType" FromRole="User" ToRole="UserType" />
+          <NavigationProperty Name="User1" Relationship="poseidon_dbModel.FK_User_User" FromRole="User" ToRole="User1" />
+          <NavigationProperty Name="User2" Relationship="poseidon_dbModel.FK_User_User" FromRole="User1" ToRole="User" />
+          <NavigationProperty Name="Logger" Relationship="poseidon_dbModel.FK_Logger_User" FromRole="User" ToRole="Logger" />
         </EntityType>
         <EntityType Name="UserType">
           <Key>
@@ -210,23 +308,33 @@
           </Key>
           <Property Name="user_type_id" Type="Int32" Nullable="false" />
           <Property Name="user_type_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="User" Relationship="Self.FK_User_UserType" FromRole="UserType" ToRole="User" />
+          <NavigationProperty Name="User" Relationship="poseidon_dbModel.FK_User_UserType" FromRole="UserType" ToRole="User" />
         </EntityType>
-        <Association Name="FK_User_Company">
-          <End Role="Company" Type="Self.Company" Multiplicity="1" />
-          <End Role="User" Type="Self.User" Multiplicity="*" />
+        <EntityType Name="zones">
+          <Key>
+            <PropertyRef Name="zone_id" />
+          </Key>
+          <Property Name="zone_id" Type="Int32" Nullable="false" />
+          <Property Name="zone_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="region_id" Type="Int32" />
+          <NavigationProperty Name="Regions" Relationship="poseidon_dbModel.FK_zones_Regions" FromRole="zones" ToRole="Regions" />
+          <NavigationProperty Name="Logger" Relationship="poseidon_dbModel.FK_Logger_zones" FromRole="zones" ToRole="Logger" />
+        </EntityType>
+        <Association Name="FK_zones_Regions">
+          <End Type="poseidon_dbModel.Regions" Role="Regions" Multiplicity="0..1" />
+          <End Type="poseidon_dbModel.zones" Role="zones" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="company_id" />
+            <Principal Role="Regions">
+              <PropertyRef Name="region_id" />
             </Principal>
-            <Dependent Role="User">
-              <PropertyRef Name="company_id" />
+            <Dependent Role="zones">
+              <PropertyRef Name="region_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_User_UserType">
-          <End Role="UserType" Type="Self.UserType" Multiplicity="1" />
-          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <End Type="poseidon_dbModel.UserType" Role="UserType" Multiplicity="1" />
+          <End Type="poseidon_dbModel.User" Role="User" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserType">
               <PropertyRef Name="user_type_id" />
@@ -236,31 +344,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="poseidon_dbEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Company" EntityType="Self.Company" />
-          <EntitySet Name="User" EntityType="Self.User" />
-          <EntitySet Name="UserType" EntityType="Self.UserType" />
-          <AssociationSet Name="FK_User_Company" Association="Self.FK_User_Company">
-            <End Role="Company" EntitySet="Company" />
-            <End Role="User" EntitySet="User" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_UserType" Association="Self.FK_User_UserType">
-            <End Role="UserType" EntitySet="UserType" />
-            <End Role="User" EntitySet="User" />
-          </AssociationSet>
-          <EntitySet Name="zones" EntityType="poseidon_dbModel.zones" />
-          <EntitySet Name="Logger" EntityType="poseidon_dbModel.Logger" />
-          <AssociationSet Name="FK_Logger_Company" Association="poseidon_dbModel.FK_Logger_Company">
-            <End Role="Company" EntitySet="Company" />
-            <End Role="Logger" EntitySet="Logger" />
-          </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="zones">
+        <Association Name="FK_User_User">
+          <End Type="poseidon_dbModel.User" Role="User" Multiplicity="1" />
+          <End Type="poseidon_dbModel.User" Role="User1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="User1">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="sysdiagrams">
           <Key>
-            <PropertyRef Name="zone_id" />
+            <PropertyRef Name="diagram_id" />
           </Key>
-          <Property Name="zone_id" Type="Int32" Nullable="false" />
-          <Property Name="zone_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Logger">
           <Key>
@@ -268,10 +372,10 @@
           </Key>
           <Property Name="logger_id" Type="Int32" Nullable="false" />
           <Property Name="logger_sites_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="logger_sms" Type="Int32" />
+          <Property Name="logger_sms" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="logger_type" Type="Int32" />
           <Property Name="logger_serial_number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="instalation_type" Type="Int32" />
+          <Property Name="instalation_type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="chip_id" Type="Int32" />
           <Property Name="latitude" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="longitute" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
@@ -303,7 +407,7 @@
           <Property Name="necesary_site_enter" Type="Boolean" />
           <Property Name="logger_outdoor" Type="Boolean" />
           <Property Name="condition_type_instalation" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="antenna_type" Type="Int32" />
+          <Property Name="antenna_type" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Csq_outdoor" Type="Boolean" />
           <Property Name="can_lamppost_with_antenna" Type="Boolean" />
           <Property Name="manometer_aar_value" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
@@ -322,26 +426,26 @@
           <Property Name="necessary_manipulate_traffic" Type="Boolean" />
           <Property Name="necessary_tool_open_chamber" Type="Boolean" />
           <Property Name="two_thechnical_open_chamber" Type="Boolean" />
-          <Property Name="channel_1" Type="Int32" />
-          <Property Name="channel_2" Type="Int32" />
-          <Property Name="channel_3" Type="Int32" />
-          <Property Name="channel_4" Type="Int32" />
+          <Property Name="channel_1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="channel_2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="channel_3" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="channel_4" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="battery_installed" Type="Boolean" />
           <Property Name="battery_serial_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="notes" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="site_conditions_installation" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="id_conditions_installation" Type="Int32" />
-          <Property Name="chamber_type_id" Type="Int32" />
-          <Property Name="chamber_type_tap_id" Type="Int32" />
+          <Property Name="conditions_installation" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="chamber_type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="chamber_type_tap" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="battery_type" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="state_flowmeter_id" Type="Int32" />
-          <Property Name="type_flowmeter_id" Type="Int32" />
-          <Property Name="picture_image" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="picture_url" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Company" Relationship="poseidon_dbModel.FK_Logger_Company" FromRole="Logger" ToRole="Company" />
+          <Property Name="state_flowmeter" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="type_flowmeter" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="instalation_type_logger" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="user_approval_status" Type="Boolean" />
           <Property Name="user_approval_note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="type_company_sms" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Company" Relationship="poseidon_dbModel.FK_Logger_Company" FromRole="Logger" ToRole="Company" />
+          <NavigationProperty Name="User" Relationship="poseidon_dbModel.FK_Logger_User" FromRole="Logger" ToRole="User" />
+          <NavigationProperty Name="zones" Relationship="poseidon_dbModel.FK_Logger_zones" FromRole="Logger" ToRole="zones" />
         </EntityType>
         <Association Name="FK_Logger_Company">
           <End Type="poseidon_dbModel.Company" Role="Company" Multiplicity="1" />
@@ -355,7 +459,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_Logger_User">
+          <End Type="poseidon_dbModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="poseidon_dbModel.Logger" Role="Logger" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Logger">
+              <PropertyRef Name="user_instalation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Logger_zones">
+          <End Type="poseidon_dbModel.zones" Role="zones" Multiplicity="0..1" />
+          <End Type="poseidon_dbModel.Logger" Role="Logger" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="zones">
+              <PropertyRef Name="zone_id" />
+            </Principal>
+            <Dependent Role="Logger">
+              <PropertyRef Name="zone_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -364,56 +492,85 @@
           <EntitySetMapping Name="Company">
             <EntityTypeMapping TypeName="poseidon_dbModel.Company">
               <MappingFragment StoreEntitySet="Company">
-                <ScalarProperty Name="company_id" ColumnName="company_id" />
-                <ScalarProperty Name="company_name" ColumnName="company_name" />
-                <ScalarProperty Name="creation_date" ColumnName="creation_date" />
                 <ScalarProperty Name="company_description" ColumnName="company_description" />
+                <ScalarProperty Name="creation_date" ColumnName="creation_date" />
+                <ScalarProperty Name="company_name" ColumnName="company_name" />
+                <ScalarProperty Name="company_id" ColumnName="company_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="poseidon_dbModel.Customers">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="cc" ColumnName="cc" />
+                <ScalarProperty Name="customer_email" ColumnName="customer_email" />
+                <ScalarProperty Name="customer_company_id" ColumnName="customer_company_id" />
+                <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Regions">
+            <EntityTypeMapping TypeName="poseidon_dbModel.Regions">
+              <MappingFragment StoreEntitySet="Regions">
+                <ScalarProperty Name="region_name" ColumnName="region_name" />
+                <ScalarProperty Name="region_id" ColumnName="region_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="User">
             <EntityTypeMapping TypeName="poseidon_dbModel.User">
               <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="user_id" ColumnName="user_id" />
-                <ScalarProperty Name="user_name" ColumnName="user_name" />
-                <ScalarProperty Name="user_creation" ColumnName="user_creation" />
-                <ScalarProperty Name="user_type_id" ColumnName="user_type_id" />
-                <ScalarProperty Name="company_id" ColumnName="company_id" />
-                <ScalarProperty Name="user_pass" ColumnName="user_pass" />
                 <ScalarProperty Name="user_login" ColumnName="user_login" />
+                <ScalarProperty Name="user_pass" ColumnName="user_pass" />
+                <ScalarProperty Name="company_id" ColumnName="company_id" />
+                <ScalarProperty Name="user_type_id" ColumnName="user_type_id" />
+                <ScalarProperty Name="user_creation" ColumnName="user_creation" />
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserType">
             <EntityTypeMapping TypeName="poseidon_dbModel.UserType">
               <MappingFragment StoreEntitySet="UserType">
-                <ScalarProperty Name="user_type_id" ColumnName="user_type_id" />
                 <ScalarProperty Name="user_type_name" ColumnName="user_type_name" />
+                <ScalarProperty Name="user_type_id" ColumnName="user_type_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="zones">
             <EntityTypeMapping TypeName="poseidon_dbModel.zones">
               <MappingFragment StoreEntitySet="zones">
+                <ScalarProperty Name="region_id" ColumnName="region_id" />
                 <ScalarProperty Name="zone_name" ColumnName="zone_name" />
                 <ScalarProperty Name="zone_id" ColumnName="zone_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="poseidon_dbModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Logger">
             <EntityTypeMapping TypeName="poseidon_dbModel.Logger">
               <MappingFragment StoreEntitySet="Logger">
+                <ScalarProperty Name="type_company_sms" ColumnName="type_company_sms" />
                 <ScalarProperty Name="user_approval_note" ColumnName="user_approval_note" />
-                <ScalarProperty Name="user_approval_status" ColumnName="user_approval_status" />
                 <ScalarProperty Name="instalation_type_logger" ColumnName="instalation_type_logger" />
-                <ScalarProperty Name="picture_url" ColumnName="picture_url" />
-                <ScalarProperty Name="picture_image" ColumnName="picture_image" />
-                <ScalarProperty Name="type_flowmeter_id" ColumnName="type_flowmeter_id" />
-                <ScalarProperty Name="state_flowmeter_id" ColumnName="state_flowmeter_id" />
+                <ScalarProperty Name="type_flowmeter" ColumnName="type_flowmeter" />
+                <ScalarProperty Name="state_flowmeter" ColumnName="state_flowmeter" />
                 <ScalarProperty Name="battery_type" ColumnName="battery_type" />
-                <ScalarProperty Name="chamber_type_tap_id" ColumnName="chamber_type_tap_id" />
-                <ScalarProperty Name="chamber_type_id" ColumnName="chamber_type_id" />
-                <ScalarProperty Name="id_conditions_installation" ColumnName="id_conditions_installation" />
+                <ScalarProperty Name="chamber_type_tap" ColumnName="chamber_type_tap" />
+                <ScalarProperty Name="chamber_type" ColumnName="chamber_type" />
+                <ScalarProperty Name="conditions_installation" ColumnName="conditions_installation" />
                 <ScalarProperty Name="site_conditions_installation" ColumnName="site_conditions_installation" />
                 <ScalarProperty Name="notes" ColumnName="notes" />
                 <ScalarProperty Name="battery_serial_number" ColumnName="battery_serial_number" />

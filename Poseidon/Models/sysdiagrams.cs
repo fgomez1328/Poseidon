@@ -12,18 +12,12 @@ namespace Poseidon.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class zones
+    public partial class sysdiagrams
     {
-        public zones()
-        {
-            this.Logger = new HashSet<Logger>();
-        }
-    
-        public int zone_id { get; set; }
-        public string zone_name { get; set; }
-        public Nullable<int> region_id { get; set; }
-    
-        public virtual Regions Regions { get; set; }
-        public virtual ICollection<Logger> Logger { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

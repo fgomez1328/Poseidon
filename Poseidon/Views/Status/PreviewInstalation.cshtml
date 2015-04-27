@@ -8,31 +8,36 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
 
+    @Html.ValidationSummary(true)
     <p>
         @Html.HiddenFor(model => model.logger_id)
         @Html.Label("Logger Seleccionado")
-        @Html.TextBoxFor(model => model.logger_sites_name, new { @class = "form-control", style = "width:170px" })
+        @Html.TextBoxFor(model => model.logger_sites_name, new { @class = "form-control", style = "width:190px" })
         @Html.ValidationMessageFor(model => model.logger_sms)
     </p>
 
     <p>
         @Html.Label("Fecha Instalación")
          @(Html.Kendo().DateTimePickerFor(model => model.user_instalation_start_date)
-            .Value(DateTime.Now)
-            .Format("MMMM yyyy")
-           .HtmlAttributes(new { style = "width: 180px" })
-        )
-     
+          .Value(DateTime.Now.AddDays(-1))
+          .Format("yyyy-MM-dd HH:mm")
+          .HtmlAttributes(new { style = "width: 200px" })
+          .Min(DateTime.Today)
+         )
+        @Html.ValidationMessageFor(model => model.user_instalation_start_date, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
     </p>
 
     <p>
-        @Html.Label("Fecha termino")
+        @Html.Label("Fecha término")
         @(Html.Kendo().DateTimePickerFor(model => model.user_instalation_end_date)
           .Value(DateTime.Now.AddDays(1))
-             .HtmlAttributes(new { style = "width: 180px" })
+          .Format("yyyy-MM-dd HH:mm")
+          .Min(DateTime.Today.AddDays(-1))
         )
+        @Html.ValidationMessageFor(model => model.user_instalation_end_date, String.Empty, new { @class = "help-inline", @style = "color:red" })
+
       
     </p>
 

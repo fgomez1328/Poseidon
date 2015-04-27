@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
     <head>
-        <title>@ViewBag.Title - My Telerik MVC Application</title>
+        <title>@ViewBag.Title - DNK WATER</title>
         <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
     	<link href="@Url.Content("~/Content/kendo/2014.3.1119/kendo.common.min.css")" rel="stylesheet" type="text/css" />
 	<link href="@Url.Content("~/Content/kendo/2014.3.1119/kendo.mobile.all.min.css")" rel="stylesheet" type="text/css" />
@@ -21,31 +21,50 @@
     <body>
         <style type="text/css" media="screen">
             .chileFlag {
-                background-image: url('../../Content/images/Chile.png');
+                background-image: url('../Content/images/Chile.png');
                 width: 32px;
                 height: 32px;
                 float:left;
                 background-position: initial;
-            }           
+            }
+            .dnkFlag {
+                background-image: url('../Content/images/dnk_logo.png');
+                background-size: 60px 40px;
+                width: 60px;
+                height: 40px;
+                float: left;
+                background-repeat: no-repeat;
+                margin-left:5px;
+            }         
         </style>
         <header>
             <div class="content-wrapper">
+                
+                <div class="dnkFlag"></div>
                 <div class="float-left">
                     @*<p class="site-title">@Html.ActionLink("Poseidon Controller", "Index", "Home")</p>*@
-
+                   
                     @if (User.Identity.IsAuthenticated)
                     {
                     <ul id="menu">
                         <li>@Html.ActionLink("Listado", "ListCondition", "Home")</li>
-                       
-                        </ul>
+
+                        @*if(User.IsInRole("admin"))*@
+                        
+                        @*<li>@Html.ActionLink("Mapa", "LoggerList", "Map")</li>*@
+                        
+                    </ul>
+
                     }
 </div>
                 <div class="float-right">
                     <nav>
                         <ul id="menu">
-                            <div class="chileFlag"></div>
+                          
+                           @if (User.Identity.IsAuthenticated)
+                            {
                             <li>@Html.ActionLink("Salir", "LogOut", "Home")</li>
+                           }
                         </ul>
                     </nav>
                 </div>
@@ -62,6 +81,7 @@
             <div class="content-wrapper">
                 <div class="float-left">
                     <p>&copy; @DateTime.Now.Year - Poseidon Controller - DNK Water</p>
+                    <div class="chileFlag"></div>
                 </div>
             </div>
             @RenderSection("scripts", required: false)

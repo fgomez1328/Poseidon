@@ -1,15 +1,13 @@
-﻿
-
-@model IEnumerable<dynamic>
+﻿@model IEnumerable<dynamic>
 
 @{
-    ViewBag.Title = "UserLogger";
+    ViewBag.Title = "MAPA INSTALACIONES";
 }
 
 
 <div id="gridv" class="gridDivReady">
 
-    <h2>Lista estado</h2>
+    <h2>Lista con Estado</h2>
     @(Html.Kendo().Grid<Poseidon.Models.Logger>()
         .Name("gridReady")
         .ToolBar(tools => tools.Excel().HtmlAttributes(new { @class = "k-i-excel", @style = "width:150px;height:30px" }))
@@ -27,33 +25,32 @@
         .Model(c =>
         {
             c.Id("logger_id");
-            c.Field("logger_sms", typeof(int));
             c.Field("logger_sites_name", typeof(string));
-            c.Field("zone_id", typeof(int));
             c.Field("zone_name", typeof(string));
             c.Field("status", typeof(string));
             c.Field("user_instalation_start_date", typeof(DateTime));
-            c.Field("user_instalation_end_date", typeof(DateTime));
             c.Field("user_instalation", typeof(string));
             c.Field("approval_date", typeof(DateTime));
+            c.Field("company_id", typeof(string));
 
         })
-                    .Read(read => read.Action("ReadLogger", "UserLogger"))
-                            .Sort(a => a.Add("status").Descending())
+                    .Read(read => read.Action("ReadLogger", "Map"))
+                             .Sort(a => a.Add("status").Ascending())
         )
         .Columns(columns =>
-        {
+        {         
             columns.Bound("logger_sites_name").Title("Nombre Sitio");
+            columns.Bound("company_id").Title("Compañia");
             columns.Bound("zone_name").Width("190").Title("Localidad");
             columns.Bound("status").Title("Estado");
             columns.Bound("user_instalation").Title("Instalador");
             columns.Bound("user_instalation_start_date").Title("Inicio Instalación").Format("{0:dd/MM/yyyy HH:mm:ss}");
-            columns.Bound("user_instalation_end_date").Title("Termino Instalación").Format("{0:dd/MM/yyyy HH:mm:ss}");
+            columns.Bound("approval_date").Title("Termino Instalación").Format("{0:dd/MM/yyyy HH:mm:ss}");
             columns.Command(command =>
                     {
                         command.Custom("Ver").Click("ViewDetailStatus");
-                        command.Custom("Corregir").Click("ErrorCorrection");
-                    }).Width("90");
+                        command.Custom("Geo").Click("ViewGeo");
+                    });
 
 
         })
@@ -76,10 +73,10 @@
 <br />
 <br />
 
-<table >
+<table>
     <tr>
         <td>
-            <img src="@Url.Content("~/Content/images/yellow_MarkerP.png")" alt="Image"/>
+            <img src="@Url.Content("~/Content/images/yellow_MarkerP.png")" alt="Image" />
             Pendiente |
         </td>
         <td>
@@ -100,7 +97,7 @@
         </td>
         <td>
             <img src="@Url.Content("~/Content/images/red_MarkerR.png")" alt="Image" />
-            No Instalado |
+            No Instalado 
         </td>
     </tr>
 </table>
@@ -122,7 +119,7 @@
         var ne = new google.maps.LatLng(-32.06, -70.6);
         var sw = new google.maps.LatLng(-28.86, -68.4);
         var limache = new google.maps.LatLng(-32.06, -70.6);
-        var limache1 = new google.maps.LatLng( -24.05,-69.6);
+        var limache1 = new google.maps.LatLng(-24.05, -69.6);
         var bounds = new google.maps.LatLngBounds(ne, sw);
 
 
@@ -174,7 +171,7 @@
         $.ajax({
 
             type: "POST",
-            url: '@Url.Action("MapDetail", "UserLogger")',
+            url: '@Url.Action("MapDetail","UserLogger")',
 
 
 
@@ -192,7 +189,7 @@
                             position: new google.maps.LatLng(data[i].latitude, data[i].longitute),
                             draggable: false,
                             map: googleMap,
-                            icon: pendiente,
+                            icon: pendiente
                         });
 
                         google.maps.event.addListener(marker, 'click', function (marker, i) {
@@ -201,11 +198,11 @@
                                 infoWindow.open(googleMap, marker);
                             }
 
-                        }(marker,i));
+                        }(marker, i));
 
                     }
 
-                    if (data[i].status == 2) {
+                    else if (data[i].status == 2) {
 
                         var marker;
 
@@ -213,8 +210,7 @@
                             position: new google.maps.LatLng(data[i].latitude, data[i].longitute),
                             draggable: false,
                             map: googleMap,
-                            icon: ejecucion,
-
+                            icon: ejecucion
                         });
 
                         google.maps.event.addListener(marker, 'click', function (marker, i) {
@@ -229,7 +225,7 @@
 
                     }
 
-                    if (data[i].status == 3) {
+                    else if (data[i].status == 3) {
 
                         var marker;
 
@@ -238,7 +234,7 @@
                             position: new google.maps.LatLng(data[i].latitude, data[i].longitute),
                             draggable: false,
                             map: googleMap,
-                            icon: instalado,
+                            icon: instalado
                         });
                         google.maps.event.addListener(marker, 'click', function (marker, i) {
                             return function () {
@@ -250,16 +246,34 @@
 
 
                     }
-                    if (data[i].status == 4) {
+
+                    else if (data[i].status == 4) {
+                            var marker;
+
+                            marker = new google.maps.Marker({
+                                position: new google.maps.LatLng(data[i].latitude, data[i].longitute),
+                                draggable: false,
+                                map: googleMap,
+                                icon: aprobado
+
+                            });
+                            google.maps.event.addListener(marker, 'click', function (marker, i) {
+                                return function () {
+                                    infoWindow.setContent('<b> Ubicación : </b>' + data[i].logger_sites_name + '</p><b> Empresa : </b>' + data[i].logger_serial_number);
+                                    infoWindow.open(googleMap, marker);
+                                }
+
+                            }(marker, i));
+                    }
+
+                    else if (data[i].status == 5) {
 
                         var marker;
-
                         marker = new google.maps.Marker({
                             position: new google.maps.LatLng(data[i].latitude, data[i].longitute),
                             draggable: false,
                             map: googleMap,
-                            icon: aprobado,
-
+                            icon: nofuncionando
                         });
                         google.maps.event.addListener(marker, 'click', function (marker, i) {
                             return function () {
@@ -268,17 +282,16 @@
                             }
 
                         }(marker, i));
-
-
                     }
-                    if (data[i].status == 5) {
+
+                    else if (data[i].status == 6) {
 
                         var marker;
                         marker = new google.maps.Marker({
                             position: new google.maps.LatLng(data[i].latitude, data[i].longitute),
                             draggable: false,
                             map: googleMap,
-                            icon: nofuncionando,
+                            icon: noinstalado
                         });
                         google.maps.event.addListener(marker, 'click', function (marker, i) {
                             return function () {
@@ -287,26 +300,8 @@
                             }
 
                         }(marker, i));
-
                     }
-                    if (data[i].status == 6) {
 
-                        var marker;
-                        marker = new google.maps.Marker({
-                            position: new google.maps.LatLng(data[i].latitude, data[i].longitute),
-                            draggable: false,
-                            map: googleMap,
-                            icon: noinstalado,
-                        });
-                        google.maps.event.addListener(marker, 'click', function (marker, i) {
-                            return function () {
-                                infoWindow.setContent('<b> Ubicación : </b>' + data[i].logger_sites_name + '</p><b> Empresa : </b>' + data[i].logger_serial_number);
-                                infoWindow.open(googleMap, marker);
-                            }
-
-                        }(marker, i));
-
-                    }
                 }
 
             }
@@ -343,10 +338,10 @@
             var cuatro = "Aprobado";
             var cinco = "No Conectado";
             var seis = "No Instalado";
+
             // set on dataItem
             var currenvalue = this.status;
             var currentUid = gridData[i].uid;
-
             var currenRow = grid.table.find("tr[data-uid='" + currentUid + "']");
             var verButton = $(currenRow).find(".k-grid-View");
             var verButtonCorrection = $(currenRow).find(".k-grid-Corregir");
@@ -373,21 +368,21 @@
                 $('tr[data-uid="' + row.uid + '"] td:nth-child(4)').css("color", "blue");
 
             } else if (currenvalue == 4) {
-
                 this.set("status", cuatro)
                 $('tr[data-uid="' + row.uid + '"] td:nth-child(1)').css("color", "green");
                 $('tr[data-uid="' + row.uid + '"] td:nth-child(2)').css("color", "green");
                 $('tr[data-uid="' + row.uid + '"] td:nth-child(3)').css("color", "green");
                 $('tr[data-uid="' + row.uid + '"] td:nth-child(4)').css("color", "green");
 
-            } else if (currenvalue == 5) {
+            } else if(currenvalue == 5)  {
                 this.set("status", cinco)
                 $('tr[data-uid="' + row.uid + '"] td:nth-child(1)').css("color", "orange");
                 $('tr[data-uid="' + row.uid + '"] td:nth-child(2)').css("color", "orange");
                 $('tr[data-uid="' + row.uid + '"] td:nth-child(3)').css("color", "orange");
                 $('tr[data-uid="' + row.uid + '"] td:nth-child(4)').css("color", "orange");
                 
-            } else if (currenvalue == 6) {
+            
+            } else if(currenvalue == 6)  {
                 this.set("status", seis)
                 $('tr[data-uid="' + row.uid + '"] td:nth-child(1)').css("color", "red");
                 $('tr[data-uid="' + row.uid + '"] td:nth-child(2)').css("color", "red");
@@ -401,9 +396,7 @@
                 verButton.hide();
                 verButtonCorrection.hide();
             }
-            if (currenvalue == cuatro) {
-                verButtonCorrection.hide();
-            }
+
 
         });
 
@@ -416,33 +409,29 @@
         var stockReceiptId = dataItem.logger_id;
         window.location.href = "@Url.Action("DetailInstalation", "Status")?logger_id=" + stockReceiptId;
     }
-
-    function ErrorCorrection(e) {
+    function ViewGeo(e) {
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         var stockReceiptId = dataItem.logger_id;
-        window.location.href = "@Url.Action("ErrorCorrection", "UserLogger")?logger_id=" + stockReceiptId;
+        window.location.href = "@Url.Action("PreviewLoggerFree", "Status")?logger_id=" + stockReceiptId;
     }
-
-
 
 </script>
 
 
 
-    <style type="text/css" media="screen">
-      
-        .k-i-excel {
-            background-image: url('../../Content/images/table_excel.png');
-           background-size: 20px 20px;
-            background-position: left;
-            background-repeat: no-repeat;
-        }
+<style type="text/css" media="screen">
+    .k-i-excel {
+        background-image: url('../../Content/images/table_excel.png');
+        background-size: 20px 20px;
+        background-position: left;
+        background-repeat: no-repeat;
+    }
 
-        .pdf {
-            background-image: url('../../Content/images/30x30-pdf-icon.png');
-           background-size: 20px 20px;
-            background-position: left;
-            background-repeat: no-repeat;
-        }
-    </style>
+    .pdf {
+        background-image: url('../Content/images/30x30-pdf-icon.png');
+        background-size: 20px 20px;
+        background-position: left;
+        background-repeat: no-repeat;
+    }
+</style>

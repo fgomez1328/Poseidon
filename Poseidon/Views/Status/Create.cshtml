@@ -18,8 +18,23 @@
         </p>
 
         <p>
-            @Html.Label("SMS")
-            @Html.TextBoxFor(model => model.logger_sms, new { @class = "form-control", style = "width:170px" })
+            @Html.Label("COMPANY")
+            <div class="editor-field">
+                @(Html.Kendo().DropDownListFor(m => m.Company.company_id)
+                            .DataTextField("company_name")
+                            .DataValueField("company_id")
+                            .SelectedIndex(1)
+                            
+                            .HtmlAttributes(new { style = "width:200px" })
+                           .DataSource(source =>
+                  {
+                      source.Read(read =>
+                      {
+                          read.Action("GetCompany", "Helper"); //Set the Action and Controller name
+                      }); //If true the DataSource will not filter the data on the client.
+                  })
+                )
+            </div>
             @Html.ValidationMessageFor(model => model.logger_sms)
         </p>
 
@@ -28,7 +43,7 @@
               .DataTextField("zone_name")
               .DataValueField("zone_id")
               .HtmlAttributes(new { style = "width:175px" })
-              .OptionLabel("Zone")
+              .OptionLabel("Localidad")
               .DataSource(source =>
                   {
                       source.Read(read =>
@@ -41,23 +56,6 @@
 
         </p>
 
-        <p>
-            @Html.Label("Necesario llave")
-            @(Html.CheckBoxFor(model => model.necessary_key.Value)
-            )
-        </p>
-
-        <p>
-            @Html.Label("Detalle Contacto llave")
-            @Html.TextBoxFor(model => model.contact_detail, new { @class = "form-control", style = "width:170px", @disabled = "disabled" })
-            @Html.ValidationMessageFor(model => model.contact_detail)
-        </p>
-
-        <p>
-            @Html.Label("¿Se dispone con llave de bola con salida media?")
-            @(Html.CheckBoxFor(model => model.key_ball.Value, new { @checked = true}))
-
-        </p>
 
         <p>
             @Html.Label("Latitud")
@@ -239,5 +237,104 @@
     
 
 </script>
+
+@*<div style='padding:10px 0'>
+    <table style='width:100%' cellpadding='0' cellspacing='0'>
+    <tbody>
+        <tr>
+        <td>
+            <a href='http://www.dnk-water.com' target='_blank'>
+                <img src='http://158.85.25.234/Poseidon/Content//images/dnk_logo.png' style='border:0;width:150px; height:100px' class='CToWUd'>
+            </a>
+         </td>
+        </tr>
+     </tbody>
+    </table>
+</div>
+
+
+
+<div style='background-color:#4285f4;color:white;font:20px arial,normal;padding:23px 20px'>Hay una publicación que quizá no hayas leído</div>
+<div style='background-color:#f5f5f5;margin-bottom:15px;padding:20px 30px 20px 30px'>
+    <div style='max-width:520px'>
+        <div style='background-color:white;border:1px solid #dadada;border-bottom-width:2px;border-top:none'>
+            <div style='padding:14px'>
+                <table style='width:100%' cellpadding='0' cellspacing='0'>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <h3>Estimado(a)+to_name,</h3>
+                                <br />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style='width:90px'>Ubicación</td>
+                            <td>:</td>
+                            <td style='padding-left:14px'>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style='width:90px'>Localidad</td>
+                            <td>:</td>
+                            <td style='padding-left:14px'></td>
+                        </tr>
+                        <tr>
+                            <td style='width:90px'>SMS</td>
+                            <td>:</td>
+                            <td style='padding-left:14px'></td>
+                        </tr>
+                        <tr>
+                            <td style='width:90px'>CSQ</td>
+                            <td>:</td>
+                            <td style='padding-left:14px'></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <br />
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <h4>Donde el equipo obtuvo el siguiente resultado</h4>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table style='width:100%' cellpadding='0' cellspacing='0'>
+                    <tbody>
+                        <tr>
+                            <td style='width:175px'>Fecha inicio instalación</td>
+                            <td>:</td>
+                            <td style='padding-left:14px'></td>
+                        </tr>
+                        <tr>
+                            <td style='width:175px'>Fecha termino instalación</td>
+                            <td>:</td>
+                            <td style='padding-left:14px'></td>
+                        </tr>
+                        <tr>
+                            <td style='width:175px'>Instalado por</td>
+                            <td>:</td>
+                            <td style='padding-left:14px'></td>
+                        </tr>
+                        <tr>
+                            <td style='width:175px'>Comentario instalación</td>
+                            <td>:</td>
+                            <td style='padding-left:14px'></td>
+                        </tr>
+                        <tr>
+                            <td style='width:175px'>Imagen de instalación</td>
+                            <td style='padding-left:14px'></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+          
+        </div>
+    </div>
+</div>*@
 
 

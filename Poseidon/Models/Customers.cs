@@ -12,18 +12,12 @@ namespace Poseidon.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class zones
+    public partial class Customers
     {
-        public zones()
-        {
-            this.Logger = new HashSet<Logger>();
-        }
-    
-        public int zone_id { get; set; }
-        public string zone_name { get; set; }
-        public Nullable<int> region_id { get; set; }
-    
-        public virtual Regions Regions { get; set; }
-        public virtual ICollection<Logger> Logger { get; set; }
+        public int customer_id { get; set; }
+        public string customer_name { get; set; }
+        public Nullable<int> customer_company_id { get; set; }
+        public string customer_email { get; set; }
+        public Nullable<bool> cc { get; set; }
     }
 }

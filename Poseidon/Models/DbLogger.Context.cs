@@ -26,9 +26,12 @@ namespace Poseidon.Models
         }
     
         public DbSet<Company> Company { get; set; }
+        public DbSet<Customers> Customers { get; set; }
+        public DbSet<Regions> Regions { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<UserType> UserType { get; set; }
         public DbSet<zones> zones { get; set; }
+        public DbSet<sysdiagrams> sysdiagrams { get; set; }
         public DbSet<Logger> Logger { get; set; }
     }
 }
